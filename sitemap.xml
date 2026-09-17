@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://thecodenotebook.com/</loc></url>
   <url><loc>https://thecodenotebook.com/lessons.html</loc></url>
-  <url><loc>https://thecodenotebook.com/courses.html</loc></url>
+  <!--HIDE-COURSES <url><loc>https://thecodenotebook.com/courses.html</loc></url> HIDE-COURSES-->
   <url><loc>https://thecodenotebook.com/resources.html</loc></url>
   <url><loc>https://thecodenotebook.com/about.html</loc></url>
   <url><loc>https://thecodenotebook.com/contact.html</loc></url>

@@ -185,7 +185,8 @@ async function renderDashboard(user) {
   }));
 
   const wl = profile.waitlist || [];
-  $("#my-courses").innerHTML = wl.length
+  const myCourses = $("#my-courses");
+  if (myCourses) myCourses.innerHTML = wl.length
     ? `<p>You're on the early-access list for: <b>${wl.map(esc).join(", ")}</b>. We'll email you when it opens.</p>`
     : `<p class="muted">No courses yet. <a href="courses.html">Browse courses</a></p>`;
 
