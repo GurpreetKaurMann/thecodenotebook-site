@@ -1,0 +1,2496 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSA Field Guide</title>
+<meta name="description" content="Every data structures and algorithms topic for coding interviews, basic to advanced, in simple words with Java code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F4F5F0; --surface:#FFFFFF; --surface-2:#ECEEE6; --ink:#1B1F2B; --muted:#5B6173; --line:#D9DCD1;
+  --accent:#2F4EC4; --accent-ink:#FFFFFF; --accent-soft:#E4E9FA;
+  --mark:#F6E07A; --mark-ink:#2E2600;
+  --easy:#1E7A4B; --med:#955800; --hard:#B42A22;
+  --easy-bg:#E1F2E8; --med-bg:#FAEDD6; --hard-bg:#FBE3E1;
+  --code-bg:#161A26; --code-ink:#E4E7F0; --code-line:#2A3044;
+  --hl-k:#9CB2FF; --hl-s:#F2C879; --hl-c:#8088A0; --hl-n:#F4A392; --hl-t:#7FD6C2;
+  --grid:rgba(47,78,196,.06);
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10131B; --surface:#171B26; --surface-2:#1F2433; --ink:#E6E8EF; --muted:#9CA2B4; --line:#2B3144;
+    --accent:#8EA5FF; --accent-ink:#0E1330; --accent-soft:#222B4D;
+    --mark:#4A4114; --mark-ink:#F7EAA6;
+    --easy:#66D69C; --med:#F2B55B; --hard:#FF8E84;
+    --easy-bg:#14301F; --med-bg:#33260F; --hard-bg:#3A1917;
+    --code-bg:#0B0D14; --code-line:#1F2433;
+    --grid:rgba(142,165,255,.05);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10131B; --surface:#171B26; --surface-2:#1F2433; --ink:#E6E8EF; --muted:#9CA2B4; --line:#2B3144;
+  --accent:#8EA5FF; --accent-ink:#0E1330; --accent-soft:#222B4D;
+  --mark:#4A4114; --mark-ink:#F7EAA6;
+  --easy:#66D69C; --med:#F2B55B; --hard:#FF8E84;
+  --easy-bg:#14301F; --med-bg:#33260F; --hard-bg:#3A1917;
+  --code-bg:#0B0D14; --code-line:#1F2433;
+  --grid:rgba(142,165,255,.05);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-2);padding:.1em .35em;border-radius:4px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+.wrap{max-width:1240px;margin:0 auto}
+
+/* ---------- hero ---------- */
+.hero{padding-block:44px 32px;border-bottom:1px solid var(--line);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;margin-inline:-16px;padding-inline:16px}
+.hero .wrap{display:grid;gap:22px}
+.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 span{color:var(--accent)}
+.lede{max-width:62ch;font-size:1.12rem;color:var(--muted);margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:8px 22px;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.95rem}
+.stats b{color:var(--ink);font-family:var(--display);font-size:1.35rem;margin-right:4px}
+.track{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;list-style:none;margin:6px 0 0;padding:0}
+.track a{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 10px 12px;height:100%;transition:border-color .15s, transform .15s}
+.track a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.track .lv{font-family:var(--mono);font-size:.72rem;color:var(--accent);font-weight:600}
+.track .nm{font-weight:700;font-size:.88rem;line-height:1.25}
+.track .ct{font-size:.76rem;color:var(--muted)}
+.track .bar{height:4px;border-radius:2px;background:var(--surface-2);margin-top:auto;overflow:hidden}
+.track .bar i{display:block;height:100%;background:var(--accent);width:0}
+.next{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;border-radius:8px;padding:10px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.next small{color:var(--muted)}
+@media (max-width:900px){ .track{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:480px){ .track{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:272px minmax(0,1fr);gap:40px;padding-top:32px}
+@media (max-width:960px){ .layout{grid-template-columns:minmax(0,1fr);gap:20px} }
+
+.nav{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 12px);align-self:start;max-height:calc(100vh - 24px);display:flex;flex-direction:column;gap:12px}
+.nav-top{display:grid;gap:10px}
+.search{width:100%;font:inherit;padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.search::placeholder{color:var(--muted)}
+.prog{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;display:grid;gap:6px}
+.prog .bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.nav-list{min-height:0;overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+.nav-group{margin-bottom:14px}
+.nav-group h4{margin:0 0 4px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:var(--body)}
+.nav-group h4 span{font-family:var(--mono);color:var(--accent);margin-right:6px;letter-spacing:0}
+.nav-item{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:.92rem;line-height:1.35}
+.nav-item:hover{background:var(--surface-2)}
+.nav-item.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.nav-item .dot{flex:none;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:9px;color:var(--accent-ink)}
+.nav-item.done .dot{background:var(--accent);border-color:var(--accent)}
+.nav-item.done .dot::after{content:"✓"}
+.nav-toggle{display:none}
+@media (max-width:960px){
+  .nav{position:static;max-height:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .nav-toggle{display:flex;justify-content:space-between;align-items:center;width:100%;font:inherit;font-weight:700;background:none;border:0;color:var(--ink);padding:2px 0;cursor:pointer}
+  .nav-list{max-height:52vh}
+  .nav.closed .nav-list{display:none}
+}
+
+/* ---------- main ---------- */
+main{min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:28px}
+.level{grid-template-columns:minmax(0,1fr)}
+main > *, .level > *, .topic > *, .block{min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px}
+.panel h2{font-size:1.5rem;margin-bottom:12px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+@media (max-width:720px){ .two{grid-template-columns:minmax(0,1fr)} }
+.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;font-size:.8rem;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-top:1px}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:.93rem}
+.panel h3{font-size:1.05rem;margin-bottom:10px}
+
+.level-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-top:18px;border-top:2px solid var(--ink)}
+.level-head .lv{font-family:var(--mono);color:var(--accent);font-weight:600}
+.level-head h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.01em}
+.level-head p{flex-basis:100%;margin:2px 0 0;color:var(--muted);max-width:70ch}
+
+.topic{grid-template-columns:minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;scroll-margin-top:16px;display:grid;gap:20px}
+.topic.is-done{border-color:color-mix(in srgb, var(--accent) 45%, var(--line))}
+@media (max-width:560px){ .topic{padding:18px} }
+.t-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-start;justify-content:space-between}
+.t-head h3{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:700;letter-spacing:-.01em}
+.t-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:.76rem;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.done-toggle{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:.9rem;font-weight:700;padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;white-space:nowrap}
+.done-toggle .box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--muted);display:grid;place-items:center;font-size:11px}
+.topic.is-done .done-toggle{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.topic.is-done .done-toggle .box{border-color:var(--accent-ink)}
+.topic.is-done .done-toggle .box::after{content:"✓"}
+
+.block h4{margin:0 0 8px;font-size:.74rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-family:var(--body)}
+.prose p{margin:0 0 10px;max-width:72ch}
+.prose p:last-child{margin-bottom:0}
+.analogy{background:var(--surface-2);border-radius:10px;padding:14px 16px;max-width:78ch}
+.analogy p{margin:0;font-style:italic}
+.ideas{margin:0;padding-left:1.1em;display:grid;gap:6px;max-width:78ch}
+.ideas li::marker{color:var(--accent)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{background:var(--surface-2);font-weight:700;font-size:.8rem;letter-spacing:.02em;white-space:nowrap}
+td:first-child{font-weight:700}
+td{font-variant-numeric:tabular-nums}
+
+.code{background:var(--code-bg);border-radius:10px;overflow:hidden}
+.code-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--code-line);font-family:var(--mono);font-size:.74rem;color:var(--hl-c)}
+.copy{font:inherit;font-size:.74rem;color:var(--code-ink);background:transparent;border:1px solid var(--code-line);border-radius:6px;padding:3px 10px;cursor:pointer}
+.copy:hover{border-color:var(--hl-k)}
+pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:.82rem;line-height:1.6;color:var(--code-ink);tab-size:4}
+pre code{background:none;padding:0;font-size:inherit;border-radius:0}
+.tk-k{color:var(--hl-k)} .tk-s{color:var(--hl-s)} .tk-c{color:var(--hl-c);font-style:italic} .tk-n{color:var(--hl-n)} .tk-t{color:var(--hl-t)}
+
+.spot{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.spot li{padding-left:22px;position:relative;max-width:78ch}
+.spot li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+.probs{display:flex;flex-wrap:wrap;gap:8px}
+.prob{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:5px 10px 5px 6px;font-size:.88rem;background:var(--bg)}
+.prob:hover{border-color:var(--accent)}
+.lvl{font-family:var(--mono);font-size:.7rem;font-weight:600;border-radius:5px;padding:1px 6px}
+.lvl.E{background:var(--easy-bg);color:var(--easy)} .lvl.M{background:var(--med-bg);color:var(--med)} .lvl.H{background:var(--hard-bg);color:var(--hard)}
+.tip{background:var(--mark);color:var(--mark-ink);border-radius:10px;padding:14px 16px}
+.tip b.lbl{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.tip p{margin:0;max-width:78ch}
+.tip code{background:rgba(0,0,0,.08)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);align-items:center}
+.cheat td:first-child{font-weight:400}
+.cheat td:last-child{font-weight:700;color:var(--accent)}
+footer{max-width:1240px;margin:40px auto 0;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head><body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Coding interview prep · Java edition</div>
+    <h1>DSA <span>Field Guide</span></h1>
+    <p class="lede">Every data structures and algorithms topic you need for product-company interviews — from Big-O to segment trees — explained in plain words, with a real-life picture, a cost table, a Java template, and hand-picked LeetCode problems for each.</p>
+    <div class="stats" id="stats"></div>
+    <ol class="track" id="track" aria-label="Levels"></ol>
+    <div class="next" id="next"></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="nav closed" id="nav" aria-label="Topics">
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">All topics <span aria-hidden="true">▾</span></button>
+    <div class="nav-top">
+      <label for="q" class="eyebrow" style="font-size:.7rem">Find a topic or problem</label>
+      <input id="q" class="search" type="search" placeholder="e.g. heap, window, LRU" autocomplete="off">
+      <div class="prog"><span id="progText">0 topics done</span><div class="bar"><i id="progBar"></i></div></div>
+    </div>
+    <nav class="nav-list" id="navList"></nav>
+  </aside>
+
+  <main>
+    <section class="panel" id="how">
+      <div class="two">
+        <div>
+          <h2>How to use this guide</h2>
+          <p style="margin:0 0 12px;color:var(--muted)">Go top to bottom, one topic at a time. Each level builds on the one before. A single 45-minute session looks like this:</p>
+          <ol class="steps">
+            <li><div><b>Read (10 min)</b><span>"In simple words", the analogy, and the key ideas for today's topic.</span></div></li>
+            <li><div><b>Type the template (5 min)</b><span>Close the page and write the Java code from memory. Compare.</span></div></li>
+            <li><div><b>Solve one problem (25 min)</b><span>Start with the Easy ones, then Medium. Stuck for 20 minutes? Read a solution, then re-solve it tomorrow without help.</span></div></li>
+            <li><div><b>Note it (5 min)</b><span>Write one line: the pattern you used and the mistake you made.</span></div></li>
+          </ol>
+          <p style="margin:14px 0 0;color:var(--muted);font-size:.93rem">Tick <b>Mark done</b> once you've solved 3–5 problems from a topic. Your ticks are saved in this browser only.</p>
+        </div>
+        <div>
+          <h2>Solving a problem in the interview</h2>
+          <ol class="steps">
+            <li><div><b>Understand</b><span>Repeat the problem in your words. Ask about input size, value ranges, duplicates, empty input.</span></div></li>
+            <li><div><b>Examples</b><span>Walk through the given example and add one edge case of your own.</span></div></li>
+            <li><div><b>Brute force</b><span>Say the simple solution and its complexity, even if it's slow.</span></div></li>
+            <li><div><b>Optimize</b><span>Find the bottleneck and name the pattern ("this is a sliding window").</span></div></li>
+            <li><div><b>Code</b><span>Clear names, small helper methods, talk while you type.</span></div></li>
+            <li><div><b>Test</b><span>Dry-run your code on the example, then on the edge cases.</span></div></li>
+            <li><div><b>Complexity</b><span>Finish with time and space, without being asked.</span></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div id="topics"></div>
+
+    <section class="panel" id="cheats">
+      <h2>Pattern finder</h2>
+      <p style="margin:0 0 14px;color:var(--muted)">Read the problem, find the clue on the left, try the technique on the right.</p>
+      <div class="tbl">
+        <table class="cheat">
+          <thead><tr><th>If the problem says…</th><th>Try</th></tr></thead>
+          <tbody id="cheatRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="complexity">
+      <h2>Complexity at a glance</h2>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th><th>Space</th></tr></thead>
+          <tbody>
+            <tr><td>Array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+            <tr><td>ArrayList (at end)</td><td>O(1)</td><td>O(n)</td><td>O(1)*</td><td>O(1)</td><td>O(n)</td></tr>
+            <tr><td>Linked list (at head)</td><td>O(n)</td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td></tr>
+            <tr><td>Stack / Queue (ArrayDeque)</td><td>top/front O(1)</td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(n)</td></tr>
+            <tr><td>HashMap / HashSet</td><td>—</td><td>O(1) avg</td><td>O(1) avg</td><td>O(1) avg</td><td>O(n)</td></tr>
+            <tr><td>TreeMap / balanced BST</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td><td>O(n)</td></tr>
+            <tr><td>Binary heap (PriorityQueue)</td><td>top O(1)</td><td>O(n)</td><td>O(log n)</td><td>top O(log n)</td><td>O(n)</td></tr>
+            <tr><td>Trie</td><td>—</td><td>O(L)</td><td>O(L)</td><td>O(L)</td><td>O(chars × alphabet)</td></tr>
+            <tr><td>Union-Find</td><td>—</td><td>find ≈ O(1)</td><td>union ≈ O(1)</td><td>—</td><td>O(n)</td></tr>
+            <tr><td>Segment / Fenwick tree</td><td>—</td><td>range O(log n)</td><td>update O(log n)</td><td>—</td><td>O(n)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:10px 0 0;color:var(--muted);font-size:.88rem">* amortized · L = word length</p>
+    </section>
+
+    <section class="panel" id="edge">
+      <div class="two">
+        <div>
+          <h2>Edge cases to test every time</h2>
+          <ul class="spot">
+            <li>Empty input, one element, two elements</li>
+            <li>All elements equal; many duplicates</li>
+            <li>Negative numbers and zero</li>
+            <li>Very large values → <code>int</code> overflow, use <code>long</code></li>
+            <li>Already sorted and reverse sorted input</li>
+            <li><code>null</code> head / root; single-node tree; skewed tree</li>
+            <li>Disconnected graph; graph with a cycle; self-loops</li>
+            <li>Target not present; answer at the first or last index</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Where to practise</h2>
+          <ul class="spot">
+            <li><a href="https://leetcode.com/problemset/" target="_blank" rel="noopener">LeetCode</a> — every problem in this guide links there</li>
+            <li><a href="https://neetcode.io/practice" target="_blank" rel="noopener">NeetCode 150</a> — curated list grouped by pattern</li>
+            <li><a href="https://www.geeksforgeeks.org/" target="_blank" rel="noopener">GeeksforGeeks</a> — theory and company-wise questions</li>
+            <li><a href="https://visualgo.net/en" target="_blank" rel="noopener">VisuAlgo</a> — animations of sorting, trees and graphs</li>
+          </ul>
+          <div class="legend" style="margin-top:16px">Problem difficulty: <span class="lvl E">E</span> Easy <span class="lvl M">M</span> Medium <span class="lvl H">H</span> Hard</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<footer>Code examples use Java 17. Problem names match LeetCode titles; a few (Meeting Rooms, Encode and Decode Strings, Design Hit Counter, Alien Dictionary…) are LeetCode Premium — free versions exist on NeetCode and GeeksforGeeks.</footer>
+<script>
+const T = [];
+/* ---------- LEVEL 0 : FOUNDATIONS ---------- */
+T.push({
+  id: "big-o", level: 0, title: "Time & Space Complexity (Big-O)", days: 2,
+  what: `<p>Big-O tells you <b>how the work grows when the input grows</b>. We don't measure seconds (they change from laptop to laptop). We count <b>steps</b> as the input size <code>n</code> becomes very large.</p>
+<p>Two simple rules: <b>drop constants</b> (O(2n) is just O(n)) and <b>keep only the biggest term</b> (O(n² + n) is O(n²)). If there are two different inputs, use two letters: O(n · m).</p>`,
+  analogy: `Finding a name in a phone book. Turning page by page is O(n). Opening the middle, then the middle of the correct half, and so on, is O(log n) — a 1,000-page book needs only about 10 openings.`,
+  points: [
+    "<b>O(1)</b> constant — array index access, HashMap get. Same work for 10 or 10 million items.",
+    "<b>O(log n)</b> — you cut the problem in half every step (binary search, balanced tree).",
+    "<b>O(n)</b> — one pass over the data (one loop).",
+    "<b>O(n log n)</b> — good sorting (merge sort, <code>Arrays.sort</code> on objects).",
+    "<b>O(n²)</b> — a loop inside a loop over the same data.",
+    "<b>O(2ⁿ)</b> — trying every subset. <b>O(n!)</b> — trying every ordering (permutation).",
+    "<b>Space complexity</b> = extra memory you create: new arrays, maps, and the <b>recursion call stack</b> (depth counts!).",
+    "<b>Amortized</b> cost = average over many operations. <code>ArrayList.add</code> is O(1) amortized even though a resize sometimes costs O(n).",
+    "Best / average / worst case: interviews usually mean <b>worst case</b> unless you say otherwise (e.g. HashMap is O(1) average)."
+  ],
+  opsHead: ["Input size n (from constraints)", "Complexity that will pass (~10⁸ steps/sec)"],
+  ops: [["n ≤ 10", "O(n!) — permutations"], ["n ≤ 20", "O(2ⁿ) — subsets / bitmask"], ["n ≤ 500", "O(n³)"], ["n ≤ 10⁴", "O(n²)"], ["n ≤ 10⁶", "O(n log n) or O(n)"], ["n ≤ 10⁹ or more", "O(log n) or O(1) — math / binary search"]],
+  code: String.raw`// O(1): one step no matter how big the array is
+int first = arr[0];
+
+// O(n): one loop
+for (int x : arr) sum += x;
+
+// O(n^2): loop inside a loop
+for (int i = 0; i < n; i++)
+    for (int j = i + 1; j < n; j++)
+        if (arr[i] + arr[j] == target) return true;
+
+// O(log n): the range halves every step
+while (n > 1) { n = n / 2; steps++; }
+
+// O(n) SPACE: extra array of size n
+int[] copy = new int[n];
+
+// Recursion: depth n  =>  O(n) stack space even with no arrays
+int sumTo(int n) { return n == 0 ? 0 : n + sumTo(n - 1); }`,
+  spot: [
+    "The constraints line (like <code>1 ≤ n ≤ 10⁵</code>) quietly tells you the expected complexity — use the table above.",
+    "n ≤ 10⁵ usually means O(n²) is too slow; aim for O(n log n) or O(n)."
+  ],
+  problems: [],
+  tip: `Finish every answer by saying the time <b>and</b> space complexity out loud — before the interviewer asks. It signals seniority.`
+});
+
+T.push({
+  id: "java-toolkit", level: 0, title: "Java Toolkit for DSA", days: 1,
+  what: `<p>Half of solving a problem quickly is <b>knowing which Java collection to reach for</b>. You already use many of these at work; here is how they map to DSA ideas and what each operation costs.</p>`,
+  analogy: `Like a mechanic's toolbox: the job is easy once you pick the right spanner.`,
+  opsHead: ["Class", "DSA idea", "Main costs"],
+  ops: [
+    ["ArrayList", "Dynamic array", "get O(1) · add at end O(1)* · insert/remove middle O(n)"],
+    ["HashMap / HashSet", "Hash table", "put / get / contains O(1) average"],
+    ["LinkedHashMap", "Hash table + insertion order", "O(1); can evict eldest → LRU cache"],
+    ["TreeMap / TreeSet", "Balanced BST (Red-Black)", "O(log n) · floorKey, ceilingKey, firstKey"],
+    ["ArrayDeque", "Stack and Queue", "push / pop / offer / poll O(1)"],
+    ["PriorityQueue", "Binary heap (min by default)", "offer / poll O(log n) · peek O(1)"],
+    ["StringBuilder", "Mutable string", "append O(1)* · toString O(n)"],
+    ["int[] / Arrays", "Fixed array", "Arrays.sort O(n log n) · Arrays.fill O(n)"]
+  ],
+  points: [
+    "Use <code>ArrayDeque</code> for stacks — the old <code>Stack</code> class is synchronized and legacy.",
+    "Never compare <code>Integer</code> objects with <code>==</code>. It works for −128..127 (cache) and silently fails above. Use <code>.equals()</code> or unbox to <code>int</code>.",
+    "Sums and products overflow <code>int</code> (max ≈ 2.1 × 10⁹). Use <code>long</code>, and write <code>(long) a * b</code>.",
+    "Comparator trap: <code>(a, b) -> a - b</code> can overflow. Prefer <code>Integer.compare(a, b)</code>.",
+    "<code>Arrays.sort(int[])</code> uses dual-pivot quicksort (not stable); <code>Arrays.sort(Object[])</code> and <code>Collections.sort</code> use TimSort (stable).",
+    "String concatenation inside a loop is O(n²) because strings are immutable — use <code>StringBuilder</code>.",
+    "Handy map methods: <code>getOrDefault</code>, <code>merge</code>, <code>computeIfAbsent</code>, <code>putIfAbsent</code>."
+  ],
+  code: String.raw`import java.util.*;
+
+// Frequency count in one line
+Map<Character, Integer> freq = new HashMap<>();
+for (char c : s.toCharArray()) freq.merge(c, 1, Integer::sum);
+
+// Map of lists (adjacency list, grouping)
+Map<String, List<String>> groups = new HashMap<>();
+groups.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+
+// Stack and queue
+Deque<Integer> stack = new ArrayDeque<>();
+stack.push(1); stack.pop(); stack.peek();
+Queue<Integer> queue = new ArrayDeque<>();
+queue.offer(1); queue.poll(); queue.peek();
+
+// Min-heap and max-heap
+PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+// Heap of int[] sorted by second value
+PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1]));
+
+// Sorted map: nearest keys
+TreeMap<Integer, String> tm = new TreeMap<>();
+Integer floor = tm.floorKey(10);   // largest key <= 10, or null
+Integer ceil  = tm.ceilingKey(10); // smallest key >= 10, or null
+
+// Sort 2D array by start time
+Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+// Safe math
+long product = (long) a * b;
+int mid = lo + (hi - lo) / 2;      // avoids overflow of (lo + hi)`,
+  spot: ["Need order + fast lookup → <code>TreeMap</code>.", "Need 'most recent' → <code>ArrayDeque</code> as stack.", "Need 'smallest/largest so far' repeatedly → <code>PriorityQueue</code>."],
+  problems: [],
+  tip: `Say why you picked a structure: "I'll use a TreeMap because I need the nearest smaller key in O(log n)." Interviewers score the reasoning, not only the code.`
+});
+
+T.push({
+  id: "recursion", level: 0, title: "Recursion", days: 2,
+  what: `<p>Recursion is a function that <b>calls itself on a smaller version of the same problem</b>. Every recursive function has two parts:</p>
+<p><b>1. Base case</b> — the smallest input where you already know the answer (stop here).<br><b>2. Recursive case</b> — break the problem into a smaller piece, call yourself, and combine the result.</p>
+<p>The trick is to <b>trust</b> that the smaller call works, just like you trust a library method.</p>`,
+  analogy: `You are in a cinema queue and want to know your position. You ask the person in front, who asks the person in front of them… The first person says "1" (base case). Each person adds 1 and passes it back.`,
+  points: [
+    "Each call is stored on the <b>call stack</b>. Too deep (roughly 10,000+ in default Java) → <code>StackOverflowError</code>.",
+    "Draw the <b>recursion tree</b> to find complexity: (number of calls) × (work per call).",
+    "Naive Fibonacci makes ~2ⁿ calls because it solves the same subproblem again and again → fix with <b>memoization</b> (store answers). This is the doorway to Dynamic Programming.",
+    "Java does not optimize tail recursion; convert very deep recursion to a loop or an explicit stack.",
+    "Recursion is the backbone of trees, graphs (DFS), backtracking, divide & conquer, and DP."
+  ],
+  opsHead: ["Example", "Time", "Space (stack)"],
+  ops: [["factorial(n)", "O(n)", "O(n)"], ["naive fib(n)", "O(2ⁿ)", "O(n)"], ["memo fib(n)", "O(n)", "O(n)"], ["fast power(x, n)", "O(log n)", "O(log n)"]],
+  code: String.raw`// Factorial
+long fact(int n) {
+    if (n <= 1) return 1;          // base case
+    return n * fact(n - 1);        // recursive case
+}
+
+// Fibonacci with memoization: O(n) instead of O(2^n)
+long[] memo = new long[100];
+long fib(int n) {
+    if (n <= 1) return n;
+    if (memo[n] != 0) return memo[n];
+    return memo[n] = fib(n - 1) + fib(n - 2);
+}
+
+// Fast power: x^n in O(log n)
+double myPow(double x, long n) {
+    if (n == 0) return 1;
+    if (n < 0) return 1 / myPow(x, -n);
+    double half = myPow(x, n / 2);
+    return (n % 2 == 0) ? half * half : half * half * x;
+}`,
+  spot: ["The problem is defined in terms of itself (tree, nested structure, 'for each choice…').", "You can say: 'if I knew the answer for n-1, I could get n'."],
+  problems: [["Fibonacci Number", "E"], ["Reverse Linked List", "E"], ["Merge Two Sorted Lists", "E"], ["Pow(x, n)", "M"], ["K-th Symbol in Grammar", "M"]],
+  tip: `On the whiteboard, draw the recursion tree for n = 3 or 4. It makes the complexity obvious and shows the interviewer how you think.`
+});
+
+T.push({
+  id: "math", level: 0, title: "Math Basics for Coding", days: 1,
+  what: `<p>A handful of math tricks show up again and again: <b>GCD</b>, <b>prime numbers</b>, <b>modulo arithmetic</b> and <b>fast power</b>. The focus here is on writing them cleanly and safely in Java.</p>`,
+  analogy: `These are the multiplication tables of coding interviews — small facts that make bigger problems quick.`,
+  points: [
+    "<b>GCD (Euclid)</b>: gcd(a, b) = gcd(b, a % b), stop when b = 0. O(log min(a,b)). LCM = a / gcd(a,b) × b.",
+    "<b>Is n prime?</b> Check divisors only up to √n → O(√n).",
+    "<b>Sieve of Eratosthenes</b>: all primes up to n in O(n log log n).",
+    "<b>Modulo 10⁹+7</b>: large answers are asked 'mod M'. Apply mod after every add/multiply, use <code>long</code> for the multiply.",
+    "Negative mod in Java: <code>-7 % 3 == -1</code>. Use <code>Math.floorMod(a, m)</code> or <code>((a % m) + m) % m</code>.",
+    "<b>Digits</b>: <code>n % 10</code> gives the last digit, <code>n / 10</code> removes it.",
+    "<b>nCr</b> with Pascal's triangle: C(n, r) = C(n−1, r−1) + C(n−1, r)."
+  ],
+  opsHead: ["Task", "Cost"],
+  ops: [["gcd(a, b)", "O(log min(a, b))"], ["isPrime(n)", "O(√n)"], ["Sieve up to n", "O(n log log n)"], ["modPow(b, e, m)", "O(log e)"]],
+  code: String.raw`int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }
+
+boolean[] sieve(int n) {             // true = composite
+    boolean[] notPrime = new boolean[n + 1];
+    for (int i = 2; (long) i * i <= n; i++)
+        if (!notPrime[i])
+            for (int j = i * i; j <= n; j += i) notPrime[j] = true;
+    return notPrime;
+}
+
+static final int MOD = 1_000_000_007;
+long modPow(long base, long exp, long mod) {
+    long result = 1; base %= mod;
+    while (exp > 0) {
+        if ((exp & 1) == 1) result = result * base % mod;
+        base = base * base % mod;
+        exp >>= 1;
+    }
+    return result;
+}`,
+  spot: ["'Return the answer modulo 10⁹+7' → the answer is huge; keep taking mod.", "'Count primes', 'divisible by', 'digits of a number'."],
+  problems: [["Happy Number", "E"], ["Excel Sheet Column Number", "E"], ["Count Primes", "M"], ["Reverse Integer", "M"], ["Pow(x, n)", "M"]],
+  tip: `In "reverse integer" style problems, check for overflow <i>before</i> multiplying by 10. Interviewers watch for that edge case.`
+});
+
+T.push({
+  id: "bits", level: 0, title: "Bit Manipulation", days: 2,
+  what: `<p>Computers store numbers as 0s and 1s. Bit operators let you work on those bits directly — very fast and often O(1) extra space.</p>
+<p><code>&amp;</code> AND · <code>|</code> OR · <code>^</code> XOR (1 when bits differ) · <code>~</code> NOT · <code>&lt;&lt;</code> left shift (×2) · <code>&gt;&gt;</code> right shift (÷2, keeps sign) · <code>&gt;&gt;&gt;</code> unsigned right shift (Java-specific).</p>`,
+  analogy: `A row of light switches. Each operator is a way of flipping, checking, or copying switches.`,
+  points: [
+    "<code>(x &amp; 1) == 1</code> → x is odd.",
+    "<code>x &amp; (x - 1)</code> removes the lowest 1-bit. <code>x &gt; 0 &amp;&amp; (x &amp; (x-1)) == 0</code> → x is a power of two.",
+    "<code>x ^ x = 0</code> and <code>x ^ 0 = x</code> → XOR of all numbers cancels the pairs (Single Number).",
+    "Check bit i: <code>(x &gt;&gt; i) &amp; 1</code> · Set: <code>x | (1 &lt;&lt; i)</code> · Clear: <code>x &amp; ~(1 &lt;&lt; i)</code> · Toggle: <code>x ^ (1 &lt;&lt; i)</code>.",
+    "<code>x &amp; -x</code> isolates the lowest set bit (used in Fenwick trees).",
+    "<code>Integer.bitCount(x)</code> counts 1-bits. A mask from 0 to 2ⁿ−1 can represent every subset of n items."
+  ],
+  opsHead: ["Operation", "Expression"],
+  ops: [["Is odd", "(x & 1) == 1"], ["Power of two", "x > 0 && (x & (x - 1)) == 0"], ["Get bit i", "(x >> i) & 1"], ["Set bit i", "x | (1 << i)"], ["Clear bit i", "x & ~(1 << i)"], ["Lowest set bit", "x & -x"]],
+  code: String.raw`// Single Number: every number appears twice except one
+int singleNumber(int[] nums) {
+    int ans = 0;
+    for (int x : nums) ans ^= x;   // pairs cancel out
+    return ans;
+}
+
+// Count 1-bits (Brian Kernighan): runs once per set bit
+int countOnes(int x) {
+    int count = 0;
+    while (x != 0) { x &= (x - 1); count++; }
+    return count;
+}
+
+// All subsets using a bitmask
+List<List<Integer>> subsets(int[] nums) {
+    int n = nums.length;
+    List<List<Integer>> res = new ArrayList<>();
+    for (int mask = 0; mask < (1 << n); mask++) {
+        List<Integer> cur = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            if (((mask >> i) & 1) == 1) cur.add(nums[i]);
+        res.add(cur);
+    }
+    return res;
+}`,
+  spot: ["'Appears once / twice', 'without extra space'.", "n ≤ 20 and you need 'all subsets' → bitmask.", "'Without using + or −' → XOR and carry."],
+  problems: [["Single Number", "E"], ["Number of 1 Bits", "E"], ["Counting Bits", "E"], ["Missing Number", "E"], ["Reverse Bits", "E"], ["Subsets", "M"], ["Sum of Two Integers", "M"]],
+  tip: `Put parentheses around bit expressions. In Java <code>==</code> binds tighter than <code>&amp;</code>, so <code>x &amp; 1 == 1</code> does not compile.`
+});
+
+/* ---------- LEVEL 1 : BASIC DATA STRUCTURES ---------- */
+T.push({
+  id: "arrays", level: 1, title: "Arrays", days: 3,
+  what: `<p>An array is a <b>row of boxes of the same type</b>, each with an index starting at 0. Getting any box is instant because the computer calculates its address: <i>start + index × size</i>.</p>
+<p>The cost: inserting or deleting in the middle means <b>shifting</b> everything after it. 2D arrays (<code>matrix[row][col]</code>) are just arrays of arrays.</p>`,
+  analogy: `Numbered lockers in a corridor. You walk straight to locker 42 — but adding a new locker between 5 and 6 means moving every locker after it.`,
+  opsHead: ["Operation", "Time"],
+  ops: [["Access arr[i]", "O(1)"], ["Search (unsorted)", "O(n)"], ["Search (sorted, binary search)", "O(log n)"], ["Insert / delete at end (ArrayList)", "O(1) amortized"], ["Insert / delete in middle", "O(n)"], ["Sort", "O(n log n)"]],
+  points: [
+    "<b>Kadane's algorithm</b>: maximum subarray sum in O(n). Keep a running sum; if it goes negative, start fresh.",
+    "<b>Reverse trick</b>: rotate an array by k = reverse all, reverse first k, reverse the rest. O(n) time, O(1) space.",
+    "<b>Dutch National Flag</b>: sort 0s, 1s, 2s in one pass with three pointers.",
+    "<b>In-place marking</b>: use the array itself (e.g. negate values, or place value v at index v−1) to save space.",
+    "<b>Prefix / suffix products</b>: 'product except self' without division.",
+    "Matrix tricks: rotate 90° = transpose + reverse each row; spiral traversal with four boundaries.",
+    "Always check <b>empty array</b>, <b>single element</b>, <b>all negatives</b>, and <b>index out of bounds</b>."
+  ],
+  code: String.raw`// Kadane: largest sum of a contiguous subarray
+int maxSubArray(int[] nums) {
+    int best = nums[0], cur = 0;
+    for (int x : nums) {
+        cur = Math.max(x, cur + x);   // extend or restart
+        best = Math.max(best, cur);
+    }
+    return best;
+}
+
+// Rotate right by k using three reverses
+void rotate(int[] a, int k) {
+    k %= a.length;
+    reverse(a, 0, a.length - 1);
+    reverse(a, 0, k - 1);
+    reverse(a, k, a.length - 1);
+}
+void reverse(int[] a, int i, int j) {
+    while (i < j) { int t = a[i]; a[i++] = a[j]; a[j--] = t; }
+}
+
+// Best time to buy and sell stock (one transaction)
+int maxProfit(int[] prices) {
+    int minPrice = Integer.MAX_VALUE, profit = 0;
+    for (int p : prices) {
+        minPrice = Math.min(minPrice, p);
+        profit = Math.max(profit, p - minPrice);
+    }
+    return profit;
+}`,
+  spot: ["Almost every problem starts with an array — decide next which technique (hashing, two pointers, window, prefix sum) fits."],
+  problems: [["Two Sum", "E"], ["Best Time to Buy and Sell Stock", "E"], ["Maximum Subarray", "M"], ["Product of Array Except Self", "M"], ["Rotate Array", "M"], ["Sort Colors", "M"], ["Spiral Matrix", "M"], ["Rotate Image", "M"], ["Set Matrix Zeroes", "M"], ["First Missing Positive", "H"]],
+  tip: `Before coding, ask: Is it sorted? Can there be duplicates or negatives? Can I modify the input? The answers often decide the technique.`
+});
+
+T.push({
+  id: "strings", level: 1, title: "Strings", days: 2,
+  what: `<p>A string is a sequence of characters. In Java, <code>String</code> is <b>immutable</b> — every "change" creates a new object. For building strings use <code>StringBuilder</code>; for checking characters use <code>char[]</code> or <code>charAt</code>.</p>`,
+  analogy: `A printed sentence. To change one word you reprint the whole line — unless you use a whiteboard (StringBuilder).`,
+  opsHead: ["Operation", "Time"],
+  ops: [["charAt(i)", "O(1)"], ["length()", "O(1)"], ["substring(i, j)", "O(j − i) — copies"], ["equals / compareTo", "O(n)"], ["s + t inside a loop", "O(n²) overall — avoid"], ["StringBuilder.append", "O(1) amortized"]],
+  points: [
+    "Count letters with <code>int[26]</code> and <code>c - 'a'</code> — faster and simpler than a HashMap.",
+    "<b>Palindrome</b>: two pointers from both ends moving inward.",
+    "<b>Anagram</b>: same letter counts. Group anagrams by their sorted form or their count signature.",
+    "Useful helpers: <code>Character.isLetterOrDigit</code>, <code>Character.toLowerCase</code>, <code>String.join</code>, <code>s.split(\"\\\\s+\")</code>.",
+    "Expand-around-center finds the longest palindromic substring in O(n²) with O(1) space.",
+    "Many string problems are really <b>sliding window</b>, <b>hashing</b>, or <b>DP</b> problems in disguise."
+  ],
+  code: String.raw`// Valid palindrome, ignoring non-alphanumeric characters
+boolean isPalindrome(String s) {
+    int i = 0, j = s.length() - 1;
+    while (i < j) {
+        while (i < j && !Character.isLetterOrDigit(s.charAt(i))) i++;
+        while (i < j && !Character.isLetterOrDigit(s.charAt(j))) j--;
+        if (Character.toLowerCase(s.charAt(i)) != Character.toLowerCase(s.charAt(j)))
+            return false;
+        i++; j--;
+    }
+    return true;
+}
+
+// Anagram check with a count array
+boolean isAnagram(String s, String t) {
+    if (s.length() != t.length()) return false;
+    int[] count = new int[26];
+    for (int i = 0; i < s.length(); i++) {
+        count[s.charAt(i) - 'a']++;
+        count[t.charAt(i) - 'a']--;
+    }
+    for (int c : count) if (c != 0) return false;
+    return true;
+}
+
+// Longest palindromic substring: expand around each center
+String longestPalindrome(String s) {
+    int start = 0, end = 0;
+    for (int c = 0; c < s.length(); c++) {
+        int len = Math.max(expand(s, c, c), expand(s, c, c + 1));
+        if (len > end - start) { start = c - (len - 1) / 2; end = c + len / 2; }
+    }
+    return s.substring(start, end + 1);
+}
+int expand(String s, int l, int r) {
+    while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) { l--; r++; }
+    return r - l - 1;
+}`,
+  spot: ["'Anagram', 'palindrome', 'substring', 'character frequency'."],
+  problems: [["Valid Anagram", "E"], ["Valid Palindrome", "E"], ["Longest Common Prefix", "E"], ["Group Anagrams", "M"], ["Longest Palindromic Substring", "M"], ["String to Integer (atoi)", "M"], ["Reverse Words in a String", "M"], ["Encode and Decode Strings", "M"]],
+  tip: `Clarify the character set first: only lowercase English letters? Upper case? Unicode? It decides between <code>int[26]</code>, <code>int[128]</code> and a HashMap.`
+});
+
+T.push({
+  id: "hashing", level: 1, title: "Hashing (HashMap & HashSet)", days: 2,
+  what: `<p>A hash table stores <b>key → value</b> pairs and finds any key in <b>O(1) on average</b>. A <i>hash function</i> turns the key into a number, and that number picks a bucket.</p>
+<p><code>HashSet</code> is the same idea with keys only — perfect for "have I seen this before?"</p>`,
+  analogy: `A library catalog: instead of scanning every shelf, the catalog tells you exactly which shelf the book is on.`,
+  opsHead: ["Operation", "Average", "Worst"],
+  ops: [["put / get / remove", "O(1)", "O(n) — O(log n) per bucket since Java 8"], ["containsKey", "O(1)", "O(n)"], ["Iterate all", "O(n + capacity)", "—"]],
+  points: [
+    "<b>How Java's HashMap works</b> (a favorite interview question): array of buckets → <code>hashCode()</code> picks a bucket → <code>equals()</code> finds the exact key inside.",
+    "Collisions are chained in a linked list; since Java 8 a bucket with more than 8 entries turns into a <b>red-black tree</b>.",
+    "Load factor 0.75: when 75% full, the table doubles and all entries are rehashed.",
+    "If you override <code>equals</code>, you must override <code>hashCode</code> — otherwise lookups fail.",
+    "Keys should be immutable. A mutated key can land in the wrong bucket and 'disappear'.",
+    "<code>HashMap</code> has no order · <code>LinkedHashMap</code> keeps insertion order · <code>TreeMap</code> keeps sorted order (O(log n)).",
+    "Classic patterns: <b>frequency count</b>, <b>complement lookup</b> (Two Sum), <b>prefix sum + map</b>, <b>grouping by a signature</b>."
+  ],
+  code: String.raw`// Two Sum: find the complement in O(1)
+int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();   // value -> index
+    for (int i = 0; i < nums.length; i++) {
+        int need = target - nums[i];
+        if (seen.containsKey(need)) return new int[]{seen.get(need), i};
+        seen.put(nums[i], i);
+    }
+    return new int[0];
+}
+
+// Group anagrams by a sorted-letters key
+List<List<String>> groupAnagrams(String[] words) {
+    Map<String, List<String>> map = new HashMap<>();
+    for (String w : words) {
+        char[] c = w.toCharArray();
+        Arrays.sort(c);
+        map.computeIfAbsent(new String(c), k -> new ArrayList<>()).add(w);
+    }
+    return new ArrayList<>(map.values());
+}
+
+// Longest consecutive sequence in O(n)
+int longestConsecutive(int[] nums) {
+    Set<Integer> set = new HashSet<>();
+    for (int x : nums) set.add(x);
+    int best = 0;
+    for (int x : set) {
+        if (set.contains(x - 1)) continue;          // only start at a run's beginning
+        int len = 1;
+        while (set.contains(x + len)) len++;
+        best = Math.max(best, len);
+    }
+    return best;
+}`,
+  spot: ["'Find a pair / duplicate / count occurrences'.", "You want to turn an O(n²) search into O(n).", "'Group items that are the same in some way'."],
+  problems: [["Two Sum", "E"], ["Contains Duplicate", "E"], ["Isomorphic Strings", "E"], ["Group Anagrams", "M"], ["Top K Frequent Elements", "M"], ["Longest Consecutive Sequence", "M"], ["Subarray Sum Equals K", "M"]],
+  tip: `For Java roles, be ready to explain HashMap internals (buckets, hashCode/equals, treeification, resize) and why <code>ConcurrentHashMap</code> is used in multi-threaded services.`
+});
+
+T.push({
+  id: "linked-list", level: 1, title: "Linked List", days: 3,
+  what: `<p>A linked list is a <b>chain of nodes</b>. Each node holds a value and a pointer to the next node. Nodes can live anywhere in memory, so there is <b>no index access</b> — you walk from the head.</p>
+<p>Types: <b>singly</b> (next only), <b>doubly</b> (next and prev), <b>circular</b> (last points back to first).</p>`,
+  analogy: `A treasure hunt: each clue tells you where the next clue is hidden. To reach clue 10 you must follow clues 1 to 9.`,
+  opsHead: ["Operation", "Time"],
+  ops: [["Access k-th node", "O(n)"], ["Search", "O(n)"], ["Insert / delete at head", "O(1)"], ["Insert / delete after a known node", "O(1)"], ["Insert at tail (with tail pointer)", "O(1)"]],
+  points: [
+    "<b>Dummy (sentinel) node</b>: put a fake node before the head so you never special-case 'the head changed'.",
+    "<b>Fast & slow pointers</b>: slow moves 1, fast moves 2. When fast ends, slow is in the <b>middle</b>. If they ever meet, there is a <b>cycle</b> (Floyd's algorithm).",
+    "<b>Reverse</b> with three pointers: prev, cur, next. Learn it until you can write it with your eyes closed.",
+    "<b>Nth from end</b>: move one pointer n steps ahead, then move both together.",
+    "Many hard problems = reverse + find middle + merge, combined.",
+    "Always <b>draw boxes and arrows</b> before changing pointers."
+  ],
+  code: String.raw`class ListNode {
+    int val; ListNode next;
+    ListNode(int v) { val = v; }
+}
+
+// Reverse a list iteratively
+ListNode reverse(ListNode head) {
+    ListNode prev = null, cur = head;
+    while (cur != null) {
+        ListNode next = cur.next;  // save
+        cur.next = prev;           // flip
+        prev = cur;                // move prev
+        cur = next;                // move cur
+    }
+    return prev;
+}
+
+// Middle node (second middle for even length)
+ListNode middle(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return slow;
+}
+
+// Cycle detection (Floyd)
+boolean hasCycle(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next; fast = fast.next.next;
+        if (slow == fast) return true;
+    }
+    return false;
+}
+
+// Merge two sorted lists using a dummy node
+ListNode merge(ListNode a, ListNode b) {
+    ListNode dummy = new ListNode(0), tail = dummy;
+    while (a != null && b != null) {
+        if (a.val <= b.val) { tail.next = a; a = a.next; }
+        else                { tail.next = b; b = b.next; }
+        tail = tail.next;
+    }
+    tail.next = (a != null) ? a : b;
+    return dummy.next;
+}`,
+  spot: ["Input is a <code>ListNode</code>.", "'In place', 'O(1) extra space', 'cycle', 'middle', 'k-th from end'."],
+  problems: [["Reverse Linked List", "E"], ["Merge Two Sorted Lists", "E"], ["Linked List Cycle", "E"], ["Middle of the Linked List", "E"], ["Remove Nth Node From End of List", "M"], ["Reorder List", "M"], ["Add Two Numbers", "M"], ["Copy List with Random Pointer", "M"], ["LRU Cache", "M"], ["Merge k Sorted Lists", "H"], ["Reverse Nodes in k-Group", "H"]],
+  tip: `Use a dummy head whenever the first node might be removed or replaced. It removes a whole class of null-pointer bugs.`
+});
+
+T.push({
+  id: "stack", level: 1, title: "Stack", days: 2,
+  what: `<p>A stack is <b>Last In, First Out (LIFO)</b>. You can only touch the top: <code>push</code> adds, <code>pop</code> removes, <code>peek</code> looks.</p>
+<p>In Java: <code>Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();</code></p>`,
+  analogy: `A pile of plates. You add a plate on top and you take the top plate first.`,
+  opsHead: ["Operation", "Time"],
+  ops: [["push", "O(1)"], ["pop", "O(1)"], ["peek", "O(1)"], ["search", "O(n)"]],
+  points: [
+    "Real uses: undo/redo, browser back button, the function call stack, expression parsing.",
+    "<b>Matching pairs</b>: push opening brackets, pop when a closing bracket arrives.",
+    "<b>Min stack</b>: store (value, minSoFar) together so getMin is O(1).",
+    "Any recursion can be rewritten with an explicit stack (useful for very deep trees/graphs).",
+    "<b>Monotonic stack</b> is a powerful special case — see Level 2."
+  ],
+  code: String.raw`// Valid Parentheses
+boolean isValid(String s) {
+    Deque<Character> st = new ArrayDeque<>();
+    for (char c : s.toCharArray()) {
+        if (c == '(') st.push(')');
+        else if (c == '[') st.push(']');
+        else if (c == '{') st.push('}');
+        else if (st.isEmpty() || st.pop() != c) return false;
+    }
+    return st.isEmpty();
+}
+
+// Min Stack: every entry remembers the minimum below it
+class MinStack {
+    private final Deque<int[]> st = new ArrayDeque<>();   // {value, min}
+    void push(int x) {
+        int min = st.isEmpty() ? x : Math.min(x, st.peek()[1]);
+        st.push(new int[]{x, min});
+    }
+    void pop()    { st.pop(); }
+    int top()     { return st.peek()[0]; }
+    int getMin()  { return st.peek()[1]; }
+}
+
+// Evaluate Reverse Polish Notation: ["2","1","+","3","*"] -> 9
+int evalRPN(String[] tokens) {
+    Deque<Integer> st = new ArrayDeque<>();
+    for (String t : tokens) {
+        switch (t) {
+            case "+" -> st.push(st.pop() + st.pop());
+            case "*" -> st.push(st.pop() * st.pop());
+            case "-" -> { int b = st.pop(), a = st.pop(); st.push(a - b); }
+            case "/" -> { int b = st.pop(), a = st.pop(); st.push(a / b); }
+            default  -> st.push(Integer.parseInt(t));
+        }
+    }
+    return st.pop();
+}`,
+  spot: ["'Most recent unmatched thing' — brackets, tags, undo.", "Nested structures like <code>3[a2[c]]</code>.", "'Next greater / smaller element'."],
+  problems: [["Valid Parentheses", "E"], ["Min Stack", "M"], ["Evaluate Reverse Polish Notation", "M"], ["Decode String", "M"], ["Asteroid Collision", "M"], ["Basic Calculator II", "M"], ["Largest Rectangle in Histogram", "H"]],
+  tip: `When you see "most recent" or "undo the last", say "this smells like a stack" out loud — pattern naming earns points.`
+});
+
+T.push({
+  id: "queue", level: 1, title: "Queue & Deque", days: 1,
+  what: `<p>A queue is <b>First In, First Out (FIFO)</b>: add at the back (<code>offer</code>), remove from the front (<code>poll</code>). A <b>deque</b> (double-ended queue) lets you add and remove at <b>both</b> ends.</p>
+<p>In Java: <code>Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();</code> and <code>Deque&lt;Integer&gt; dq = new ArrayDeque&lt;&gt;();</code></p>`,
+  analogy: `The line at a ticket counter: whoever came first is served first. A deque is a line where people can also join or leave from the front.`,
+  opsHead: ["Operation", "Time"],
+  ops: [["offer / add (back)", "O(1)"], ["poll / remove (front)", "O(1)"], ["peek", "O(1)"], ["offerFirst / pollLast (deque)", "O(1)"]],
+  points: [
+    "Queues power <b>BFS</b> (level-by-level traversal) in trees and graphs.",
+    "<b>Circular queue</b> on a fixed array: move indices with <code>(i + 1) % capacity</code>.",
+    "<b>Queue from two stacks</b>: push into 'in'; when 'out' is empty, pour everything from 'in' to 'out'. Amortized O(1).",
+    "Deque powers the <b>sliding window maximum</b> (monotonic deque).",
+    "Work link: Kafka topics are durable, distributed queues — a good bridge if the interviewer asks where you've used queues."
+  ],
+  code: String.raw`// Queue using two stacks
+class MyQueue {
+    private final Deque<Integer> in = new ArrayDeque<>(), out = new ArrayDeque<>();
+    void push(int x) { in.push(x); }
+    int pop()  { peek(); return out.pop(); }
+    int peek() {
+        if (out.isEmpty()) while (!in.isEmpty()) out.push(in.pop());
+        return out.peek();
+    }
+    boolean empty() { return in.isEmpty() && out.isEmpty(); }
+}
+
+// Circular queue on a fixed array
+class CircularQueue {
+    private final int[] data; private int head = 0, size = 0;
+    CircularQueue(int k) { data = new int[k]; }
+    boolean enQueue(int v) {
+        if (size == data.length) return false;
+        data[(head + size) % data.length] = v; size++;
+        return true;
+    }
+    boolean deQueue() {
+        if (size == 0) return false;
+        head = (head + 1) % data.length; size--;
+        return true;
+    }
+    int front() { return size == 0 ? -1 : data[head]; }
+    int rear()  { return size == 0 ? -1 : data[(head + size - 1) % data.length]; }
+}`,
+  spot: ["'Process in order of arrival', 'level by level', 'minimum steps' (BFS).", "'Last k seconds / recent calls' — a queue drops old items from the front."],
+  problems: [["Implement Queue using Stacks", "E"], ["Number of Recent Calls", "E"], ["Moving Average from Data Stream", "E"], ["Design Circular Queue", "M"], ["Rotting Oranges", "M"], ["Sliding Window Maximum", "H"]],
+  tip: `Use <code>offer/poll/peek</code> (return null/false) instead of <code>add/remove/element</code> (throw exceptions) unless you want the exception.`
+});
+/* ---------- LEVEL 2 : CORE TECHNIQUES ---------- */
+T.push({
+  id: "two-pointers", level: 2, title: "Two Pointers", days: 2,
+  what: `<p>Use <b>two indexes</b> that move through the data in a smart way, so you avoid a nested loop. This usually turns <b>O(n²) into O(n)</b> with O(1) extra space.</p>
+<p>Three common shapes: <b>opposite ends</b> (left and right move toward each other), <b>same direction</b> (a slow writer and a fast reader), and <b>two arrays</b> (one pointer in each, like merging).</p>`,
+  analogy: `Two people searching a bookshelf from both ends and walking toward each other — they cover it in one pass.`,
+  opsHead: ["Shape", "Typical use"],
+  ops: [["Opposite ends", "Pair sum in sorted array, palindrome, container with most water"], ["Slow / fast (same direction)", "Remove duplicates in place, move zeroes, partition"], ["One pointer per array", "Merge two sorted arrays, intersection"]],
+  points: [
+    "Works best when the array is <b>sorted</b> (or you can sort it) — sorting gives you a rule for which pointer to move.",
+    "For pair sum: sum too small → move left forward; sum too big → move right backward.",
+    "<b>3Sum</b> = sort + fix one number + two pointers on the rest. Skip duplicates to avoid repeated triplets.",
+    "Trapping Rain Water: move the side with the smaller max — its water level is already decided."
+  ],
+  code: String.raw`// Pair with target sum in a sorted array
+int[] pairSum(int[] a, int target) {
+    int l = 0, r = a.length - 1;
+    while (l < r) {
+        int sum = a[l] + a[r];
+        if (sum == target) return new int[]{l, r};
+        if (sum < target) l++; else r--;
+    }
+    return new int[]{-1, -1};
+}
+
+// Remove duplicates in place (slow = write, fast = read)
+int removeDuplicates(int[] a) {
+    if (a.length == 0) return 0;
+    int slow = 0;
+    for (int fast = 1; fast < a.length; fast++)
+        if (a[fast] != a[slow]) a[++slow] = a[fast];
+    return slow + 1;
+}
+
+// 3Sum: all unique triplets that sum to 0
+List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> res = new ArrayList<>();
+    for (int i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] == nums[i - 1]) continue;       // skip duplicate
+        int l = i + 1, r = nums.length - 1;
+        while (l < r) {
+            int sum = nums[i] + nums[l] + nums[r];
+            if (sum < 0) l++;
+            else if (sum > 0) r--;
+            else {
+                res.add(List.of(nums[i], nums[l], nums[r]));
+                while (l < r && nums[l] == nums[l + 1]) l++;
+                while (l < r && nums[r] == nums[r - 1]) r--;
+                l++; r--;
+            }
+        }
+    }
+    return res;
+}`,
+  spot: ["Sorted array + 'find a pair / triplet'.", "'In place', 'O(1) extra space'.", "Palindrome checks, reversing."],
+  problems: [["Valid Palindrome", "E"], ["Remove Duplicates from Sorted Array", "E"], ["Move Zeroes", "E"], ["Two Sum II - Input Array Is Sorted", "M"], ["Container With Most Water", "M"], ["3Sum", "M"], ["Sort Colors", "M"], ["Trapping Rain Water", "H"]],
+  tip: `If the array is sorted and the problem asks for pairs, mention two pointers (O(1) space) before hashing (O(n) space) and compare the trade-off.`
+});
+
+T.push({
+  id: "sliding-window", level: 2, title: "Sliding Window", days: 3,
+  what: `<p>A <b>window</b> is a continuous range <code>[left, right]</code>. Instead of recomputing every subarray from scratch, you <b>slide</b>: add the new item on the right, remove the old item on the left. That turns O(n·k) or O(n²) into <b>O(n)</b>.</p>
+<p><b>Fixed window</b>: size k never changes. <b>Variable window</b>: grow right; while the window breaks a rule, shrink left.</p>`,
+  analogy: `Looking at a long train through a window of a moving car: one carriage enters the view as another leaves.`,
+  opsHead: ["Type", "Loop shape"],
+  ops: [["Fixed size k", "add a[r]; if r ≥ k, remove a[r−k]; record answer"], ["Longest valid window", "expand r; while invalid → shrink l; record r−l+1"], ["Shortest valid window", "expand r; while valid → record, then shrink l"]],
+  points: [
+    "Keywords: <b>contiguous</b> subarray / substring, <b>longest</b>, <b>shortest</b>, <b>at most K</b>, <b>exactly K</b>.",
+    "Track what's inside the window with a count array, HashMap, or running sum.",
+    "'Exactly K' = atMost(K) − atMost(K − 1).",
+    "<b>Warning</b>: if the array can contain <b>negative numbers</b>, a sum window doesn't work (shrinking may not reduce the sum). Use prefix sum + HashMap instead."
+  ],
+  code: String.raw`// Fixed window: max sum of any k consecutive elements
+int maxSumK(int[] a, int k) {
+    int sum = 0, best = Integer.MIN_VALUE;
+    for (int r = 0; r < a.length; r++) {
+        sum += a[r];
+        if (r >= k) sum -= a[r - k];      // drop the element that left
+        if (r >= k - 1) best = Math.max(best, sum);
+    }
+    return best;
+}
+
+// Variable window: longest substring without repeating characters
+int lengthOfLongestSubstring(String s) {
+    int[] count = new int[128];
+    int l = 0, best = 0;
+    for (int r = 0; r < s.length(); r++) {
+        char c = s.charAt(r);
+        count[c]++;
+        while (count[c] > 1) count[s.charAt(l++)]--;   // shrink until valid
+        best = Math.max(best, r - l + 1);
+    }
+    return best;
+}
+
+// Shortest window: minimum length subarray with sum >= target (positives)
+int minSubArrayLen(int target, int[] nums) {
+    int l = 0, sum = 0, best = Integer.MAX_VALUE;
+    for (int r = 0; r < nums.length; r++) {
+        sum += nums[r];
+        while (sum >= target) {
+            best = Math.min(best, r - l + 1);
+            sum -= nums[l++];
+        }
+    }
+    return best == Integer.MAX_VALUE ? 0 : best;
+}`,
+  spot: ["'Longest / shortest substring or subarray that…'", "'Every window of size k'.", "'At most K distinct characters'."],
+  problems: [["Maximum Average Subarray I", "E"], ["Longest Substring Without Repeating Characters", "M"], ["Longest Repeating Character Replacement", "M"], ["Permutation in String", "M"], ["Minimum Size Subarray Sum", "M"], ["Fruit Into Baskets", "M"], ["Minimum Window Substring", "H"], ["Sliding Window Maximum", "H"]],
+  tip: `Memorize one variable-window template and reuse it. Most window problems differ only in the "is the window valid?" check.`
+});
+
+T.push({
+  id: "prefix-sum", level: 2, title: "Prefix Sum & Difference Array", days: 2,
+  what: `<p>Build <code>pre[i]</code> = sum of the first i elements once (O(n)). Then the sum of any range <code>[l, r]</code> is just <code>pre[r+1] − pre[l]</code> — <b>O(1) per query</b>.</p>
+<p>A <b>difference array</b> is the reverse trick: apply many "add x to range [l, r]" updates in O(1) each, then rebuild the final array with one prefix pass.</p>`,
+  analogy: `Your car's odometer. To know how far you drove between two towns, subtract the two readings — no need to re-drive the road.`,
+  opsHead: ["Task", "Cost"],
+  ops: [["Build prefix array", "O(n)"], ["Range sum query", "O(1)"], ["Range add (difference array)", "O(1) each + O(n) rebuild"], ["2D prefix build / query", "O(r·c) / O(1)"]],
+  points: [
+    "<b>Subarray sum equals K</b>: while scanning, if <code>prefix − K</code> was seen before, those earlier positions start valid subarrays. Store prefix counts in a HashMap, starting with <code>{0: 1}</code>.",
+    "Works with negative numbers (unlike sliding window).",
+    "Same idea works for XOR (prefix XOR), counts (prefix count of vowels), and products.",
+    "2D: <code>sum = P[r2+1][c2+1] − P[r1][c2+1] − P[r2+1][c1] + P[r1][c1]</code>.",
+    "Remainder trick: 'subarray sum divisible by k' → store <code>prefix % k</code> in the map."
+  ],
+  code: String.raw`// Build prefix sums (size n + 1 to avoid edge cases)
+int[] buildPrefix(int[] a) {
+    int[] pre = new int[a.length + 1];
+    for (int i = 0; i < a.length; i++) pre[i + 1] = pre[i] + a[i];
+    return pre;
+}
+int rangeSum(int[] pre, int l, int r) { return pre[r + 1] - pre[l]; }
+
+// Count subarrays with sum exactly k (handles negatives)
+int subarraySum(int[] nums, int k) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    seen.put(0, 1);
+    int sum = 0, count = 0;
+    for (int x : nums) {
+        sum += x;
+        count += seen.getOrDefault(sum - k, 0);
+        seen.merge(sum, 1, Integer::sum);
+    }
+    return count;
+}
+
+// Difference array: many range updates, then one rebuild
+int[] applyUpdates(int n, int[][] updates) {   // each update = {l, r, value}
+    int[] diff = new int[n + 1];
+    for (int[] u : updates) {
+        diff[u[0]] += u[2];
+        diff[u[1] + 1] -= u[2];
+    }
+    int[] res = new int[n];
+    int run = 0;
+    for (int i = 0; i < n; i++) { run += diff[i]; res[i] = run; }
+    return res;
+}`,
+  spot: ["'Sum of a range', many queries, no updates.", "'Number of subarrays with sum / XOR equal to K'.", "'Add value to range [l, r]' many times (bookings, car pooling)."],
+  problems: [["Range Sum Query - Immutable", "E"], ["Find Pivot Index", "E"], ["Subarray Sum Equals K", "M"], ["Continuous Subarray Sum", "M"], ["Product of Array Except Self", "M"], ["Range Sum Query 2D - Immutable", "M"], ["Car Pooling", "M"], ["Corporate Flight Bookings", "M"]],
+  tip: `Use a prefix array of length n + 1 with <code>pre[0] = 0</code>. It removes the "what if l = 0" special case.`
+});
+
+T.push({
+  id: "sorting", level: 2, title: "Sorting Algorithms", days: 3,
+  what: `<p>Sorting puts items in order. You'll mostly call <code>Arrays.sort</code>, but interviewers still ask you to <b>explain or write merge sort and quick sort</b>, and many solutions start with "first, sort".</p>
+<p><b>Stable</b> sort = equal items keep their original order (matters when sorting objects by one field).</p>`,
+  analogy: `Merge sort is like sorting exam papers by splitting the pile in half, having two helpers sort each half, then merging the two sorted piles.`,
+  opsHead: ["Algorithm", "Best", "Average", "Worst", "Space", "Stable"],
+  ops: [
+    ["Bubble", "O(n)", "O(n²)", "O(n²)", "O(1)", "Yes"],
+    ["Selection", "O(n²)", "O(n²)", "O(n²)", "O(1)", "No"],
+    ["Insertion", "O(n)", "O(n²)", "O(n²)", "O(1)", "Yes"],
+    ["Merge", "O(n log n)", "O(n log n)", "O(n log n)", "O(n)", "Yes"],
+    ["Quick", "O(n log n)", "O(n log n)", "O(n²)", "O(log n)", "No"],
+    ["Heap", "O(n log n)", "O(n log n)", "O(n log n)", "O(1)", "No"],
+    ["Counting", "O(n + k)", "O(n + k)", "O(n + k)", "O(k)", "Yes"]
+  ],
+  points: [
+    "<b>Insertion sort</b> is great for small or nearly sorted data (TimSort uses it inside).",
+    "<b>Merge sort</b>: divide in half, sort both, merge. Always O(n log n). Used for linked lists and 'count inversions'.",
+    "<b>Quick sort</b>: pick a pivot, put smaller on the left and bigger on the right, recurse. Random pivot avoids the O(n²) worst case.",
+    "<b>Quickselect</b> finds the k-th smallest in O(n) average — no full sort needed.",
+    "<b>Counting / bucket sort</b>: when values are in a small range (e.g. 0–100, letters).",
+    "Comparison sorts can't beat O(n log n) in the worst case."
+  ],
+  code: String.raw`// Merge sort
+void mergeSort(int[] a, int lo, int hi, int[] tmp) {
+    if (lo >= hi) return;
+    int mid = lo + (hi - lo) / 2;
+    mergeSort(a, lo, mid, tmp);
+    mergeSort(a, mid + 1, hi, tmp);
+    int i = lo, j = mid + 1, k = lo;
+    while (i <= mid && j <= hi) tmp[k++] = (a[i] <= a[j]) ? a[i++] : a[j++];
+    while (i <= mid) tmp[k++] = a[i++];
+    while (j <= hi)  tmp[k++] = a[j++];
+    for (k = lo; k <= hi; k++) a[k] = tmp[k];
+}
+
+// Quick sort (Lomuto partition, random pivot)
+Random rnd = new Random();
+void quickSort(int[] a, int lo, int hi) {
+    if (lo >= hi) return;
+    int p = partition(a, lo, hi);
+    quickSort(a, lo, p - 1);
+    quickSort(a, p + 1, hi);
+}
+int partition(int[] a, int lo, int hi) {
+    swap(a, lo + rnd.nextInt(hi - lo + 1), hi);   // random pivot to the end
+    int pivot = a[hi], i = lo;
+    for (int j = lo; j < hi; j++)
+        if (a[j] < pivot) swap(a, i++, j);
+    swap(a, i, hi);
+    return i;
+}
+void swap(int[] a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+// Custom sorting: people by age, then by name
+people.sort(Comparator.comparingInt(Person::age).thenComparing(Person::name));`,
+  spot: ["'Merge', 'overlapping', 'closest', 'k-th largest' — sorting often simplifies the rest.", "'Arrange to form the largest number' → custom comparator."],
+  problems: [["Merge Sorted Array", "E"], ["Sort an Array", "M"], ["Sort Colors", "M"], ["Kth Largest Element in an Array", "M"], ["Merge Intervals", "M"], ["Largest Number", "M"], ["Count of Smaller Numbers After Self", "H"], ["Reverse Pairs", "H"]],
+  tip: `Be able to write merge sort and quick sort from memory in under 10 minutes — they are common warm-ups and appear in Java trivia (TimSort vs dual-pivot quicksort).`
+});
+
+T.push({
+  id: "binary-search", level: 2, title: "Binary Search", days: 3,
+  what: `<p>In a <b>sorted</b> (or "monotonic") search space, look at the middle. The answer is either in the left half or the right half — <b>throw the other half away</b>. Each step halves the work: <b>O(log n)</b>.</p>
+<p>The big idea for interviews: binary search works on anything shaped like <code>F F F F T T T</code>. You're looking for the <b>first T</b>. That covers sorted arrays, rotated arrays, and even "the smallest answer that works".</p>`,
+  analogy: `Guessing a number between 1 and 100 when someone says "higher" or "lower". You never need more than 7 guesses.`,
+  opsHead: ["Variant", "What you search"],
+  ops: [["Classic", "Exact target in sorted array"], ["Lower bound", "First index with a[i] ≥ target"], ["Rotated array", "Decide which half is sorted, then check if target is inside it"], ["Binary search on answer", "Smallest value x where canDo(x) is true"], ["2D matrix", "Treat rows × cols as one sorted list"]],
+  points: [
+    "Compute mid as <code>lo + (hi - lo) / 2</code> to avoid integer overflow.",
+    "Pick one template and always use it. The 'first true' template below never loops forever.",
+    "<b>Binary search on the answer</b>: when the question says <i>minimize the maximum</i> or <i>maximize the minimum</i> (ship capacity, eating speed, split array), search over possible answers and write a greedy <code>canDo(x)</code> check.",
+    "Complexity for search-on-answer: O(log(range) × cost of check)."
+  ],
+  code: String.raw`// Template: first index where condition becomes true (lower bound)
+int lowerBound(int[] a, int target) {
+    int lo = 0, hi = a.length;           // answer is in [lo, hi]
+    while (lo < hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] >= target) hi = mid;  // mid could be the answer
+        else lo = mid + 1;
+    }
+    return lo;                           // a.length if not found
+}
+
+// Search in rotated sorted array
+int search(int[] a, int target) {
+    int lo = 0, hi = a.length - 1;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (a[mid] == target) return mid;
+        if (a[lo] <= a[mid]) {                        // left half sorted
+            if (a[lo] <= target && target < a[mid]) hi = mid - 1;
+            else lo = mid + 1;
+        } else {                                      // right half sorted
+            if (a[mid] < target && target <= a[hi]) lo = mid + 1;
+            else hi = mid - 1;
+        }
+    }
+    return -1;
+}
+
+// Binary search on the answer: Koko eating bananas
+int minEatingSpeed(int[] piles, int h) {
+    int lo = 1, hi = Arrays.stream(piles).max().getAsInt();
+    while (lo < hi) {
+        int speed = lo + (hi - lo) / 2;
+        if (hoursNeeded(piles, speed) <= h) hi = speed;   // fast enough
+        else lo = speed + 1;
+    }
+    return lo;
+}
+long hoursNeeded(int[] piles, int speed) {
+    long hours = 0;
+    for (int p : piles) hours += (p + speed - 1) / speed;  // ceiling division
+    return hours;
+}`,
+  spot: ["Sorted input and O(log n) expected.", "'Minimum capacity / speed / days such that…'", "Answer range is huge (up to 10⁹) but checking one guess is easy."],
+  problems: [["Binary Search", "E"], ["Search Insert Position", "E"], ["First Bad Version", "E"], ["Find First and Last Position of Element in Sorted Array", "M"], ["Search in Rotated Sorted Array", "M"], ["Find Minimum in Rotated Sorted Array", "M"], ["Search a 2D Matrix", "M"], ["Koko Eating Bananas", "M"], ["Capacity To Ship Packages Within D Days", "M"], ["Split Array Largest Sum", "H"], ["Median of Two Sorted Arrays", "H"]],
+  tip: `"Minimize the maximum" or "maximize the minimum" is a strong hint for binary search on the answer. Say it — it's a recognised senior-level insight.`
+});
+
+T.push({
+  id: "monotonic", level: 2, title: "Monotonic Stack & Queue", days: 2,
+  what: `<p>A <b>monotonic stack</b> keeps its items always increasing (or always decreasing). When a new item breaks the order, you pop items — and at that moment you've found the <b>"next greater / next smaller" element</b> for each popped item.</p>
+<p>A <b>monotonic deque</b> does the same for a sliding window, giving the window's max or min in O(1).</p>`,
+  analogy: `People standing in a line, all looking right. A tall person arriving blocks the view of everyone shorter in front of them — those shorter people have found their "next taller person".`,
+  opsHead: ["Goal", "Stack order", "Scan"],
+  ops: [["Next greater element", "Decreasing", "left → right"], ["Next smaller element", "Increasing", "left → right"], ["Previous greater", "Decreasing", "left → right (answer = top before push)"], ["Sliding window max", "Decreasing deque", "pop front when out of window"]],
+  points: [
+    "Store <b>indexes</b> in the stack, not values — you usually need distances or widths.",
+    "Each element is pushed once and popped once → <b>O(n)</b> total, even with a while-loop inside the for-loop.",
+    "Largest rectangle in histogram: for each bar, find the previous and next smaller bars — width between them × height.",
+    "Circular arrays: loop twice (<code>i % n</code>)."
+  ],
+  code: String.raw`// Daily Temperatures: days until a warmer day
+int[] dailyTemperatures(int[] t) {
+    int[] ans = new int[t.length];
+    Deque<Integer> st = new ArrayDeque<>();          // indexes, temps decreasing
+    for (int i = 0; i < t.length; i++) {
+        while (!st.isEmpty() && t[i] > t[st.peek()]) {
+            int j = st.pop();
+            ans[j] = i - j;                          // i is j's next warmer day
+        }
+        st.push(i);
+    }
+    return ans;
+}
+
+// Sliding window maximum with a monotonic deque
+int[] maxSlidingWindow(int[] a, int k) {
+    int[] res = new int[a.length - k + 1];
+    Deque<Integer> dq = new ArrayDeque<>();          // indexes, values decreasing
+    for (int i = 0; i < a.length; i++) {
+        if (!dq.isEmpty() && dq.peekFirst() <= i - k) dq.pollFirst();   // out of window
+        while (!dq.isEmpty() && a[dq.peekLast()] < a[i]) dq.pollLast();  // useless now
+        dq.offerLast(i);
+        if (i >= k - 1) res[i - k + 1] = a[dq.peekFirst()];
+    }
+    return res;
+}
+
+// Largest rectangle in histogram
+int largestRectangleArea(int[] h) {
+    Deque<Integer> st = new ArrayDeque<>();
+    int best = 0;
+    for (int i = 0; i <= h.length; i++) {
+        int cur = (i == h.length) ? 0 : h[i];        // sentinel flushes the stack
+        while (!st.isEmpty() && cur < h[st.peek()]) {
+            int height = h[st.pop()];
+            int left = st.isEmpty() ? -1 : st.peek();
+            best = Math.max(best, height * (i - left - 1));
+        }
+        st.push(i);
+    }
+    return best;
+}`,
+  spot: ["'Next greater / smaller', 'how many days until', 'span'.", "'Maximum in every window of size k'.", "Histogram / rectangle / 'remove k digits to make smallest'."],
+  problems: [["Next Greater Element I", "E"], ["Daily Temperatures", "M"], ["Online Stock Span", "M"], ["Next Greater Element II", "M"], ["Sum of Subarray Minimums", "M"], ["Remove K Digits", "M"], ["Largest Rectangle in Histogram", "H"], ["Sliding Window Maximum", "H"], ["Maximal Rectangle", "H"]],
+  tip: `Explain the amortized O(n): "every index enters and leaves the stack at most once." Interviewers often probe this.`
+});
+
+T.push({
+  id: "intervals", level: 2, title: "Intervals & Sweep Line", days: 2,
+  what: `<p>Interval problems give you pairs <code>[start, end]</code> — meetings, bookings, ranges. The first move is almost always <b>sort by start</b> (or by end for greedy selection).</p>
+<p><b>Sweep line</b>: turn each interval into two events (+1 at start, −1 at end), sort the events, and walk through time keeping a running count.</p>`,
+  analogy: `A meeting-room calendar. Sort meetings by start time and you can see overlaps as you read top to bottom.`,
+  opsHead: ["Question", "Approach"],
+  ops: [["Merge overlapping", "Sort by start; extend the last merged interval"], ["Min meeting rooms", "Sort starts & ends, or a min-heap of end times"], ["Max non-overlapping", "Greedy: sort by end, keep earliest finishing"], ["Insert an interval", "Add all before, merge overlapping, add all after"]],
+  points: [
+    "Two intervals overlap when <code>a.start &lt;= b.end &amp;&amp; b.start &lt;= a.end</code>.",
+    "Ask whether touching intervals like [1,2] and [2,3] count as overlapping.",
+    "Min-heap of end times: the heap size is the number of rooms in use.",
+    "<code>TreeMap&lt;Integer,Integer&gt;</code> as a sweep line handles 'My Calendar' style online bookings."
+  ],
+  code: String.raw`// Merge intervals
+int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> res = new ArrayList<>();
+    for (int[] cur : intervals) {
+        if (res.isEmpty() || res.get(res.size() - 1)[1] < cur[0]) {
+            res.add(cur);                                       // no overlap
+        } else {
+            int[] last = res.get(res.size() - 1);
+            last[1] = Math.max(last[1], cur[1]);               // merge
+        }
+    }
+    return res.toArray(new int[0][]);
+}
+
+// Meeting Rooms II: minimum rooms needed
+int minMeetingRooms(int[][] meetings) {
+    Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
+    PriorityQueue<Integer> ends = new PriorityQueue<>();       // end times in use
+    for (int[] m : meetings) {
+        if (!ends.isEmpty() && ends.peek() <= m[0]) ends.poll(); // reuse a room
+        ends.offer(m[1]);
+    }
+    return ends.size();
+}`,
+  spot: ["Input is a list of [start, end].", "'Overlapping', 'conflicts', 'free time', 'rooms', 'arrows'."],
+  problems: [["Meeting Rooms", "E"], ["Merge Intervals", "M"], ["Insert Interval", "M"], ["Non-overlapping Intervals", "M"], ["Meeting Rooms II", "M"], ["Minimum Number of Arrows to Burst Balloons", "M"], ["Interval List Intersections", "M"], ["Employee Free Time", "H"]],
+  tip: `Ask whether the end is inclusive or exclusive before coding — it changes <code>&lt;</code> to <code>&lt;=</code> in exactly the place bugs hide.`
+});
+
+/* ---------- LEVEL 3 : TREES & HEAPS ---------- */
+T.push({
+  id: "binary-tree", level: 3, title: "Binary Trees & Traversals", days: 4,
+  what: `<p>A <b>tree</b> is a hierarchy: one <b>root</b> at the top, each node has children, nodes with no children are <b>leaves</b>. In a <b>binary tree</b> every node has at most two children: left and right.</p>
+<p><b>Height</b> = longest path from a node down to a leaf. <b>Depth</b> = distance from the root.</p>
+<p>Almost every tree problem is solved by asking: <i>"What does this node need from its left and right children?"</i> — then letting recursion do the rest.</p>`,
+  analogy: `A company org chart: the CEO at the top, managers below, and individual contributors as leaves.`,
+  opsHead: ["Traversal", "Order", "Typical use"],
+  ops: [["Preorder (DFS)", "Root → Left → Right", "Copy / serialize a tree"], ["Inorder (DFS)", "Left → Root → Right", "Sorted order in a BST"], ["Postorder (DFS)", "Left → Right → Root", "Heights, deleting, 'answer from children'"], ["Level order (BFS)", "Level by level with a queue", "Right-side view, min depth, zigzag"]],
+  points: [
+    "Every traversal visits each node once: <b>O(n) time</b>, <b>O(h) space</b> for recursion (h = height; n in the worst, skewed case).",
+    "<b>Two recursion styles</b>: return a value up (height, sum) or pass information down (current path, bounds).",
+    "<b>Global answer pattern</b>: diameter and max path sum — return one thing to the parent but update a global best with another.",
+    "Tree kinds: <b>full</b> (0 or 2 children), <b>complete</b> (filled left to right — heaps), <b>perfect</b>, <b>balanced</b> (heights differ by ≤ 1).",
+    "<b>LCA</b> (lowest common ancestor): if p and q are found in different subtrees, the current node is the answer.",
+    "Build a tree from preorder + inorder: preorder gives the root; inorder splits left and right."
+  ],
+  code: String.raw`class TreeNode {
+    int val; TreeNode left, right;
+    TreeNode(int v) { val = v; }
+}
+
+// DFS traversals
+void inorder(TreeNode n, List<Integer> out) {
+    if (n == null) return;
+    inorder(n.left, out);
+    out.add(n.val);
+    inorder(n.right, out);
+}
+
+// BFS: level order
+List<List<Integer>> levelOrder(TreeNode root) {
+    List<List<Integer>> res = new ArrayList<>();
+    if (root == null) return res;
+    Queue<TreeNode> q = new ArrayDeque<>();
+    q.offer(root);
+    while (!q.isEmpty()) {
+        int size = q.size();                    // nodes in this level
+        List<Integer> level = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            TreeNode n = q.poll();
+            level.add(n.val);
+            if (n.left != null)  q.offer(n.left);
+            if (n.right != null) q.offer(n.right);
+        }
+        res.add(level);
+    }
+    return res;
+}
+
+// Max depth
+int maxDepth(TreeNode n) {
+    return n == null ? 0 : 1 + Math.max(maxDepth(n.left), maxDepth(n.right));
+}
+
+// Diameter: return height, update global best
+int best = 0;
+int diameterOfBinaryTree(TreeNode root) { height(root); return best; }
+int height(TreeNode n) {
+    if (n == null) return 0;
+    int l = height(n.left), r = height(n.right);
+    best = Math.max(best, l + r);               // path through n
+    return 1 + Math.max(l, r);
+}
+
+// Lowest common ancestor
+TreeNode lca(TreeNode n, TreeNode p, TreeNode q) {
+    if (n == null || n == p || n == q) return n;
+    TreeNode l = lca(n.left, p, q), r = lca(n.right, p, q);
+    if (l != null && r != null) return n;       // split here
+    return l != null ? l : r;
+}`,
+  spot: ["Input is a <code>TreeNode</code>.", "'Level', 'depth', 'path', 'ancestor', 'subtree'."],
+  problems: [["Maximum Depth of Binary Tree", "E"], ["Invert Binary Tree", "E"], ["Same Tree", "E"], ["Diameter of Binary Tree", "E"], ["Balanced Binary Tree", "E"], ["Binary Tree Level Order Traversal", "M"], ["Binary Tree Right Side View", "M"], ["Lowest Common Ancestor of a Binary Tree", "M"], ["Construct Binary Tree from Preorder and Inorder Traversal", "M"], ["Path Sum II", "M"], ["Binary Tree Maximum Path Sum", "H"], ["Serialize and Deserialize Binary Tree", "H"]],
+  tip: `State the space cost honestly: O(h), which is O(log n) for a balanced tree but O(n) for a skewed one.`
+});
+
+T.push({
+  id: "bst", level: 3, title: "Binary Search Trees (BST)", days: 2,
+  what: `<p>A BST is a binary tree with one rule: for every node, <b>everything on the left is smaller</b> and <b>everything on the right is bigger</b>. That rule lets you search like binary search — go left or right at each step.</p>
+<p>An <b>inorder traversal</b> of a BST gives values in <b>sorted order</b>.</p>`,
+  analogy: `A "guess the number" game built into the tree: at each node you're told "smaller, go left" or "bigger, go right".`,
+  opsHead: ["Operation", "Balanced", "Skewed (worst)"],
+  ops: [["Search", "O(log n)", "O(n)"], ["Insert", "O(log n)", "O(n)"], ["Delete", "O(log n)", "O(n)"], ["Min / max", "O(log n)", "O(n)"], ["Inorder (sorted)", "O(n)", "O(n)"]],
+  points: [
+    "Self-balancing BSTs (AVL, <b>Red-Black</b>) keep height at O(log n). Java's <code>TreeMap</code>/<code>TreeSet</code> are red-black trees.",
+    "<b>Validate BST</b>: pass allowed (min, max) bounds down — comparing a node only with its children is the classic wrong answer.",
+    "<b>Delete</b>: 0 children → remove; 1 child → replace with the child; 2 children → replace value with the inorder successor, then delete that successor.",
+    "k-th smallest = the k-th node in inorder traversal.",
+    "LCA in a BST is easier: walk down until p and q fall on different sides."
+  ],
+  code: String.raw`TreeNode searchBST(TreeNode n, int target) {
+    while (n != null && n.val != target)
+        n = target < n.val ? n.left : n.right;
+    return n;
+}
+
+TreeNode insert(TreeNode n, int v) {
+    if (n == null) return new TreeNode(v);
+    if (v < n.val) n.left = insert(n.left, v);
+    else           n.right = insert(n.right, v);
+    return n;
+}
+
+// Validate with bounds (long to handle Integer.MIN/MAX values)
+boolean isValidBST(TreeNode root) { return valid(root, Long.MIN_VALUE, Long.MAX_VALUE); }
+boolean valid(TreeNode n, long min, long max) {
+    if (n == null) return true;
+    if (n.val <= min || n.val >= max) return false;
+    return valid(n.left, min, n.val) && valid(n.right, n.val, max);
+}
+
+// k-th smallest with iterative inorder
+int kthSmallest(TreeNode root, int k) {
+    Deque<TreeNode> st = new ArrayDeque<>();
+    TreeNode cur = root;
+    while (true) {
+        while (cur != null) { st.push(cur); cur = cur.left; }
+        cur = st.pop();
+        if (--k == 0) return cur.val;
+        cur = cur.right;
+    }
+}`,
+  spot: ["The tree is a BST → think 'sorted' and 'go left or right'.", "'k-th smallest', 'closest value', 'range sum in BST'."],
+  problems: [["Search in a Binary Search Tree", "E"], ["Convert Sorted Array to Binary Search Tree", "E"], ["Validate Binary Search Tree", "M"], ["Kth Smallest Element in a BST", "M"], ["Lowest Common Ancestor of a Binary Search Tree", "M"], ["Delete Node in a BST", "M"], ["Binary Search Tree Iterator", "M"], ["Recover Binary Search Tree", "M"]],
+  tip: `When asked "how would you keep it fast with many inserts?", mention self-balancing trees and that Java's TreeMap is a red-black tree.`
+});
+
+T.push({
+  id: "heap", level: 3, title: "Heap / Priority Queue", days: 3,
+  what: `<p>A <b>heap</b> gives you the <b>smallest (min-heap) or largest (max-heap) item instantly</b>, and lets you add or remove items in O(log n). It is a complete binary tree stored inside an array.</p>
+<p>Java: <code>PriorityQueue</code> is a min-heap by default.</p>`,
+  analogy: `A hospital emergency room: the most urgent patient is always seen next, no matter who arrived first.`,
+  opsHead: ["Operation", "Time"],
+  ops: [["peek (min or max)", "O(1)"], ["offer (insert)", "O(log n)"], ["poll (remove top)", "O(log n)"], ["Build heap from n items", "O(n)"], ["remove(arbitrary) / contains", "O(n)"]],
+  points: [
+    "Array layout: children of index i are <code>2i+1</code> and <code>2i+2</code>; parent is <code>(i−1)/2</code>.",
+    "<b>Top-K largest</b>: keep a <b>min-heap of size K</b>; if it grows beyond K, remove the smallest. Result: O(n log K).",
+    "<b>Two heaps</b> (max-heap for lower half, min-heap for upper half) → running median.",
+    "<b>K-way merge</b>: put the head of each list in a heap; always take the smallest.",
+    "Scheduling: 'always pick the task with the highest priority / earliest end'.",
+    "Dijkstra's shortest path uses a min-heap (Level 5)."
+  ],
+  code: String.raw`// Kth largest element: min-heap of size k
+int findKthLargest(int[] nums, int k) {
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    for (int x : nums) {
+        pq.offer(x);
+        if (pq.size() > k) pq.poll();     // drop the smallest
+    }
+    return pq.peek();
+}
+
+// Top K frequent elements
+int[] topKFrequent(int[] nums, int k) {
+    Map<Integer, Integer> freq = new HashMap<>();
+    for (int x : nums) freq.merge(x, 1, Integer::sum);
+    PriorityQueue<Map.Entry<Integer, Integer>> pq =
+        new PriorityQueue<>((a, b) -> Integer.compare(a.getValue(), b.getValue()));
+    for (Map.Entry<Integer, Integer> e : freq.entrySet()) {
+        pq.offer(e);
+        if (pq.size() > k) pq.poll();
+    }
+    int[] res = new int[k];
+    for (int i = 0; i < k; i++) res[i] = pq.poll().getKey();
+    return res;
+}
+
+// Running median with two heaps
+class MedianFinder {
+    PriorityQueue<Integer> low  = new PriorityQueue<>(Collections.reverseOrder()); // max-heap
+    PriorityQueue<Integer> high = new PriorityQueue<>();                            // min-heap
+    void addNum(int x) {
+        low.offer(x);
+        high.offer(low.poll());                    // keep order between halves
+        if (high.size() > low.size()) low.offer(high.poll());   // balance sizes
+    }
+    double findMedian() {
+        return low.size() > high.size() ? low.peek() : (low.peek() + high.peek()) / 2.0;
+    }
+}`,
+  spot: ["'K largest / smallest / closest / most frequent'.", "'Median of a stream'.", "'Merge K sorted…'", "'Always process the cheapest / earliest next'."],
+  problems: [["Kth Largest Element in a Stream", "E"], ["Last Stone Weight", "E"], ["Kth Largest Element in an Array", "M"], ["Top K Frequent Elements", "M"], ["K Closest Points to Origin", "M"], ["Task Scheduler", "M"], ["Find Median from Data Stream", "H"], ["Merge k Sorted Lists", "H"], ["IPO", "H"]],
+  tip: `For "top K largest", a <i>min</i>-heap of size K sounds backwards — explain why (the smallest of the best K sits on top, ready to be kicked out).`
+});
+
+T.push({
+  id: "trie", level: 3, title: "Trie (Prefix Tree)", days: 2,
+  what: `<p>A trie stores words <b>character by character</b> along paths from the root. Words that share a prefix share the same path, so checking "does any word start with <i>pre</i>?" takes only as long as the prefix.</p>`,
+  analogy: `Your phone keyboard's autocomplete: type "ca" and it instantly knows about "cat", "car", and "cake".`,
+  opsHead: ["Operation", "Time", "Note"],
+  ops: [["insert(word)", "O(L)", "L = word length"], ["search(word)", "O(L)", "must end at a word marker"], ["startsWith(prefix)", "O(L)", "path just needs to exist"], ["Space", "O(total characters × alphabet)", "can be heavy"]],
+  points: [
+    "Each node has <code>children[26]</code> (or a HashMap for large alphabets) and an <code>isEnd</code> flag.",
+    "Wildcard search (<code>.</code> matches anything): DFS into all children at that position.",
+    "<b>Word Search II</b>: build a trie of all words, then DFS the grid once — much faster than searching each word separately.",
+    "<b>Bitwise trie</b> (children[2]) solves 'maximum XOR of two numbers'."
+  ],
+  code: String.raw`class Trie {
+    private static class Node {
+        Node[] next = new Node[26];
+        boolean isEnd;
+    }
+    private final Node root = new Node();
+
+    void insert(String word) {
+        Node cur = root;
+        for (char c : word.toCharArray()) {
+            int i = c - 'a';
+            if (cur.next[i] == null) cur.next[i] = new Node();
+            cur = cur.next[i];
+        }
+        cur.isEnd = true;
+    }
+    boolean search(String word)       { Node n = find(word);   return n != null && n.isEnd; }
+    boolean startsWith(String prefix) { return find(prefix) != null; }
+
+    private Node find(String s) {
+        Node cur = root;
+        for (char c : s.toCharArray()) {
+            cur = cur.next[c - 'a'];
+            if (cur == null) return null;
+        }
+        return cur;
+    }
+}`,
+  spot: ["'Prefix', 'autocomplete', 'dictionary of words'.", "Searching many words at once in a grid or text."],
+  problems: [["Implement Trie (Prefix Tree)", "M"], ["Design Add and Search Words Data Structure", "M"], ["Replace Words", "M"], ["Search Suggestions System", "M"], ["Maximum XOR of Two Numbers in an Array", "M"], ["Word Search II", "H"]],
+  tip: `Mention the memory trade-off: a trie is fast but can use a lot of memory; a HashMap of children saves space for sparse alphabets.`
+});
+/* ---------- LEVEL 4 : BACKTRACKING & GREEDY ---------- */
+T.push({
+  id: "backtracking", level: 4, title: "Backtracking", days: 4,
+  what: `<p>Backtracking builds an answer <b>one choice at a time</b>. If a choice leads to a dead end, you <b>undo it</b> and try the next choice. The rhythm is always:</p>
+<p><b>Choose → Explore → Un-choose.</b></p>
+<p>It explores a "decision tree" of all possibilities, so it is exponential — but <b>pruning</b> (stopping early when a path can't work) makes it practical.</p>`,
+  analogy: `Walking through a maze: at a dead end you walk back to the last junction and try the next path.`,
+  opsHead: ["Problem", "Typical time"],
+  ops: [["Subsets", "O(n · 2ⁿ)"], ["Permutations", "O(n · n!)"], ["Combination sum", "Exponential, depends on target"], ["N-Queens", "O(n!)"], ["Word search in grid", "O(cells · 3ᴸ)"]],
+  points: [
+    "Always add a <b>copy</b> of the path to results: <code>res.add(new ArrayList&lt;&gt;(path))</code>. Adding <code>path</code> itself is a classic bug.",
+    "<b>Subsets / combinations</b>: pass a <code>start</code> index so you don't reuse earlier items.",
+    "<b>Permutations</b>: use a <code>used[]</code> array because order matters.",
+    "<b>Duplicates in input</b>: sort first, then skip <code>if (i &gt; start &amp;&amp; nums[i] == nums[i-1])</code>.",
+    "<b>Grid search</b>: mark a cell visited before recursing, unmark after.",
+    "Prune early: if the running sum exceeds the target (with sorted input) → <code>break</code>."
+  ],
+  code: String.raw`// Universal template
+void backtrack(State state, List<Result> res) {
+    if (isComplete(state)) { res.add(copyOf(state)); return; }
+    for (Choice c : choices(state)) {
+        if (!isValid(state, c)) continue;   // prune
+        apply(state, c);                    // choose
+        backtrack(state, res);              // explore
+        undo(state, c);                     // un-choose
+    }
+}
+
+// Subsets
+List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> res = new ArrayList<>();
+    dfs(nums, 0, new ArrayList<>(), res);
+    return res;
+}
+void dfs(int[] nums, int start, List<Integer> path, List<List<Integer>> res) {
+    res.add(new ArrayList<>(path));
+    for (int i = start; i < nums.length; i++) {
+        path.add(nums[i]);
+        dfs(nums, i + 1, path, res);
+        path.remove(path.size() - 1);
+    }
+}
+
+// Permutations
+void permute(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> res) {
+    if (path.size() == nums.length) { res.add(new ArrayList<>(path)); return; }
+    for (int i = 0; i < nums.length; i++) {
+        if (used[i]) continue;
+        used[i] = true;  path.add(nums[i]);
+        permute(nums, used, path, res);
+        used[i] = false; path.remove(path.size() - 1);
+    }
+}
+
+// Combination Sum (numbers can be reused), with pruning
+void combo(int[] c, int start, int remain, List<Integer> path, List<List<Integer>> res) {
+    if (remain == 0) { res.add(new ArrayList<>(path)); return; }
+    for (int i = start; i < c.length; i++) {
+        if (c[i] > remain) break;           // c is sorted -> stop early
+        path.add(c[i]);
+        combo(c, i, remain - c[i], path, res);   // i, not i + 1: reuse allowed
+        path.remove(path.size() - 1);
+    }
+}`,
+  spot: ["'Return <b>all</b> combinations / permutations / subsets / partitions'.", "Small n (≤ 15–20).", "Puzzles: N-Queens, Sudoku, word search."],
+  problems: [["Subsets", "M"], ["Subsets II", "M"], ["Permutations", "M"], ["Combination Sum", "M"], ["Combination Sum II", "M"], ["Letter Combinations of a Phone Number", "M"], ["Generate Parentheses", "M"], ["Palindrome Partitioning", "M"], ["Word Search", "M"], ["N-Queens", "H"], ["Sudoku Solver", "H"]],
+  tip: `If the question asks for the <b>count</b> or the <b>best</b> answer (not the full list), backtracking is probably too slow — look for DP.`
+});
+
+T.push({
+  id: "greedy", level: 4, title: "Greedy Algorithms", days: 3,
+  what: `<p>A greedy algorithm makes the <b>best-looking choice at each step</b> and never goes back. It is simple and fast — but it is only correct when <b>local best choices lead to the global best answer</b>.</p>
+<p>Before trusting greedy, try to break it with a small counter-example. If you can't, explain why it works (usually "swapping to my choice never makes the answer worse").</p>`,
+  analogy: `Paying cash with the fewest notes: take the biggest note that fits, again and again. It works for Indian rupee notes — but not for every coin system.`,
+  opsHead: ["Problem", "Greedy rule"],
+  ops: [["Activity selection / non-overlapping intervals", "Pick the one that ends earliest"], ["Jump game", "Track the farthest index reachable"], ["Gas station", "If the tank goes negative, restart from the next station"], ["Partition labels", "Extend the cut to each letter's last position"], ["Fractional knapsack", "Highest value per kg first"]],
+  points: [
+    "Greedy <b>fails</b> for coins {1, 3, 4} and amount 6: greedy picks 4+1+1 (3 coins), but 3+3 (2 coins) is better → needs DP.",
+    "0/1 knapsack (can't split items) also needs DP; fractional knapsack is greedy.",
+    "Greedy often starts with <b>sorting</b> by the right key (end time, ratio, deadline).",
+    "Greedy + heap is a common pairing (task scheduling, IPO, meeting rooms).",
+    "Complexity is usually O(n) or O(n log n) because of the sort."
+  ],
+  code: String.raw`// Jump Game: can we reach the last index?
+boolean canJump(int[] nums) {
+    int farthest = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (i > farthest) return false;           // stuck before i
+        farthest = Math.max(farthest, i + nums[i]);
+    }
+    return true;
+}
+
+// Jump Game II: minimum jumps (BFS by ranges)
+int jump(int[] nums) {
+    int jumps = 0, curEnd = 0, farthest = 0;
+    for (int i = 0; i < nums.length - 1; i++) {
+        farthest = Math.max(farthest, i + nums[i]);
+        if (i == curEnd) { jumps++; curEnd = farthest; }
+    }
+    return jumps;
+}
+
+// Non-overlapping intervals: minimum removals
+int eraseOverlapIntervals(int[][] iv) {
+    Arrays.sort(iv, (a, b) -> Integer.compare(a[1], b[1]));   // by end
+    int kept = 0, end = Integer.MIN_VALUE;
+    for (int[] x : iv) {
+        if (x[0] >= end) { kept++; end = x[1]; }
+    }
+    return iv.length - kept;
+}
+
+// Gas Station
+int canCompleteCircuit(int[] gas, int[] cost) {
+    int total = 0, tank = 0, start = 0;
+    for (int i = 0; i < gas.length; i++) {
+        total += gas[i] - cost[i];
+        tank  += gas[i] - cost[i];
+        if (tank < 0) { start = i + 1; tank = 0; }
+    }
+    return total >= 0 ? start : -1;
+}`,
+  spot: ["'Minimum number of…', 'maximum number of non-overlapping…'.", "A sort by one key seems to make the choice obvious.", "Constraints are large (10⁵+) so DP tables won't fit."],
+  problems: [["Assign Cookies", "E"], ["Lemonade Change", "E"], ["Jump Game", "M"], ["Jump Game II", "M"], ["Gas Station", "M"], ["Partition Labels", "M"], ["Hand of Straights", "M"], ["Task Scheduler", "M"], ["Candy", "H"]],
+  tip: `Say: "I think greedy works because… let me test a small counter-example." Interviewers reward the check more than a lucky guess.`
+});
+
+/* ---------- LEVEL 5 : GRAPHS ---------- */
+T.push({
+  id: "graph-basics", level: 5, title: "Graphs: BFS & DFS", days: 5,
+  what: `<p>A graph is a set of <b>nodes (vertices)</b> connected by <b>edges</b>. Edges can be <b>directed</b> (one-way) or <b>undirected</b>, <b>weighted</b> or not. A tree is just a graph with no cycles.</p>
+<p><b>BFS</b> (breadth-first) explores in rings using a queue — it finds the <b>shortest path when all edges cost the same</b>. <b>DFS</b> (depth-first) goes as deep as possible first using recursion or a stack — great for connectivity, cycles, and paths.</p>`,
+  analogy: `Cities joined by roads. BFS is a ripple spreading from a dropped stone; DFS is a hiker who follows one trail to its end before returning.`,
+  opsHead: ["Item", "Cost"],
+  ops: [["BFS / DFS", "O(V + E)"], ["Adjacency list space", "O(V + E)"], ["Adjacency matrix space", "O(V²)"], ["Check edge (matrix)", "O(1)"], ["Grid BFS / DFS", "O(rows × cols)"]],
+  points: [
+    "Use an <b>adjacency list</b>: <code>List&lt;List&lt;Integer&gt;&gt;</code>. Use a matrix only for dense graphs.",
+    "A <b>grid</b> is a hidden graph: each cell connects to up/down/left/right. Use a direction array.",
+    "Always track <b>visited</b>, and mark it <b>when you add to the queue</b> (not when you pop) to avoid duplicates.",
+    "<b>Connected components</b>: start a DFS/BFS from every unvisited node; count the starts.",
+    "<b>Cycle detection</b>: undirected → a visited neighbour that isn't your parent; directed → a node currently on the recursion stack (3 colours: white/grey/black).",
+    "<b>Bipartite</b>: try to 2-colour the graph with BFS; a conflict means not bipartite.",
+    "<b>Multi-source BFS</b>: put all starting points in the queue at once (rotting oranges, distance to nearest 0)."
+  ],
+  code: String.raw`// Build an undirected adjacency list
+List<List<Integer>> build(int n, int[][] edges) {
+    List<List<Integer>> g = new ArrayList<>();
+    for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+    for (int[] e : edges) { g.get(e[0]).add(e[1]); g.get(e[1]).add(e[0]); }
+    return g;
+}
+
+// BFS: shortest number of edges from src to every node
+int[] bfs(List<List<Integer>> g, int src) {
+    int[] dist = new int[g.size()];
+    Arrays.fill(dist, -1);
+    Queue<Integer> q = new ArrayDeque<>();
+    q.offer(src); dist[src] = 0;
+    while (!q.isEmpty()) {
+        int u = q.poll();
+        for (int v : g.get(u)) {
+            if (dist[v] == -1) {             // mark when enqueuing
+                dist[v] = dist[u] + 1;
+                q.offer(v);
+            }
+        }
+    }
+    return dist;
+}
+
+// DFS on a grid: Number of Islands
+int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+int numIslands(char[][] grid) {
+    int count = 0;
+    for (int r = 0; r < grid.length; r++)
+        for (int c = 0; c < grid[0].length; c++)
+            if (grid[r][c] == '1') { count++; sink(grid, r, c); }
+    return count;
+}
+void sink(char[][] g, int r, int c) {
+    if (r < 0 || c < 0 || r >= g.length || c >= g[0].length || g[r][c] != '1') return;
+    g[r][c] = '0';                            // mark visited
+    for (int[] d : DIRS) sink(g, r + d[0], c + d[1]);
+}
+
+// Directed cycle detection with colours: 0 = new, 1 = in progress, 2 = done
+boolean hasCycle(int u, List<List<Integer>> g, int[] state) {
+    state[u] = 1;
+    for (int v : g.get(u)) {
+        if (state[v] == 1) return true;       // back edge
+        if (state[v] == 0 && hasCycle(v, g, state)) return true;
+    }
+    state[u] = 2;
+    return false;
+}`,
+  spot: ["'Network', 'connections', 'friends', 'islands', 'regions', 'grid'.", "'Minimum number of steps / moves' with equal cost → BFS.", "'Can you reach…', 'how many groups…' → DFS/BFS or Union-Find."],
+  problems: [["Flood Fill", "E"], ["Find if Path Exists in Graph", "E"], ["Number of Islands", "M"], ["Max Area of Island", "M"], ["Clone Graph", "M"], ["Rotting Oranges", "M"], ["Pacific Atlantic Water Flow", "M"], ["Surrounded Regions", "M"], ["Is Graph Bipartite?", "M"], ["Shortest Path in Binary Matrix", "M"], ["Number of Connected Components in an Undirected Graph", "M"], ["Word Ladder", "H"]],
+  tip: `On large grids, recursive DFS can overflow the stack. Mention that you'd switch to BFS or an explicit stack in production.`
+});
+
+T.push({
+  id: "topo-sort", level: 5, title: "Topological Sort", days: 2,
+  what: `<p>Topological sort orders tasks so that <b>every task comes after the tasks it depends on</b>. It only works on a <b>DAG</b> (directed graph with no cycles). If there's a cycle, no valid order exists.</p>
+<p><b>Kahn's algorithm (BFS)</b>: repeatedly take tasks with no remaining prerequisites (in-degree 0).</p>`,
+  analogy: `Getting dressed: socks before shoes, shirt before tie. Or a build tool deciding which modules to compile first.`,
+  opsHead: ["Method", "Idea", "Time"],
+  ops: [["Kahn's (BFS)", "Process in-degree 0 nodes; decrease neighbours", "O(V + E)"], ["DFS", "Add node after all its children finish; reverse the list", "O(V + E)"]],
+  points: [
+    "In-degree = number of arrows coming <b>into</b> a node.",
+    "If the processed count is less than V, the graph has a <b>cycle</b> → e.g. 'courses can't be finished'.",
+    "Edge direction matters: for 'to take course a you need b', the edge is <code>b → a</code>.",
+    "Alien Dictionary: compare adjacent words to find letter-order edges, then topo sort.",
+    "Longest path in a DAG = topo order + DP."
+  ],
+  code: String.raw`// Course Schedule II: return a valid order or empty array
+int[] findOrder(int n, int[][] prereq) {
+    List<List<Integer>> g = new ArrayList<>();
+    for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+    int[] indeg = new int[n];
+    for (int[] p : prereq) {          // p = {course, requiredCourse}
+        g.get(p[1]).add(p[0]);
+        indeg[p[0]]++;
+    }
+    Queue<Integer> q = new ArrayDeque<>();
+    for (int i = 0; i < n; i++) if (indeg[i] == 0) q.offer(i);
+
+    int[] order = new int[n];
+    int idx = 0;
+    while (!q.isEmpty()) {
+        int u = q.poll();
+        order[idx++] = u;
+        for (int v : g.get(u))
+            if (--indeg[v] == 0) q.offer(v);
+    }
+    return idx == n ? order : new int[0];   // cycle if not all processed
+}`,
+  spot: ["'Prerequisites', 'dependencies', 'build order', 'must happen before'.", "'Is it possible to finish all…' → cycle check."],
+  problems: [["Course Schedule", "M"], ["Course Schedule II", "M"], ["Find All Possible Recipes from Given Supplies", "M"], ["Parallel Courses", "M"], ["Sequence Reconstruction", "M"], ["Alien Dictionary", "H"], ["Longest Increasing Path in a Matrix", "H"]],
+  tip: `Connect it to real work: microservice startup order, CI pipeline stages, or Maven module builds are all topological sorts.`
+});
+
+T.push({
+  id: "shortest-path", level: 5, title: "Shortest Path Algorithms", days: 3,
+  what: `<p>When edges have <b>different costs</b> (distance, time, price), plain BFS is not enough. Pick the algorithm by the kind of weights and whether you need one source or all pairs.</p>
+<p><b>Dijkstra</b> is the one you must know by heart: always expand the closest unfinished node, using a min-heap.</p>`,
+  analogy: `Google Maps: from your location, it keeps extending the cheapest known route until it reaches your destination.`,
+  opsHead: ["Algorithm", "Use when", "Time"],
+  ops: [
+    ["BFS", "All edges cost the same", "O(V + E)"],
+    ["0-1 BFS (deque)", "Edge costs are only 0 or 1", "O(V + E)"],
+    ["Dijkstra", "Non-negative weights, one source", "O((V + E) log V)"],
+    ["Bellman-Ford", "Negative weights; detect negative cycles; 'at most K edges'", "O(V · E)"],
+    ["Floyd-Warshall", "All pairs, small V (≤ 400)", "O(V³)"]
+  ],
+  points: [
+    "Dijkstra fails with <b>negative</b> edges — use Bellman-Ford.",
+    "In Dijkstra, skip <b>stale</b> heap entries: <code>if (d &gt; dist[u]) continue;</code>",
+    "Bellman-Ford: relax all edges V−1 times. If an edge can still be relaxed after that → negative cycle.",
+    "'Cheapest flight with at most K stops' → Bellman-Ford limited to K+1 rounds (copy the array each round).",
+    "Grid with costs (min effort, swim in water) → Dijkstra on cells."
+  ],
+  code: String.raw`// Dijkstra with an adjacency list of {neighbour, weight}
+int[] dijkstra(List<List<int[]>> g, int src) {
+    int n = g.size();
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[1], b[1]));
+    pq.offer(new int[]{src, 0});
+    while (!pq.isEmpty()) {
+        int[] top = pq.poll();
+        int u = top[0], d = top[1];
+        if (d > dist[u]) continue;                 // stale entry
+        for (int[] e : g.get(u)) {
+            int v = e[0], nd = d + e[1];
+            if (nd < dist[v]) {
+                dist[v] = nd;
+                pq.offer(new int[]{v, nd});
+            }
+        }
+    }
+    return dist;
+}
+
+// Bellman-Ford limited to k stops (Cheapest Flights Within K Stops)
+int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+    int[] dist = new int[n];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    for (int round = 0; round <= k; round++) {
+        int[] next = dist.clone();                 // use last round's values only
+        for (int[] f : flights) {
+            if (dist[f[0]] == Integer.MAX_VALUE) continue;
+            next[f[1]] = Math.min(next[f[1]], dist[f[0]] + f[2]);
+        }
+        dist = next;
+    }
+    return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+}`,
+  spot: ["'Minimum cost / time / effort' with weighted edges.", "'Network delay', 'cheapest route', 'path with minimum…'."],
+  problems: [["Network Delay Time", "M"], ["Path With Minimum Effort", "M"], ["Cheapest Flights Within K Stops", "M"], ["Find the City With the Smallest Number of Neighbors at a Threshold Distance", "M"], ["Swim in Rising Water", "H"], ["Minimum Cost to Make at Least One Valid Path in a Grid", "H"]],
+  tip: `Be ready to explain <i>why</i> Dijkstra breaks with negative edges: a node marked "final" could later get a cheaper path.`
+});
+
+T.push({
+  id: "dsu-mst", level: 5, title: "Union-Find & Minimum Spanning Tree", days: 3,
+  what: `<p><b>Union-Find (Disjoint Set Union, DSU)</b> keeps track of which items are in the same group. Two operations: <code>find(x)</code> → which group is x in? and <code>union(a, b)</code> → merge two groups. With two tricks it is almost O(1) per operation.</p>
+<p>A <b>Minimum Spanning Tree (MST)</b> connects all nodes using the <b>cheapest total edge weight</b> with no cycles.</p>`,
+  analogy: `Friend circles at a party: when two people from different circles become friends, the two circles merge into one. To check if two people are connected, compare their circle leaders.`,
+  opsHead: ["Algorithm", "Idea", "Time"],
+  ops: [["DSU find / union", "Path compression + union by rank", "≈ O(1) — O(α(n))"], ["Kruskal (MST)", "Sort edges; add if it joins two different groups", "O(E log E)"], ["Prim (MST)", "Grow from one node using a min-heap", "O(E log V)"]],
+  points: [
+    "<b>Path compression</b>: while finding the root, point every node directly at the root.",
+    "<b>Union by rank/size</b>: attach the smaller tree under the bigger one.",
+    "If <code>union(a, b)</code> finds they are already in the same group → that edge makes a <b>cycle</b> (Redundant Connection).",
+    "Count components: start with n groups, subtract 1 on each successful union.",
+    "DSU is great when edges arrive over time (online connectivity); BFS/DFS is simpler for a fixed graph."
+  ],
+  code: String.raw`class DSU {
+    int[] parent, rank;
+    int groups;
+    DSU(int n) {
+        parent = new int[n]; rank = new int[n]; groups = n;
+        for (int i = 0; i < n; i++) parent[i] = i;
+    }
+    int find(int x) {
+        if (parent[x] != x) parent[x] = find(parent[x]);   // path compression
+        return parent[x];
+    }
+    boolean union(int a, int b) {
+        int ra = find(a), rb = find(b);
+        if (ra == rb) return false;                         // already connected
+        if (rank[ra] < rank[rb]) { int t = ra; ra = rb; rb = t; }
+        parent[rb] = ra;
+        if (rank[ra] == rank[rb]) rank[ra]++;
+        groups--;
+        return true;
+    }
+}
+
+// Kruskal: edges = {u, v, weight}
+int kruskal(int n, int[][] edges) {
+    Arrays.sort(edges, (a, b) -> Integer.compare(a[2], b[2]));
+    DSU dsu = new DSU(n);
+    int total = 0, used = 0;
+    for (int[] e : edges) {
+        if (dsu.union(e[0], e[1])) {
+            total += e[2];
+            if (++used == n - 1) break;
+        }
+    }
+    return used == n - 1 ? total : -1;   // -1 if graph is disconnected
+}`,
+  spot: ["'Are these connected?', 'number of groups / provinces'.", "'Which edge creates a cycle?'", "'Connect all points with minimum cost' → MST."],
+  problems: [["Number of Provinces", "M"], ["Redundant Connection", "M"], ["Accounts Merge", "M"], ["Number of Operations to Make Network Connected", "M"], ["Satisfiability of Equality Equations", "M"], ["Most Stones Removed with Same Row or Column", "M"], ["Min Cost to Connect All Points", "M"], ["Swim in Rising Water", "H"]],
+  tip: `Write the DSU class once, cleanly, and reuse it. Interviewers like seeing a small reusable component instead of inline array juggling.`
+});
+/* ---------- LEVEL 6 : DYNAMIC PROGRAMMING ---------- */
+T.push({
+  id: "dp-basics", level: 6, title: "Dynamic Programming Fundamentals", days: 5,
+  what: `<p>Dynamic Programming (DP) = <b>recursion + remembering answers</b>. Use it when a problem can be split into smaller subproblems that <b>repeat</b> (overlapping subproblems) and the best answer is built from best answers of smaller parts (optimal substructure).</p>
+<p><b>Top-down (memoization)</b>: write the recursion, cache results. <b>Bottom-up (tabulation)</b>: fill a table from the smallest case upward, no recursion.</p>`,
+  analogy: `If someone asks "what is 1+1+1+1+1?" you count 5. Add one more "+1" and you instantly say 6 — you remembered the earlier answer instead of recounting.`,
+  opsHead: ["Step", "Question to answer"],
+  ops: [
+    ["1. State", "What does dp[i] (or dp[i][j]) mean, in plain words?"],
+    ["2. Recurrence", "How is dp[i] built from smaller states?"],
+    ["3. Base cases", "What are the smallest answers you know directly?"],
+    ["4. Order", "Which order fills the table so dependencies are ready?"],
+    ["5. Answer", "Which cell holds the final answer?"],
+    ["6. Optimize", "Do you only need the last row / last two values? Cut space."]
+  ],
+  points: [
+    "Start with the <b>brute-force recursion</b>, then add a memo — this path is easy to explain and hard to get wrong.",
+    "Complexity = (number of states) × (work per state).",
+    "Signal words: <b>count the ways</b>, <b>minimum / maximum</b>, <b>is it possible</b>, <b>longest / shortest</b> — with choices at each step.",
+    "Use <code>Integer</code>/<code>-1</code> sentinels or <code>Arrays.fill</code> for 'not computed yet' in memo tables.",
+    "Many 1D DPs only depend on the previous one or two values → O(1) space."
+  ],
+  code: String.raw`// Climbing Stairs, three ways
+// 1) Top-down with memo
+int[] memo;
+int climbMemo(int n) {
+    if (n <= 2) return n;
+    if (memo[n] != 0) return memo[n];
+    return memo[n] = climbMemo(n - 1) + climbMemo(n - 2);
+}
+// 2) Bottom-up table
+int climbTable(int n) {
+    if (n <= 2) return n;
+    int[] dp = new int[n + 1];
+    dp[1] = 1; dp[2] = 2;
+    for (int i = 3; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+    return dp[n];
+}
+// 3) O(1) space
+int climb(int n) {
+    int a = 1, b = 1;                       // ways to reach step 0 and step 1
+    for (int i = 2; i <= n; i++) { int c = a + b; a = b; b = c; }
+    return b;
+}
+
+// House Robber: dp[i] = max(skip house i, rob house i + dp[i-2])
+int rob(int[] nums) {
+    int prev2 = 0, prev1 = 0;
+    for (int x : nums) {
+        int cur = Math.max(prev1, prev2 + x);
+        prev2 = prev1; prev1 = cur;
+    }
+    return prev1;
+}
+
+// Coin Change: fewest coins to make amount
+int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);            // "infinity"
+    dp[0] = 0;
+    for (int a = 1; a <= amount; a++)
+        for (int c : coins)
+            if (c <= a) dp[a] = Math.min(dp[a], dp[a - c] + 1);
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+
+// Word Break: can s be split into dictionary words?
+boolean wordBreak(String s, List<String> dict) {
+    Set<String> words = new HashSet<>(dict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+    for (int i = 1; i <= s.length(); i++)
+        for (int j = 0; j < i; j++)
+            if (dp[j] && words.contains(s.substring(j, i))) { dp[i] = true; break; }
+    return dp[s.length()];
+}`,
+  spot: ["'Number of ways to…'", "'Minimum cost / maximum profit'.", "Greedy fails and backtracking is too slow."],
+  problems: [["Climbing Stairs", "E"], ["Min Cost Climbing Stairs", "E"], ["House Robber", "M"], ["House Robber II", "M"], ["Decode Ways", "M"], ["Coin Change", "M"], ["Word Break", "M"], ["Maximum Product Subarray", "M"], ["Perfect Squares", "M"]],
+  tip: `Say the state definition out loud in one sentence ("dp[i] is the fewest coins to make amount i"). If you can't, you're not ready to code yet.`
+});
+
+T.push({
+  id: "dp-patterns", level: 6, title: "DP Patterns: Knapsack, LIS, LCS, Grid & More", days: 7,
+  what: `<p>Most interview DP problems are variations of a small set of <b>patterns</b>. Learn to recognise the pattern and the state almost writes itself.</p>`,
+  analogy: `Like cooking: once you know how to make a basic gravy, a dozen curries are just variations.`,
+  opsHead: ["Pattern", "State", "Classic problems"],
+  ops: [
+    ["0/1 Knapsack", "dp[i][w] = best using first i items with capacity w", "Partition Equal Subset Sum, Target Sum"],
+    ["Unbounded knapsack", "dp[a] = ways / min coins for amount a", "Coin Change, Coin Change II"],
+    ["Longest Increasing Subsequence", "dp[i] = LIS ending at i (or tails array)", "LIS, Russian Doll Envelopes"],
+    ["Two strings (LCS / edit)", "dp[i][j] = answer for prefixes s[0..i), t[0..j)", "LCS, Edit Distance, Distinct Subsequences"],
+    ["Grid paths", "dp[r][c] = ways / min cost to reach cell", "Unique Paths, Minimum Path Sum"],
+    ["Interval / palindrome", "dp[i][j] = answer for substring i..j (fill by length)", "Longest Palindromic Subsequence, Burst Balloons"],
+    ["State machine", "dp[i][holding / not holding / cooldown]", "Stock with Cooldown, Stock with Fee"],
+    ["DP on trees", "return {rob, skip} from each child", "House Robber III"],
+    ["Bitmask DP", "dp[mask] = best for this set of used items", "Partition to K Equal Sum Subsets, TSP"]
+  ],
+  points: [
+    "<b>0/1 knapsack in 1D</b>: loop capacity <b>backwards</b> so each item is used once. <b>Unbounded</b>: loop <b>forwards</b>.",
+    "Coin Change II (count combinations): loop <b>coins outside</b>, amounts inside. Swapping the loops counts permutations instead.",
+    "<b>LIS in O(n log n)</b>: keep <code>tails[k]</code> = smallest ending value of an increasing subsequence of length k+1; binary search each number into it.",
+    "<b>Edit distance</b>: if characters match, copy the diagonal; otherwise 1 + min(insert, delete, replace).",
+    "Interval DP fills by <b>length</b> of the interval, shortest first.",
+    "Two-string DP tables of size (m+1) × (n+1) make the empty-prefix base case natural."
+  ],
+  code: String.raw`// 0/1 Knapsack (1D): max value within capacity W
+int knapsack(int[] wt, int[] val, int W) {
+    int[] dp = new int[W + 1];
+    for (int i = 0; i < wt.length; i++)
+        for (int w = W; w >= wt[i]; w--)            // backwards!
+            dp[w] = Math.max(dp[w], dp[w - wt[i]] + val[i]);
+    return dp[W];
+}
+
+// Partition Equal Subset Sum = knapsack with booleans
+boolean canPartition(int[] nums) {
+    int sum = Arrays.stream(nums).sum();
+    if (sum % 2 == 1) return false;
+    boolean[] dp = new boolean[sum / 2 + 1];
+    dp[0] = true;
+    for (int x : nums)
+        for (int s = sum / 2; s >= x; s--) dp[s] |= dp[s - x];
+    return dp[sum / 2];
+}
+
+// Longest Common Subsequence
+int lcs(String a, String b) {
+    int m = a.length(), n = b.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 1; i <= m; i++)
+        for (int j = 1; j <= n; j++)
+            dp[i][j] = (a.charAt(i - 1) == b.charAt(j - 1))
+                     ? dp[i - 1][j - 1] + 1
+                     : Math.max(dp[i - 1][j], dp[i][j - 1]);
+    return dp[m][n];
+}
+
+// Edit Distance
+int minDistance(String a, String b) {
+    int m = a.length(), n = b.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 0; i <= m; i++) dp[i][0] = i;
+    for (int j = 0; j <= n; j++) dp[0][j] = j;
+    for (int i = 1; i <= m; i++)
+        for (int j = 1; j <= n; j++)
+            dp[i][j] = (a.charAt(i - 1) == b.charAt(j - 1))
+                     ? dp[i - 1][j - 1]
+                     : 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+    return dp[m][n];
+}
+
+// LIS in O(n log n)
+int lengthOfLIS(int[] nums) {
+    int[] tails = new int[nums.length];
+    int size = 0;
+    for (int x : nums) {
+        int lo = 0, hi = size;
+        while (lo < hi) {                            // first tail >= x
+            int mid = (lo + hi) >>> 1;
+            if (tails[mid] < x) lo = mid + 1; else hi = mid;
+        }
+        tails[lo] = x;
+        if (lo == size) size++;
+    }
+    return size;
+}
+
+// Unique Paths in a grid (1D rolling row)
+int uniquePaths(int m, int n) {
+    int[] row = new int[n];
+    Arrays.fill(row, 1);
+    for (int r = 1; r < m; r++)
+        for (int c = 1; c < n; c++) row[c] += row[c - 1];
+    return row[n - 1];
+}`,
+  spot: ["'Subset with sum…', 'split into two equal parts' → knapsack.", "'Two strings… minimum operations / common…' → 2D string DP.", "'Increasing subsequence' → LIS.", "'Burst / merge / cut in best order' → interval DP."],
+  problems: [["Unique Paths", "M"], ["Minimum Path Sum", "M"], ["Partition Equal Subset Sum", "M"], ["Target Sum", "M"], ["Coin Change II", "M"], ["Longest Increasing Subsequence", "M"], ["Longest Common Subsequence", "M"], ["Edit Distance", "M"], ["Longest Palindromic Subsequence", "M"], ["Best Time to Buy and Sell Stock with Cooldown", "M"], ["House Robber III", "M"], ["Interleaving String", "M"], ["Partition to K Equal Sum Subsets", "M"], ["Distinct Subsequences", "H"], ["Burst Balloons", "H"], ["Regular Expression Matching", "H"]],
+  tip: `After a correct 2D DP, offer the space optimisation ("each row only needs the previous row, so O(n) space"). It's an easy extra point.`
+});
+
+/* ---------- LEVEL 7 : ADVANCED ---------- */
+T.push({
+  id: "segment-tree", level: 7, title: "Segment Tree & Fenwick Tree", days: 3,
+  what: `<p>Prefix sums answer range queries in O(1) but an update costs O(n). When you need <b>both range queries and updates</b> quickly, use:</p>
+<p><b>Fenwick Tree (Binary Indexed Tree)</b> — short code, handles prefix sums with point updates in O(log n).<br><b>Segment Tree</b> — more general: range sum, min, max, GCD; with <b>lazy propagation</b> it also handles range updates.</p>`,
+  analogy: `A company's sales report: each manager keeps the total for their team, so the CEO can answer "sales for regions 3 to 7" by asking a few managers instead of every salesperson.`,
+  opsHead: ["Operation", "Fenwick", "Segment tree"],
+  ops: [["Build", "O(n log n) (or O(n))", "O(n)"], ["Point update", "O(log n)", "O(log n)"], ["Range query", "O(log n) (sums)", "O(log n) (sum/min/max…)"], ["Range update", "with tricks", "O(log n) with lazy propagation"], ["Space", "O(n)", "O(4n)"]],
+  points: [
+    "Fenwick uses 1-based indexes and the lowest-set-bit trick <code>i &amp; -i</code>.",
+    "Segment tree node covers a range; children split it in half; the root covers everything.",
+    "Counting problems ('how many smaller elements to the right') use a Fenwick tree over <b>compressed</b> values.",
+    "These are less common in typical MNC interviews — learn them after everything else feels comfortable."
+  ],
+  code: String.raw`// Fenwick Tree (1-based)
+class Fenwick {
+    int[] tree;
+    Fenwick(int n) { tree = new int[n + 1]; }
+    void add(int i, int delta) {                 // a[i] += delta
+        for (; i < tree.length; i += i & -i) tree[i] += delta;
+    }
+    int prefix(int i) {                          // a[1] + ... + a[i]
+        int s = 0;
+        for (; i > 0; i -= i & -i) s += tree[i];
+        return s;
+    }
+    int range(int l, int r) { return prefix(r) - prefix(l - 1); }
+}
+
+// Segment Tree for range sum
+class SegmentTree {
+    int n; int[] tree;
+    SegmentTree(int[] a) { n = a.length; tree = new int[4 * n]; build(a, 1, 0, n - 1); }
+    void build(int[] a, int node, int l, int r) {
+        if (l == r) { tree[node] = a[l]; return; }
+        int m = (l + r) / 2;
+        build(a, 2 * node, l, m);
+        build(a, 2 * node + 1, m + 1, r);
+        tree[node] = tree[2 * node] + tree[2 * node + 1];
+    }
+    void update(int node, int l, int r, int idx, int val) {
+        if (l == r) { tree[node] = val; return; }
+        int m = (l + r) / 2;
+        if (idx <= m) update(2 * node, l, m, idx, val);
+        else          update(2 * node + 1, m + 1, r, idx, val);
+        tree[node] = tree[2 * node] + tree[2 * node + 1];
+    }
+    int query(int node, int l, int r, int ql, int qr) {
+        if (qr < l || r < ql) return 0;                // no overlap
+        if (ql <= l && r <= qr) return tree[node];     // full overlap
+        int m = (l + r) / 2;
+        return query(2 * node, l, m, ql, qr) + query(2 * node + 1, m + 1, r, ql, qr);
+    }
+}`,
+  spot: ["'Range sum / min / max' <b>and</b> 'update index i', many times.", "'Count of smaller numbers after self', 'reverse pairs'."],
+  problems: [["Range Sum Query - Mutable", "M"], ["Count of Smaller Numbers After Self", "H"], ["Reverse Pairs", "H"], ["Count of Range Sum", "H"], ["My Calendar III", "H"], ["Falling Squares", "H"]],
+  tip: `If short on time in an interview, a Fenwick tree is ~15 lines and covers most "update + range sum" questions.`
+});
+
+T.push({
+  id: "string-algos", level: 7, title: "Advanced String Algorithms", days: 2,
+  what: `<p>Finding a pattern of length m inside a text of length n takes O(n·m) the naive way. These algorithms do it in about <b>O(n + m)</b> by reusing information from earlier comparisons.</p>`,
+  analogy: `Reading a long document for a phrase: when a partial match fails, a smart reader doesn't restart from scratch — they remember how much of the phrase they've already seen.`,
+  opsHead: ["Algorithm", "Idea", "Time"],
+  ops: [["KMP", "LPS array: longest proper prefix that is also a suffix", "O(n + m)"], ["Rabin-Karp", "Rolling hash of each window; compare only on hash match", "O(n + m) average"], ["Z-algorithm", "Z[i] = length of match between s and s[i..]", "O(n + m)"], ["Manacher", "All palindromic substrings", "O(n)"]],
+  points: [
+    "KMP's LPS array also solves 'shortest palindrome' and 'repeated substring pattern'.",
+    "Rolling hash: <code>hash = (hash × base + c) mod M</code>; remove the leftmost char by subtracting its weight. Watch for collisions — verify on match.",
+    "Rolling hash + binary search finds the 'longest duplicate substring'.",
+    "In interviews, <code>indexOf</code> is fine unless they explicitly ask you to implement matching."
+  ],
+  code: String.raw`// KMP: first index of pattern in text, or -1
+int strStr(String text, String pat) {
+    if (pat.isEmpty()) return 0;
+    int[] lps = buildLps(pat);
+    int j = 0;                                   // chars matched so far
+    for (int i = 0; i < text.length(); i++) {
+        while (j > 0 && text.charAt(i) != pat.charAt(j)) j = lps[j - 1];
+        if (text.charAt(i) == pat.charAt(j)) j++;
+        if (j == pat.length()) return i - j + 1;
+    }
+    return -1;
+}
+int[] buildLps(String p) {
+    int[] lps = new int[p.length()];
+    int len = 0;
+    for (int i = 1; i < p.length(); i++) {
+        while (len > 0 && p.charAt(i) != p.charAt(len)) len = lps[len - 1];
+        if (p.charAt(i) == p.charAt(len)) len++;
+        lps[i] = len;
+    }
+    return lps;
+}`,
+  spot: ["'Find pattern in text' with large inputs.", "'Repeated substring', 'longest prefix that is also a suffix'."],
+  problems: [["Find the Index of the First Occurrence in a String", "E"], ["Repeated Substring Pattern", "E"], ["Repeated DNA Sequences", "M"], ["Longest Happy Prefix", "H"], ["Shortest Palindrome", "H"], ["Longest Duplicate Substring", "H"]],
+  tip: `Know KMP well enough to explain the LPS array with a small example like "ababaca" — that is usually what's asked.`
+});
+
+T.push({
+  id: "advanced-graphs", level: 7, title: "Advanced Graph Topics", days: 2,
+  what: `<p>A few graph ideas appear in harder rounds: finding <b>critical edges</b> whose removal disconnects a network, <b>strongly connected components</b> in directed graphs, and <b>Eulerian paths</b> that use every edge exactly once.</p>`,
+  analogy: `In a telecom network, a "bridge" is a single link that, if it fails, cuts a region off — exactly what Tarjan's algorithm finds.`,
+  opsHead: ["Topic", "Algorithm", "Time"],
+  ops: [["Bridges & articulation points", "Tarjan (discovery time + low-link)", "O(V + E)"], ["Strongly connected components", "Kosaraju (2 DFS) or Tarjan", "O(V + E)"], ["Eulerian path", "Hierholzer", "O(E)"], ["Max flow (awareness)", "Ford-Fulkerson / Edmonds-Karp", "O(V · E²)"], ["Minimum height trees", "Peel leaves layer by layer (topo-like)", "O(V)"]],
+  points: [
+    "<b>low[u]</b> = earliest discovery time reachable from u's subtree using one back edge. Edge (u, v) is a bridge if <code>low[v] &gt; disc[u]</code>.",
+    "Kosaraju: DFS to get finish order → reverse all edges → DFS in reverse finish order; each DFS tree is one SCC.",
+    "Reconstruct Itinerary is an Eulerian path: DFS with a min-heap of destinations, add airports on the way back.",
+    "Safe states = nodes not reachable into a cycle (reverse graph + topo sort)."
+  ],
+  code: String.raw`// Tarjan: find all bridges (critical connections)
+int timer = 0;
+int[] disc, low;
+List<List<Integer>> bridges = new ArrayList<>();
+
+List<List<Integer>> criticalConnections(int n, List<List<Integer>> conns) {
+    List<List<Integer>> g = new ArrayList<>();
+    for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+    for (List<Integer> e : conns) { g.get(e.get(0)).add(e.get(1)); g.get(e.get(1)).add(e.get(0)); }
+    disc = new int[n]; low = new int[n];
+    Arrays.fill(disc, -1);
+    for (int i = 0; i < n; i++) if (disc[i] == -1) dfs(i, -1, g);
+    return bridges;
+}
+void dfs(int u, int parent, List<List<Integer>> g) {
+    disc[u] = low[u] = timer++;
+    for (int v : g.get(u)) {
+        if (v == parent) continue;
+        if (disc[v] == -1) {
+            dfs(v, u, g);
+            low[u] = Math.min(low[u], low[v]);
+            if (low[v] > disc[u]) bridges.add(List.of(u, v));   // no back edge around (u, v)
+        } else {
+            low[u] = Math.min(low[u], disc[v]);                  // back edge
+        }
+    }
+}`,
+  spot: ["'Critical connection', 'single point of failure'.", "'Groups where everyone can reach everyone' (directed).", "'Use every ticket / edge exactly once'."],
+  problems: [["Find Eventual Safe States", "M"], ["Minimum Height Trees", "M"], ["Critical Connections in a Network", "H"], ["Reconstruct Itinerary", "H"], ["Bus Routes", "H"], ["Parallel Courses III", "H"]],
+  tip: `These are "stretch" topics. Cover them only after Levels 0–6 feel solid.`
+});
+
+T.push({
+  id: "design-ds", level: 7, title: "Design Data Structures (LRU & friends)", days: 3,
+  what: `<p>"Design" coding questions ask you to build a small class that combines basic structures to hit strict complexity targets — usually <b>O(1) per operation</b>. They're very common for experienced backend developers because they mirror real caching and rate-limiting work.</p>`,
+  analogy: `A desk with limited space: you keep recently used files on top and throw out the one you haven't touched for the longest time — that's an LRU cache.`,
+  opsHead: ["Design", "Building blocks", "Target"],
+  ops: [
+    ["LRU Cache", "HashMap + doubly linked list (or LinkedHashMap)", "get / put O(1)"],
+    ["LFU Cache", "HashMap + map of frequency → linked list", "O(1)"],
+    ["Insert / Delete / GetRandom", "ArrayList + HashMap (swap with last on delete)", "O(1)"],
+    ["Time-based key-value store", "HashMap + sorted list + binary search", "set O(1), get O(log n)"],
+    ["Hit counter / rate limiter", "Queue of timestamps or fixed buckets", "O(1) amortized"],
+    ["Consistent hashing (system design link)", "TreeMap ring + ceilingKey", "O(log n)"]
+  ],
+  points: [
+    "LRU: the map gives O(1) lookup; the linked list gives O(1) 'move to front' and 'remove oldest'.",
+    "Use <b>dummy head and tail</b> nodes in the linked list so you never check for null.",
+    "Java shortcut: <code>LinkedHashMap</code> with <code>accessOrder = true</code> and <code>removeEldestEntry</code>. Offer it, but be ready to write the manual version.",
+    "Thread safety question? Mention <code>ConcurrentHashMap</code>, locks, or Caffeine/Guava caches in real services."
+  ],
+  code: String.raw`// LRU Cache: HashMap + doubly linked list
+class LRUCache {
+    private static class Node {
+        int key, val; Node prev, next;
+        Node(int k, int v) { key = k; val = v; }
+    }
+    private final int capacity;
+    private final Map<Integer, Node> map = new HashMap<>();
+    private final Node head = new Node(0, 0), tail = new Node(0, 0);   // dummies
+
+    LRUCache(int capacity) {
+        this.capacity = capacity;
+        head.next = tail; tail.prev = head;
+    }
+    public int get(int key) {
+        Node n = map.get(key);
+        if (n == null) return -1;
+        remove(n); addFront(n);                 // mark as most recent
+        return n.val;
+    }
+    public void put(int key, int value) {
+        Node n = map.get(key);
+        if (n != null) { n.val = value; remove(n); addFront(n); return; }
+        if (map.size() == capacity) {
+            Node lru = tail.prev;               // least recently used
+            remove(lru); map.remove(lru.key);
+        }
+        n = new Node(key, value);
+        map.put(key, n); addFront(n);
+    }
+    private void remove(Node n)   { n.prev.next = n.next; n.next.prev = n.prev; }
+    private void addFront(Node n) {
+        n.next = head.next; n.prev = head;
+        head.next.prev = n; head.next = n;
+    }
+}
+
+// The quick Java version
+class LRUQuick<K, V> extends LinkedHashMap<K, V> {
+    private final int cap;
+    LRUQuick(int cap) { super(16, 0.75f, true); this.cap = cap; }   // accessOrder = true
+    @Override protected boolean removeEldestEntry(Map.Entry<K, V> e) { return size() > cap; }
+}
+
+// Insert Delete GetRandom O(1)
+class RandomizedSet {
+    private final List<Integer> list = new ArrayList<>();
+    private final Map<Integer, Integer> index = new HashMap<>();
+    private final Random rnd = new Random();
+    public boolean insert(int v) {
+        if (index.containsKey(v)) return false;
+        index.put(v, list.size()); list.add(v);
+        return true;
+    }
+    public boolean remove(int v) {
+        Integer i = index.get(v);
+        if (i == null) return false;
+        int last = list.get(list.size() - 1);
+        list.set(i, last); index.put(last, i);      // move last into the hole
+        list.remove(list.size() - 1); index.remove(v);
+        return true;
+    }
+    public int getRandom() { return list.get(rnd.nextInt(list.size())); }
+}`,
+  spot: ["'Design a class that supports… in O(1)'.", "'Cache', 'eviction', 'recent', 'rate limit', 'timestamp'."],
+  problems: [["LRU Cache", "M"], ["Insert Delete GetRandom O(1)", "M"], ["Time Based Key-Value Store", "M"], ["Design Twitter", "M"], ["Design Hit Counter", "M"], ["LFU Cache", "H"], ["All O`one Data Structure", "H"]],
+  tip: `LRU Cache is one of the most-asked questions for experienced Java developers. Practise writing the manual version in under 15 minutes.`
+});
+
+const LEVELS = [
+  { name: "Foundations", blurb: "The language of complexity, the Java tools you'll use daily, and the recursion and math every later topic leans on." },
+  { name: "Basic Data Structures", blurb: "The building blocks: arrays, strings, hash tables, linked lists, stacks and queues." },
+  { name: "Core Techniques", blurb: "The patterns that turn slow O(n²) answers into fast ones. Most Easy and Medium questions live here." },
+  { name: "Trees & Heaps", blurb: "Hierarchical data, sorted trees, priority queues and prefix trees." },
+  { name: "Backtracking & Greedy", blurb: "Explore every option smartly — or prove you only need the best-looking one." },
+  { name: "Graphs", blurb: "Networks of connections: traversal, ordering, shortest paths and grouping." },
+  { name: "Dynamic Programming", blurb: "Recursion with memory. The topic that separates good candidates from great ones." },
+  { name: "Advanced & Design", blurb: "Stretch topics for hard rounds, plus the design-a-class questions experienced Java developers get." }
+];
+
+const CHEATS = [
+  ["Sorted array, find a pair or triplet", "Two pointers", "two-pointers"],
+  ["Contiguous subarray / substring, longest or shortest", "Sliding window", "sliding-window"],
+  ["Count subarrays with sum K (negatives allowed)", "Prefix sum + HashMap", "prefix-sum"],
+  ["Have I seen this before? Find a duplicate or complement", "HashMap / HashSet", "hashing"],
+  ["K largest, K most frequent, K closest", "Heap of size K", "heap"],
+  ["Median of a stream", "Two heaps", "heap"],
+  ["Next greater / smaller element, span, histogram", "Monotonic stack", "monotonic"],
+  ["Maximum of every window of size k", "Monotonic deque", "monotonic"],
+  ["Minimize the maximum / maximize the minimum", "Binary search on the answer", "binary-search"],
+  ["Sorted or rotated array, O(log n) required", "Binary search", "binary-search"],
+  ["Overlapping ranges, meetings, bookings", "Sort + merge, or sweep line", "intervals"],
+  ["Linked list middle, cycle, k-th from end", "Fast & slow pointers", "linked-list"],
+  ["Matching brackets, undo, nested decoding", "Stack", "stack"],
+  ["Tree height, path, subtree answer", "DFS returning values from children", "binary-tree"],
+  ["Tree level by level, right-side view", "BFS with a queue", "binary-tree"],
+  ["Words sharing prefixes, autocomplete", "Trie", "trie"],
+  ["Return all subsets / permutations / combinations", "Backtracking", "backtracking"],
+  ["Pick the earliest ending, farthest reach", "Greedy (after sorting)", "greedy"],
+  ["Minimum steps on a grid or unweighted graph", "BFS", "graph-basics"],
+  ["Islands, regions, connected parts", "DFS / BFS or Union-Find", "graph-basics"],
+  ["Prerequisites, dependencies, build order", "Topological sort", "topo-sort"],
+  ["Cheapest / fastest path with weights", "Dijkstra (Bellman-Ford if negative)", "shortest-path"],
+  ["Are these connected? Which edge makes a cycle?", "Union-Find", "dsu-mst"],
+  ["Connect all points at minimum cost", "Minimum spanning tree", "dsu-mst"],
+  ["Count the ways, min cost, max profit with choices", "Dynamic programming", "dp-basics"],
+  ["Two strings: common part, edit operations", "2D string DP", "dp-patterns"],
+  ["Subset with a given sum, split into equal halves", "0/1 knapsack DP", "dp-patterns"],
+  ["Appears once, no extra space, subsets of n ≤ 20", "Bit manipulation", "bits"],
+  ["Range sum with updates", "Fenwick / segment tree", "segment-tree"],
+  ["Design a class with O(1) get / put / evict", "HashMap + doubly linked list", "design-ds"]
+];
+
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const slug = name => name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").trim().replace(/[\s-]+/g, "-");
+const DIFF = { E: "Easy", M: "Medium", H: "Hard" };
+
+/* --- tiny Java highlighter --- */
+const KW = "abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|null|private|protected|public|return|short|static|super|switch|this|throw|throws|true|false|try|var|void|while|record";
+const TOKEN = new RegExp(
+  "(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)" +            // 1 comment
+  "|(\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])')" +   // 2 string / char
+  "|\\b(\\d[\\d_]*L?)\\b" +                              // 3 number
+  "|\\b(" + KW + ")\\b" +                                // 4 keyword
+  "|\\b([A-Z][A-Za-z0-9_]*)\\b", "g");                   // 5 type
+function highlight(src) {
+  let out = "", last = 0, m;
+  TOKEN.lastIndex = 0;
+  while ((m = TOKEN.exec(src))) {
+    out += esc(src.slice(last, m.index));
+    const cls = m[1] ? "c" : m[2] ? "s" : m[3] ? "n" : m[4] ? "k" : "t";
+    out += `<span class="tk-${cls}">${esc(m[0])}</span>`;
+    last = TOKEN.lastIndex;
+  }
+  return out + esc(src.slice(last));
+}
+
+/* --- saved progress (per browser) --- */
+const KEY = "dsa-field-guide-done";
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch (e) { done = new Set(); }
+function save() { try { localStorage.setItem(KEY, JSON.stringify([...done])); } catch (e) {} }
+
+/* --- render topics --- */
+function topicHTML(t) {
+  const tbl = t.ops && t.ops.length ? `
+    <div class="block"><h4>Operations &amp; cost</h4><div class="tbl"><table>
+      <thead><tr>${t.opsHead.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+      <tbody>${t.ops.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div></div>` : "";
+  const probs = t.problems.length ? `
+    <div class="block"><h4>Practice problems · ${t.problems.length}</h4><div class="probs">
+      ${t.problems.map(([n, d]) => `<a class="prob" href="https://leetcode.com/problems/${slug(n)}/" target="_blank" rel="noopener"><span class="lvl ${d}" title="${DIFF[d]}">${d}</span>${esc(n)}</a>`).join("")}
+    </div></div>` : "";
+  return `
+  <article class="topic${done.has(t.id) ? " is-done" : ""}" id="${t.id}" data-search="${esc((t.title + " " + t.id + " " + LEVELS[t.level].name + " " + t.problems.map(p => p[0]).join(" ")).toLowerCase())}">
+    <div class="t-head">
+      <div>
+        <div class="eyebrow">Level ${t.level} · ${LEVELS[t.level].name}</div>
+        <h3>${esc(t.title)}</h3>
+        <div class="t-meta"><span class="chip">≈ ${t.days} ${t.days === 1 ? "session" : "sessions"}</span>${t.problems.length ? `<span class="chip">${t.problems.length} problems</span>` : ""}</div>
+      </div>
+      <button class="done-toggle" data-id="${t.id}" aria-pressed="${done.has(t.id)}"><span class="box" aria-hidden="true"></span><span class="lbl">${done.has(t.id) ? "Done" : "Mark done"}</span></button>
+    </div>
+    <div class="block prose"><h4>In simple words</h4>${t.what}</div>
+    <div class="analogy"><div class="block"><h4>Think of it like</h4></div><p>${t.analogy}</p></div>
+    <div class="block"><h4>Key ideas</h4><ul class="ideas">${t.points.map(p => `<li>${p}</li>`).join("")}</ul></div>
+    ${tbl}
+    <div class="block"><h4>Java template</h4>
+      <div class="code"><div class="code-bar"><span>${t.id}.java</span><button class="copy" data-id="${t.id}">Copy</button></div>
+      <pre><code>${highlight(t.code)}</code></pre></div>
+    </div>
+    <div class="block"><h4>Spot it when</h4><ul class="spot">${t.spot.map(s => `<li>${s}</li>`).join("")}</ul></div>
+    ${probs}
+    <div class="tip"><b class="lbl">Interview tip</b><p>${t.tip}</p></div>
+  </article>`;
+}
+
+function render() {
+  const byLevel = LEVELS.map((_, i) => T.filter(t => t.level === i));
+  $("#topics").innerHTML = byLevel.map((list, i) => `
+    <section class="level" data-level="${i}" id="level-${i}" style="display:grid;gap:22px;margin-bottom:28px">
+      <div class="level-head"><span class="lv">L${i}</span><h2>${LEVELS[i].name}</h2><p>${LEVELS[i].blurb}</p></div>
+      ${list.map(topicHTML).join("")}
+    </section>`).join("") + `<div class="empty panel" id="noHits" hidden>No topic matches that search.</div>`;
+
+  $("#navList").innerHTML = byLevel.map((list, i) => `
+    <div class="nav-group" data-level="${i}"><h4><span>L${i}</span>${LEVELS[i].name}</h4>
+      ${list.map(t => `<a class="nav-item${done.has(t.id) ? " done" : ""}" href="#${t.id}" data-id="${t.id}"><span class="dot"></span>${esc(t.title)}</a>`).join("")}
+    </div>`).join("");
+
+  $("#track").innerHTML = byLevel.map((list, i) => `
+    <li><a href="#level-${i}"><span class="lv">L${i}</span><span class="nm">${LEVELS[i].name}</span><span class="ct" data-ct="${i}"></span><span class="bar"><i data-bar="${i}"></i></span></a></li>`).join("");
+
+  const nProbs = new Set(T.flatMap(t => t.problems.map(p => p[0]))).size;
+  const sessions = T.reduce((a, t) => a + t.days, 0);
+  $("#stats").innerHTML = `<span><b>${T.length}</b>topics</span><span><b>${LEVELS.length}</b>levels</span><span><b>${nProbs}</b>unique practice problems</span><span><b>≈${sessions}</b>45-minute sessions</span>`;
+
+  $("#cheatRows").innerHTML = CHEATS.map(([a, b, id]) => `<tr><td>${esc(a)}</td><td><a href="#${id}">${esc(b)}</a></td></tr>`).join("");
+  updateProgress();
+}
+
+function updateProgress() {
+  const n = T.filter(t => done.has(t.id)).length;
+  $("#progText").textContent = `${n} of ${T.length} topics done`;
+  $("#progBar").style.width = (100 * n / T.length) + "%";
+  LEVELS.forEach((_, i) => {
+    const list = T.filter(t => t.level === i);
+    const d = list.filter(t => done.has(t.id)).length;
+    $(`[data-ct="${i}"]`).textContent = `${d}/${list.length} topics`;
+    $(`[data-bar="${i}"]`).style.width = (100 * d / list.length) + "%";
+  });
+  const nxt = T.find(t => !done.has(t.id));
+  $("#next").innerHTML = nxt
+    ? `<a class="btn" href="#${nxt.id}">${n ? "Continue" : "Start"} with ${esc(nxt.title)} →</a><small>Level ${nxt.level} · ≈ ${nxt.days} ${nxt.days === 1 ? "session" : "sessions"}</small>`
+    : `<a class="btn" href="#cheats">All topics done — revise with the pattern finder →</a>`;
+}
+
+function toggleDone(id) {
+  done.has(id) ? done.delete(id) : done.add(id);
+  save();
+  const on = done.has(id);
+  const art = document.getElementById(id);
+  art.classList.toggle("is-done", on);
+  const b = $(".done-toggle", art);
+  b.setAttribute("aria-pressed", on);
+  $(".lbl", b).textContent = on ? "Done" : "Mark done";
+  $(`.nav-item[data-id="${id}"]`).classList.toggle("done", on);
+  updateProgress();
+}
+
+document.addEventListener("click", e => {
+  const d = e.target.closest(".done-toggle");
+  if (d) return toggleDone(d.dataset.id);
+  const c = e.target.closest(".copy");
+  if (c) {
+    const t = T.find(x => x.id === c.dataset.id);
+    const ok = () => { c.textContent = "Copied"; setTimeout(() => (c.textContent = "Copy"), 1500); };
+    try {
+      navigator.clipboard.writeText(t.code).then(ok, () => selectCode(c));
+    } catch (err) { selectCode(c); }
+    return;
+  }
+  if (e.target.closest(".nav-item") && window.matchMedia("(max-width:960px)").matches) setNav(false);
+});
+function selectCode(btn) {
+  const pre = btn.closest(".code").querySelector("pre");
+  const r = document.createRange(); r.selectNodeContents(pre);
+  const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  btn.textContent = "Press Ctrl+C";
+  setTimeout(() => (btn.textContent = "Copy"), 2000);
+}
+
+function setNav(open) {
+  $("#nav").classList.toggle("closed", !open);
+  $("#navToggle").setAttribute("aria-expanded", open);
+}
+$("#navToggle").addEventListener("click", () => setNav($("#nav").classList.contains("closed")));
+
+$("#q").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  let hits = 0;
+  document.querySelectorAll(".topic").forEach(a => {
+    const show = !q || a.dataset.search.includes(q) || a.textContent.toLowerCase().includes(q);
+    a.hidden = !show;
+    const link = $(`.nav-item[data-id="${a.id}"]`);
+    link.hidden = !show;
+    if (show) hits++;
+  });
+  document.querySelectorAll("section.level").forEach(s => {
+    s.hidden = !s.querySelector(".topic:not([hidden])");
+  });
+  document.querySelectorAll(".nav-group").forEach(g => {
+    g.hidden = !g.querySelector(".nav-item:not([hidden])");
+  });
+  $("#noHits").hidden = hits > 0;
+  if (q && window.matchMedia("(max-width:960px)").matches) setNav(true);
+});
+
+render();
+
+/* highlight the topic currently on screen */
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        document.querySelectorAll(".nav-item.active").forEach(x => x.classList.remove("active"));
+        const link = $(`.nav-item[data-id="${en.target.id}"]`);
+        if (link) {
+          link.classList.add("active");
+          const list = $("#navList");
+          if (list.scrollHeight > list.clientHeight) {
+            const top = link.offsetTop - list.offsetTop;
+            if (top < list.scrollTop || top > list.scrollTop + list.clientHeight - 30) list.scrollTop = top - 60;
+          }
+        }
+      }
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  document.querySelectorAll(".topic").forEach(t => io.observe(t));
+}
+</script></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math for Coding Interviews Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Digit tricks, GCD, primes, why mod 10⁹+7, fast power, overflow traps and counting tricks, with LeetCode practice.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/math.html">
+<meta property="og:title" content="Math for Coding Interviews Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Digit tricks, GCD, primes, why mod 10⁹+7, fast power, overflow traps and counting tricks, with LeetCode practice.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/math.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-lesson="math">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 4 · 6:49 video</div>
+  <h1><span class="mark">Math for Coding Interviews</span></h1>
+  <p class="muted" style="max-width:70ch">Digit tricks, GCD, primes, why mod 10⁹+7, fast power, overflow traps and counting tricks, with LeetCode practice.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="math" data-title="Math for Coding Interviews">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 4: Math for Coding Interviews</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The 30-step puzzle</li><li>0:29 Why math matters</li><li>0:54 Digit tricks &amp; Reverse Integer</li><li>1:23 GCD &amp; LCM</li><li>2:05 Primes &amp; sieve</li><li>2:45 Why modulo 10⁹+7?</li><li>3:10 Modulo rules</li><li>3:42 Fast power</li><li>4:28 Overflow &amp; precision</li><li>5:06 Trailing zeros &amp; Pascal</li><li>5:40 Cheat sheet &amp; quiz</li><li>6:06 Practice list</li><li>6:19 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A handful of math tricks show up again and again: <b>GCD</b>, <b>prime numbers</b>, <b>modulo arithmetic</b> and <b>fast power</b>. The focus here is on writing them cleanly and safely in Java.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>These are the multiplication tables of coding interviews — small facts that make bigger problems quick.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>GCD (Euclid)</b>: gcd(a, b) = gcd(b, a % b), stop when b = 0. O(log min(a,b)). LCM = a / gcd(a,b) × b.</li><li><b>Is n prime?</b> Check divisors only up to √n → O(√n).</li><li><b>Sieve of Eratosthenes</b>: all primes up to n in O(n log log n).</li><li><b>Modulo 10⁹+7</b>: large answers are asked 'mod M'. Apply mod after every add/multiply, use <code>long</code> for the multiply.</li><li>Negative mod in Java: <code>-7 % 3 == -1</code>. Use <code>Math.floorMod(a, m)</code> or <code>((a % m) + m) % m</code>.</li><li><b>Digits</b>: <code>n % 10</code> gives the last digit, <code>n / 10</code> removes it.</li><li><b>nCr</b> with Pascal's triangle: C(n, r) = C(n−1, r−1) + C(n−1, r).</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Task</th><th>Cost</th></tr></thead><tbody><tr><td>gcd(a, b)</td><td>O(log min(a, b))</td></tr><tr><td>isPrime(n)</td><td>O(√n)</td></tr><tr><td>Sieve up to n</td><td>O(n log log n)</td></tr><tr><td>modPow(b, e, m)</td><td>O(log e)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="k">int</span> gcd(<span class="k">int</span> a, <span class="k">int</span> b) { <span class="k">return</span> b == <span class="n">0</span> ? a : gcd(b, a % b); }
+
+<span class="k">boolean</span>[] sieve(<span class="k">int</span> n) {             <span class="c">// true = composite</span>
+    <span class="k">boolean</span>[] notPrime = <span class="k">new</span> <span class="k">boolean</span>[n + <span class="n">1</span>];
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="n">2</span>; (<span class="k">long</span>) i * i &lt;= n; i++)
+        <span class="k">if</span> (!notPrime[i])
+            <span class="k">for</span> (<span class="k">int</span> j = i * i; j &lt;= n; j += i) notPrime[j] = <span class="k">true</span>;
+    <span class="k">return</span> notPrime;
+}
+
+<span class="k">static</span> <span class="k">final</span> <span class="k">int</span> MOD = <span class="n">1_000_000_007</span>;
+<span class="k">long</span> modPow(<span class="k">long</span> base, <span class="k">long</span> exp, <span class="k">long</span> mod) {
+    <span class="k">long</span> result = <span class="n">1</span>; base %= mod;
+    <span class="k">while</span> (exp &gt; <span class="n">0</span>) {
+        <span class="k">if</span> ((exp &amp; <span class="n">1</span>) == <span class="n">1</span>) result = result * base % mod;
+        base = base * base % mod;
+        exp &gt;&gt;= <span class="n">1</span>;
+    }
+    <span class="k">return</span> result;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks">
+<li><b>Reverse Integer (LeetCode 7):</b> check for overflow <i>before</i> <code>rev * 10 + d</code>.</li>
+<li><b>Pow(x, n) (LeetCode 50):</b> <code>-n</code> overflows when <code>n == Integer.MIN_VALUE</code>. Store n in a <code>long</code>.</li>
+<li><b>Negative modulo:</b> in Java <code>-7 % 3 == -1</code>. Use <code>Math.floorMod(-7, 3)</code> to get <code>2</code>.</li>
+<li><b>Why 10⁹+7:</b> it's prime (division via Fermat inverse a<sup>M-2</sup>), a + b fits in an int, and a × b fits in a long.</li>
+<li><b>Doubles:</b> <code>0.1 + 0.2 == 0.3</code> is false. Compare with <code>Math.abs(a - b) &lt; 1e-9</code>.</li>
+<li><b>Safe math:</b> <code>Math.addExact</code> / <code>Math.multiplyExact</code> throw instead of silently overflowing.</li>
+<li><b>Trailing zeros of n!</b> (LeetCode 172): count factors of 5: n/5 + n/25 + n/125 + …</li>
+</ul>
+<h2 id="fastpow">Fast power (binary exponentiation)</h2>
+<pre class="code"><span class="k">long</span> power(<span class="k">long</span> base, <span class="k">long</span> exp, <span class="k">long</span> M) {
+    <span class="k">long</span> res = <span class="n">1</span>;
+    base %= M;
+    <span class="k">while</span> (exp &gt; <span class="n">0</span>) {
+        <span class="k">if</span> ((exp &amp; <span class="n">1</span>) == <span class="n">1</span>) res = res * base % M;
+        base = base * base % M;   <span class="c">// square</span>
+        exp &gt;&gt;= <span class="n">1</span>;                <span class="c">// halve</span>
+    }
+    <span class="k">return</span> res;                   <span class="c">// O(log exp)</span>
+}</pre>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>'Return the answer modulo 10⁹+7' → the answer is huge; keep taking mod.</li><li>'Count primes', 'divisible by', 'digits of a number'.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/happy-number/" target="_blank" rel="noopener">Happy Number</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/excel-sheet-column-number/" target="_blank" rel="noopener">Excel Sheet Column Number</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/count-primes/" target="_blank" rel="noopener">Count Primes</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/reverse-integer/" target="_blank" rel="noopener">Reverse Integer</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/powx-n/" target="_blank" rel="noopener">Pow(x, n)</a></td><td><span class="lvl M">Medium</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ In "reverse integer" style problems, check for overflow <i>before</i> multiplying by 10. Interviewers watch for that edge case.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="recursion.html">← Lesson 3: Recursion</a><span class="muted">Next lesson coming soon</span></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#fastpow">Fast power</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

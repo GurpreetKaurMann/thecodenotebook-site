@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time &amp; Space Complexity (Big-O) Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Count steps, not seconds. The Big-O ladder, space complexity, amortized cost and the constraints trick.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/big-o.html">
+<meta property="og:title" content="Time &amp; Space Complexity (Big-O) Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Count steps, not seconds. The Big-O ladder, space complexity, amortized cost and the constraints trick.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/big-o.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-lesson="big-o">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 1 · 6:45 video</div>
+  <h1><span class="mark">Time &amp; Space Complexity (Big-O)</span></h1>
+  <p class="muted" style="max-width:70ch">Count steps, not seconds. The Big-O ladder, space complexity, amortized cost and the constraints trick.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="big-o" data-title="Time &amp; Space Complexity (Big-O)">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 1: Time &amp; Space Complexity (Big-O)</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 Intro</li><li>0:20 Why we need Big-O</li><li>0:51 Phone book example</li><li>1:30 3 simple rules</li><li>2:03 The Big-O ladder</li><li>2:45 How big does it get?</li><li>3:17 Spotting Big-O in Java code</li><li>3:48 Space complexity &amp; the call stack</li><li>4:22 Amortized &amp; average vs worst</li><li>4:59 Reading constraints</li><li>5:38 Quick quiz</li><li>6:05 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>Big-O tells you <b>how the work grows when the input grows</b>. We don't measure seconds (they change from laptop to laptop). We count <b>steps</b> as the input size <code>n</code> becomes very large.</p>
+<p>Two simple rules: <b>drop constants</b> (O(2n) is just O(n)) and <b>keep only the biggest term</b> (O(n² + n) is O(n²)). If there are two different inputs, use two letters: O(n · m).</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>Finding a name in a phone book. Turning page by page is O(n). Opening the middle, then the middle of the correct half, and so on, is O(log n) — a 1,000-page book needs only about 10 openings.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>O(1)</b> constant — array index access, HashMap get. Same work for 10 or 10 million items.</li><li><b>O(log n)</b> — you cut the problem in half every step (binary search, balanced tree).</li><li><b>O(n)</b> — one pass over the data (one loop).</li><li><b>O(n log n)</b> — good sorting (merge sort, <code>Arrays.sort</code> on objects).</li><li><b>O(n²)</b> — a loop inside a loop over the same data.</li><li><b>O(2ⁿ)</b> — trying every subset. <b>O(n!)</b> — trying every ordering (permutation).</li><li><b>Space complexity</b> = extra memory you create: new arrays, maps, and the <b>recursion call stack</b> (depth counts!).</li><li><b>Amortized</b> cost = average over many operations. <code>ArrayList.add</code> is O(1) amortized even though a resize sometimes costs O(n).</li><li>Best / average / worst case: interviews usually mean <b>worst case</b> unless you say otherwise (e.g. HashMap is O(1) average).</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Input size n (from constraints)</th><th>Complexity that will pass (~10⁸ steps/sec)</th></tr></thead><tbody><tr><td>n ≤ 10</td><td>O(n!) — permutations</td></tr><tr><td>n ≤ 20</td><td>O(2ⁿ) — subsets / bitmask</td></tr><tr><td>n ≤ 500</td><td>O(n³)</td></tr><tr><td>n ≤ 10⁴</td><td>O(n²)</td></tr><tr><td>n ≤ 10⁶</td><td>O(n log n) or O(n)</td></tr><tr><td>n ≤ 10⁹ or more</td><td>O(log n) or O(1) — math / binary search</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// O(1): one step no matter how big the array is</span>
+<span class="k">int</span> first = arr[<span class="n">0</span>];
+
+<span class="c">// O(n): one loop</span>
+<span class="k">for</span> (<span class="k">int</span> x : arr) sum += x;
+
+<span class="c">// O(n^2): loop inside a loop</span>
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++)
+    <span class="k">for</span> (<span class="k">int</span> j = i + <span class="n">1</span>; j &lt; n; j++)
+        <span class="k">if</span> (arr[i] + arr[j] == target) <span class="k">return</span> <span class="k">true</span>;
+
+<span class="c">// O(log n): the range halves every step</span>
+<span class="k">while</span> (n &gt; <span class="n">1</span>) { n = n / <span class="n">2</span>; steps++; }
+
+<span class="c">// O(n) SPACE: extra array of size n</span>
+<span class="k">int</span>[] copy = <span class="k">new</span> <span class="k">int</span>[n];
+
+<span class="c">// Recursion: depth n  =&gt;  O(n) stack space even with no arrays</span>
+<span class="k">int</span> sumTo(<span class="k">int</span> n) { <span class="k">return</span> n == <span class="n">0</span> ? <span class="n">0</span> : n + sumTo(n - <span class="n">1</span>); }</pre>
+    
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>The constraints line (like <code>1 ≤ n ≤ 10⁵</code>) quietly tells you the expected complexity — use the table above.</li><li>n ≤ 10⁵ usually means O(n²) is too slow; aim for O(n log n) or O(n).</li></ul>
+    
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Finish every answer by saying the time <b>and</b> space complexity out loud — before the interviewer asks. It signals seniority.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><span></span><a href="java-toolkit.html">Lesson 2: Java Toolkit for DSA →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#spot">Spot it when</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

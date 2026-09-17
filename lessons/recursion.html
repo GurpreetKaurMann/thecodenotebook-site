@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursion Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Base case, call stack, recursion trees and memoization, the foundation for trees, backtracking and DP.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/recursion.html">
+<meta property="og:title" content="Recursion Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Base case, call stack, recursion trees and memoization, the foundation for trees, backtracking and DP.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/recursion.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-lesson="recursion">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 3 · 4:37 video</div>
+  <h1><span class="mark">Recursion</span></h1>
+  <p class="muted" style="max-width:70ch">Base case, call stack, recursion trees and memoization, the foundation for trees, backtracking and DP.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="recursion" data-title="Recursion">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 3: Recursion</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 Intro</li><li>0:19 What is recursion?</li><li>0:47 Cinema queue example</li><li>1:09 Factorial in Java</li><li>1:32 The call stack</li><li>1:55 Fibonacci &amp; the recursion tree</li><li>2:20 Memoization</li><li>2:44 Complexity of recursion</li><li>3:10 3 questions for any recursion</li><li>3:32 Quiz</li><li>3:52 Practice list</li><li>4:03 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>Recursion is a function that <b>calls itself on a smaller version of the same problem</b>. Every recursive function has two parts:</p>
+<p><b>1. Base case</b> — the smallest input where you already know the answer (stop here).<br><b>2. Recursive case</b> — break the problem into a smaller piece, call yourself, and combine the result.</p>
+<p>The trick is to <b>trust</b> that the smaller call works, just like you trust a library method.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>You are in a cinema queue and want to know your position. You ask the person in front, who asks the person in front of them… The first person says "1" (base case). Each person adds 1 and passes it back.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li>Each call is stored on the <b>call stack</b>. Too deep (roughly 10,000+ in default Java) → <code>StackOverflowError</code>.</li><li>Draw the <b>recursion tree</b> to find complexity: (number of calls) × (work per call).</li><li>Naive Fibonacci makes ~2ⁿ calls because it solves the same subproblem again and again → fix with <b>memoization</b> (store answers). This is the doorway to Dynamic Programming.</li><li>Java does not optimize tail recursion; convert very deep recursion to a loop or an explicit stack.</li><li>Recursion is the backbone of trees, graphs (DFS), backtracking, divide & conquer, and DP.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Example</th><th>Time</th><th>Space (stack)</th></tr></thead><tbody><tr><td>factorial(n)</td><td>O(n)</td><td>O(n)</td></tr><tr><td>naive fib(n)</td><td>O(2ⁿ)</td><td>O(n)</td></tr><tr><td>memo fib(n)</td><td>O(n)</td><td>O(n)</td></tr><tr><td>fast power(x, n)</td><td>O(log n)</td><td>O(log n)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Factorial</span>
+<span class="k">long</span> fact(<span class="k">int</span> n) {
+    <span class="k">if</span> (n &lt;= <span class="n">1</span>) <span class="k">return</span> <span class="n">1</span>;          <span class="c">// base case</span>
+    <span class="k">return</span> n * fact(n - <span class="n">1</span>);        <span class="c">// recursive case</span>
+}
+
+<span class="c">// Fibonacci with memoization: O(n) instead of O(2^n)</span>
+<span class="k">long</span>[] memo = <span class="k">new</span> <span class="k">long</span>[<span class="n">100</span>];
+<span class="k">long</span> fib(<span class="k">int</span> n) {
+    <span class="k">if</span> (n &lt;= <span class="n">1</span>) <span class="k">return</span> n;
+    <span class="k">if</span> (memo[n] != <span class="n">0</span>) <span class="k">return</span> memo[n];
+    <span class="k">return</span> memo[n] = fib(n - <span class="n">1</span>) + fib(n - <span class="n">2</span>);
+}
+
+<span class="c">// Fast power: x^n in O(log n)</span>
+<span class="k">double</span> myPow(<span class="k">double</span> x, <span class="k">long</span> n) {
+    <span class="k">if</span> (n == <span class="n">0</span>) <span class="k">return</span> <span class="n">1</span>;
+    <span class="k">if</span> (n &lt; <span class="n">0</span>) <span class="k">return</span> <span class="n">1</span> / myPow(x, -n);
+    <span class="k">double</span> half = myPow(x, n / <span class="n">2</span>);
+    <span class="k">return</span> (n % <span class="n">2</span> == <span class="n">0</span>) ? half * half : half * half * x;
+}</pre>
+    
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>The problem is defined in terms of itself (tree, nested structure, 'for each choice…').</li><li>You can say: 'if I knew the answer for n-1, I could get n'.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/fibonacci-number/" target="_blank" rel="noopener">Fibonacci Number</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">Reverse Linked List</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">Merge Two Sorted Lists</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/powx-n/" target="_blank" rel="noopener">Pow(x, n)</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/k-th-symbol-in-grammar/" target="_blank" rel="noopener">K-th Symbol in Grammar</a></td><td><span class="lvl M">Medium</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ On the whiteboard, draw the recursion tree for n = 3 or 4. It makes the complexity obvious and shows the interviewer how you think.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="java-toolkit.html">← Lesson 2: Java Toolkit for DSA</a><a href="math.html">Lesson 4: Math for Coding Interviews →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in | The Code Notebook</title>
+<meta name="description" content="Log in to your The Code Notebook account.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://thecodenotebook.com/login.html">
+<meta property="og:title" content="Log in | The Code Notebook">
+<meta property="og:description" content="Log in to your The Code Notebook account.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/login.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/site.js"></script>
+</head>
+<body data-page="login" data-root="" data-guard="guest">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="index.html"><img src="assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="index.html">Home</a><a href="lessons.html">Lessons</a><a href="courses.html">Courses</a><a href="resources.html">Free resources</a><a href="about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap auth-wrap">
+  <form class="form-card" id="login-form" novalidate>
+    <h1 style="font-size:2.8rem">Welcome back</h1>
+    <div class="msg" hidden></div>
+    <button class="btn block" type="button" data-google>Continue with Google</button>
+    <div class="or">or with email</div>
+    <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="username"></div>
+    <div class="field"><label for="password">Password</label>
+      <div class="pw-row"><input id="password" name="password" type="password" required autocomplete="current-password"><button type="button">Show</button></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <label class="check" style="margin:0"><input type="checkbox" name="remember" checked> <span>Keep me logged in</span></label>
+      <a href="forgot.html">Forgot password?</a>
+    </div>
+    <button class="btn primary block" type="submit">Log in</button>
+    <p class="muted" style="text-align:center;margin:14px 0 0">New here? <a href="register.html">Create a free account</a></p>
+  </form>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="lessons.html">All lessons</a><a href="courses.html">Courses</a><a href="resources.html">Free resources</a><a href="dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="about.html">About me</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms &amp; conditions</a><a href="refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

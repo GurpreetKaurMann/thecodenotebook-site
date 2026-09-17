@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Toolkit for DSA Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="ArrayList, HashMap, HashSet, ArrayDeque, PriorityQueue and TreeMap: which one to use and when, plus 4 Java traps.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/java-toolkit.html">
+<meta property="og:title" content="Java Toolkit for DSA Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="ArrayList, HashMap, HashSet, ArrayDeque, PriorityQueue and TreeMap: which one to use and when, plus 4 Java traps.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/java-toolkit.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-lesson="java-toolkit">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 2 · 4:50 video</div>
+  <h1><span class="mark">Java Toolkit for DSA</span></h1>
+  <p class="muted" style="max-width:70ch">ArrayList, HashMap, HashSet, ArrayDeque, PriorityQueue and TreeMap: which one to use and when, plus 4 Java traps.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="java-toolkit" data-title="Java Toolkit for DSA">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 2: Java Toolkit for DSA</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 Intro</li><li>0:19 Right tool, right job</li><li>0:39 ArrayList</li><li>1:02 HashMap &amp; HashSet</li><li>1:39 ArrayDeque</li><li>2:06 PriorityQueue</li><li>2:31 TreeMap &amp; TreeSet</li><li>2:52 Cheat sheet</li><li>3:13 4 Java traps</li><li>3:48 Quiz</li><li>4:09 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>Half of solving a problem quickly is <b>knowing which Java collection to reach for</b>. You already use many of these at work; here is how they map to DSA ideas and what each operation costs.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>Like a mechanic's toolbox: the job is easy once you pick the right spanner.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li>Use <code>ArrayDeque</code> for stacks — the old <code>Stack</code> class is synchronized and legacy.</li><li>Never compare <code>Integer</code> objects with <code>==</code>. It works for −128..127 (cache) and silently fails above. Use <code>.equals()</code> or unbox to <code>int</code>.</li><li>Sums and products overflow <code>int</code> (max ≈ 2.1 × 10⁹). Use <code>long</code>, and write <code>(long) a * b</code>.</li><li>Comparator trap: <code>(a, b) -> a - b</code> can overflow. Prefer <code>Integer.compare(a, b)</code>.</li><li><code>Arrays.sort(int[])</code> uses dual-pivot quicksort (not stable); <code>Arrays.sort(Object[])</code> and <code>Collections.sort</code> use TimSort (stable).</li><li>String concatenation inside a loop is O(n²) because strings are immutable — use <code>StringBuilder</code>.</li><li>Handy map methods: <code>getOrDefault</code>, <code>merge</code>, <code>computeIfAbsent</code>, <code>putIfAbsent</code>.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Class</th><th>DSA idea</th><th>Main costs</th></tr></thead><tbody><tr><td>ArrayList</td><td>Dynamic array</td><td>get O(1) · add at end O(1)* · insert/remove middle O(n)</td></tr><tr><td>HashMap / HashSet</td><td>Hash table</td><td>put / get / contains O(1) average</td></tr><tr><td>LinkedHashMap</td><td>Hash table + insertion order</td><td>O(1); can evict eldest → LRU cache</td></tr><tr><td>TreeMap / TreeSet</td><td>Balanced BST (Red-Black)</td><td>O(log n) · floorKey, ceilingKey, firstKey</td></tr><tr><td>ArrayDeque</td><td>Stack and Queue</td><td>push / pop / offer / poll O(1)</td></tr><tr><td>PriorityQueue</td><td>Binary heap (min by default)</td><td>offer / poll O(log n) · peek O(1)</td></tr><tr><td>StringBuilder</td><td>Mutable string</td><td>append O(1)* · toString O(n)</td></tr><tr><td>int[] / Arrays</td><td>Fixed array</td><td>Arrays.sort O(n log n) · Arrays.fill O(n)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="k">import</span> java.util.*;
+
+<span class="c">// Frequency count in one line</span>
+Map&lt;Character, Integer&gt; freq = <span class="k">new</span> HashMap&lt;&gt;();
+<span class="k">for</span> (<span class="k">char</span> c : s.toCharArray()) freq.merge(c, <span class="n">1</span>, Integer::sum);
+
+<span class="c">// Map of lists (adjacency list, grouping)</span>
+Map&lt;String, List&lt;String&gt;&gt; groups = <span class="k">new</span> HashMap&lt;&gt;();
+groups.computeIfAbsent(key, k -&gt; <span class="k">new</span> ArrayList&lt;&gt;()).add(word);
+
+<span class="c">// Stack and queue</span>
+Deque&lt;Integer&gt; stack = <span class="k">new</span> ArrayDeque&lt;&gt;();
+stack.push(<span class="n">1</span>); stack.pop(); stack.peek();
+Queue&lt;Integer&gt; queue = <span class="k">new</span> ArrayDeque&lt;&gt;();
+queue.offer(<span class="n">1</span>); queue.poll(); queue.peek();
+
+<span class="c">// Min-heap and max-heap</span>
+PriorityQueue&lt;Integer&gt; minHeap = <span class="k">new</span> PriorityQueue&lt;&gt;();
+PriorityQueue&lt;Integer&gt; maxHeap = <span class="k">new</span> PriorityQueue&lt;&gt;(Collections.reverseOrder());
+<span class="c">// Heap of int[] sorted by second value</span>
+PriorityQueue&lt;<span class="k">int</span>[]&gt; pq = <span class="k">new</span> PriorityQueue&lt;&gt;((a, b) -&gt; Integer.compare(a[<span class="n">1</span>], b[<span class="n">1</span>]));
+
+<span class="c">// Sorted map: nearest keys</span>
+TreeMap&lt;Integer, String&gt; tm = <span class="k">new</span> TreeMap&lt;&gt;();
+Integer floor = tm.floorKey(<span class="n">10</span>);   <span class="c">// largest key &lt;= 10, or null</span>
+Integer ceil  = tm.ceilingKey(<span class="n">10</span>); <span class="c">// smallest key &gt;= 10, or null</span>
+
+<span class="c">// Sort 2D array by start time</span>
+Arrays.sort(intervals, (a, b) -&gt; Integer.compare(a[<span class="n">0</span>], b[<span class="n">0</span>]));
+
+<span class="c">// Safe math</span>
+<span class="k">long</span> product = (<span class="k">long</span>) a * b;
+<span class="k">int</span> mid = lo + (hi - lo) / <span class="n">2</span>;      <span class="c">// avoids overflow of (lo + hi)</span></pre>
+    
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>Need order + fast lookup → <code>TreeMap</code>.</li><li>Need 'most recent' → <code>ArrayDeque</code> as stack.</li><li>Need 'smallest/largest so far' repeatedly → <code>PriorityQueue</code>.</li></ul>
+    
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Say why you picked a structure: "I'll use a TreeMap because I need the nearest smaller key in O(log n)." Interviewers score the reasoning, not only the code.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="big-o.html">← Lesson 1: Time &amp; Space Complexity (Big-O)</a><a href="recursion.html">Lesson 3: Recursion →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#spot">Spot it when</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>
