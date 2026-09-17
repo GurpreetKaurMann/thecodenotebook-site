@@ -11,6 +11,10 @@ const LESSONS = [
   { id: "java-toolkit", no: 2, title: "Java Toolkit for DSA", href: "lessons/java-toolkit.html" },
   { id: "recursion", no: 3, title: "Recursion", href: "lessons/recursion.html" },
   { id: "math", no: 4, title: "Math for Coding Interviews", href: "lessons/math.html" },
+  { id: "bits", no: 5, title: "Bit Manipulation", href: "lessons/bits.html" },
+  { id: "arrays", no: 6, title: "Arrays", href: "lessons/arrays.html" },
+  { id: "strings", no: 7, title: "Strings", href: "lessons/strings.html" },
+  { id: "hashing", no: 8, title: "Hashing (HashMap & HashSet)", href: "lessons/hashing.html" },
 ];
 const root = document.body.dataset.root || "";
 
@@ -185,8 +189,7 @@ async function renderDashboard(user) {
   }));
 
   const wl = profile.waitlist || [];
-  const myCourses = $("#my-courses");
-  if (myCourses) myCourses.innerHTML = wl.length
+  $("#my-courses").innerHTML = wl.length
     ? `<p>You're on the early-access list for: <b>${wl.map(esc).join(", ")}</b>. We'll email you when it opens.</p>`
     : `<p class="muted">No courses yet. <a href="courses.html">Browse courses</a></p>`;
 

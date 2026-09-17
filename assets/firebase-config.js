@@ -5,12 +5,13 @@
 //  accounts are stored only in this browser and are NOT secure.
 // ============================================================
 export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID",
+  apiKey: "AIzaSyA-Fue5BTqulNtMQfPiRjJ9egcUUBM65fw",
+  authDomain: "thecodenotebook.firebaseapp.com",
+  projectId: "thecodenotebook",
+  storageBucket: "thecodenotebook.firebasestorage.app",
+  messagingSenderId: "548372798927",
+  appId: "1:548372798927:web:e54d6509eaa1824280c6ba",
+  measurementId: "G-0NER17W7F8",
 };
 
 // Firebase JavaScript SDK version loaded from Google's CDN.
@@ -25,6 +26,10 @@ export const VIDEOS = {
   "java-toolkit": "",
   "recursion": "",
   "math": "",
+  "bits": "",
+  "arrays": "",
+  "strings": "",
+  "hashing": "",
 };
 
 export const CHANNEL_URL = "https://www.youtube.com/@TheCodeNotebook"; // change if your handle is different

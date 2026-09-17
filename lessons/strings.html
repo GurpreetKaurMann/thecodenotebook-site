@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strings Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Immutable strings, == vs equals, StringBuilder, char math, palindromes, anagrams, expand around center and 4 Java string traps.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/strings.html">
+<meta property="og:title" content="Strings Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Immutable strings, == vs equals, StringBuilder, char math, palindromes, anagrams, expand around center and 4 Java string traps.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/strings.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-lesson="strings">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 7 · 5:03 video</div>
+  <h1><span class="mark">Strings</span></h1>
+  <p class="muted" style="max-width:70ch">Immutable strings, == vs equals, StringBuilder, char math, palindromes, anagrams, expand around center and 4 Java string traps.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="strings" data-title="Strings">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 7: Strings</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The 1-second loop</li><li>0:14 Intro</li><li>0:28 Strings are immutable</li><li>0:49 == vs equals &amp; the string pool</li><li>1:11 StringBuilder</li><li>1:39 char math</li><li>2:01 Two pointers (palindrome)</li><li>2:22 Anagrams</li><li>2:45 Expand around center</li><li>3:08 Words &amp; split</li><li>3:26 4 Java string traps</li><li>4:01 Cheat sheet &amp; quiz</li><li>4:24 Practice list</li><li>4:35 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A string is a sequence of characters. In Java, <code>String</code> is <b>immutable</b> — every "change" creates a new object. For building strings use <code>StringBuilder</code>; for checking characters use <code>char[]</code> or <code>charAt</code>.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A printed sentence. To change one word you reprint the whole line — unless you use a whiteboard (StringBuilder).</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li>Count letters with <code>int[26]</code> and <code>c - 'a'</code> — faster and simpler than a HashMap.</li><li><b>Palindrome</b>: two pointers from both ends moving inward.</li><li><b>Anagram</b>: same letter counts. Group anagrams by their sorted form or their count signature.</li><li>Useful helpers: <code>Character.isLetterOrDigit</code>, <code>Character.toLowerCase</code>, <code>String.join</code>, <code>s.split("\\s+")</code>.</li><li>Expand-around-center finds the longest palindromic substring in O(n²) with O(1) space.</li><li>Many string problems are really <b>sliding window</b>, <b>hashing</b>, or <b>DP</b> problems in disguise.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Time</th></tr></thead><tbody><tr><td>charAt(i)</td><td>O(1)</td></tr><tr><td>length()</td><td>O(1)</td></tr><tr><td>substring(i, j)</td><td>O(j − i) — copies</td></tr><tr><td>equals / compareTo</td><td>O(n)</td></tr><tr><td>s + t inside a loop</td><td>O(n²) overall — avoid</td></tr><tr><td>StringBuilder.append</td><td>O(1) amortized</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Valid palindrome, ignoring non-alphanumeric characters</span>
+<span class="k">boolean</span> isPalindrome(String s) {
+    <span class="k">int</span> i = <span class="n">0</span>, j = s.length() - <span class="n">1</span>;
+    <span class="k">while</span> (i &lt; j) {
+        <span class="k">while</span> (i &lt; j &amp;&amp; !Character.isLetterOrDigit(s.charAt(i))) i++;
+        <span class="k">while</span> (i &lt; j &amp;&amp; !Character.isLetterOrDigit(s.charAt(j))) j--;
+        <span class="k">if</span> (Character.toLowerCase(s.charAt(i)) != Character.toLowerCase(s.charAt(j)))
+            <span class="k">return</span> <span class="k">false</span>;
+        i++; j--;
+    }
+    <span class="k">return</span> <span class="k">true</span>;
+}
+
+<span class="c">// Anagram check with a count array</span>
+<span class="k">boolean</span> isAnagram(String s, String t) {
+    <span class="k">if</span> (s.length() != t.length()) <span class="k">return</span> <span class="k">false</span>;
+    <span class="k">int</span>[] count = <span class="k">new</span> <span class="k">int</span>[<span class="n">26</span>];
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; s.length(); i++) {
+        count[s.charAt(i) - <span class="s">&#x27;a&#x27;</span>]++;
+        count[t.charAt(i) - <span class="s">&#x27;a&#x27;</span>]--;
+    }
+    <span class="k">for</span> (<span class="k">int</span> c : count) <span class="k">if</span> (c != <span class="n">0</span>) <span class="k">return</span> <span class="k">false</span>;
+    <span class="k">return</span> <span class="k">true</span>;
+}
+
+<span class="c">// Longest palindromic substring: expand around each center</span>
+String longestPalindrome(String s) {
+    <span class="k">int</span> start = <span class="n">0</span>, end = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> c = <span class="n">0</span>; c &lt; s.length(); c++) {
+        <span class="k">int</span> len = Math.max(expand(s, c, c), expand(s, c, c + <span class="n">1</span>));
+        <span class="k">if</span> (len &gt; end - start) { start = c - (len - <span class="n">1</span>) / <span class="n">2</span>; end = c + len / <span class="n">2</span>; }
+    }
+    <span class="k">return</span> s.substring(start, end + <span class="n">1</span>);
+}
+<span class="k">int</span> expand(String s, <span class="k">int</span> l, <span class="k">int</span> r) {
+    <span class="k">while</span> (l &gt;= <span class="n">0</span> &amp;&amp; r &lt; s.length() &amp;&amp; s.charAt(l) == s.charAt(r)) { l--; r++; }
+    <span class="k">return</span> r - l - <span class="n">1</span>;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Immutable:</b> <code>s.toUpperCase();</code> alone does nothing to <code>s</code>. Write <code>s = s.toUpperCase();</code></li><li><b>== vs equals:</b> <code>new String("hi") == "hi"</code> is <code>false</code>. Always compare values with <code>equals</code>.</li><li><b>Loops:</b> <code>s += x</code> in a loop is O(n²). In our test, 100,000 appends took about 1.2 s with + and under 1 ms with <code>StringBuilder</code>.</li><li><b>Chars are numbers:</b> <code>'a' + 'b'</code> is <code>195</code>, so <code>'a' + 'b' + "c"</code> prints <code>195c</code>.</li><li><b>Left to right:</b> <code>1 + 2 + "3"</code> is <code>"33"</code>, but <code>"1" + 2 + 3</code> is <code>"123"</code>.</li><li><b>split uses regex:</b> <code>"a.b".split(".")</code> is an empty array. Write <code>split("\\.")</code>. Trailing empty strings are dropped too.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>'Anagram', 'palindrome', 'substring', 'character frequency'.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">Valid Anagram</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener">Valid Palindrome</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" rel="noopener">Longest Common Prefix</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener">Group Anagrams</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener">Longest Palindromic Substring</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/string-to-integer-atoi/" target="_blank" rel="noopener">String to Integer (atoi)</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/reverse-words-in-a-string/" target="_blank" rel="noopener">Reverse Words in a String</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener">Encode and Decode Strings</a></td><td><span class="lvl M">Medium</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Clarify the character set first: only lowercase English letters? Upper case? Unicode? It decides between <code>int[26]</code>, <code>int[128]</code> and a HashMap.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="arrays.html">← Lesson 6: Arrays</a><a href="hashing.html">Lesson 8: Hashing (HashMap &amp; HashSet) →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>
