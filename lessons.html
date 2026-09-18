@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <script type="module" src="assets/site.js"></script>
 </head>
-<body data-page="lessons" data-root="">
+<body data-page="lessons" data-root="" data-guard="auth">
 <div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
 <header class="site-head">
   <div class="wrap head-row">
@@ -43,48 +43,91 @@
       <h3>Time &amp; Space Complexity (Big-O)</h3>
       <p class="muted" style="margin:0">Count steps, not seconds. The Big-O ladder, space complexity, amortized cost and the constraints trick.</p>
       <div class="foot"><span class="tag">▶ 6:45</span><a class="btn small primary" href="lessons/big-o.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 2</span>
       <h3>Java Toolkit for DSA</h3>
       <p class="muted" style="margin:0">ArrayList, HashMap, HashSet, ArrayDeque, PriorityQueue and TreeMap: which one to use and when, plus 4 Java traps.</p>
       <div class="foot"><span class="tag">▶ 4:50</span><a class="btn small primary" href="lessons/java-toolkit.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 3</span>
       <h3>Recursion</h3>
       <p class="muted" style="margin:0">Base case, call stack, recursion trees and memoization, the foundation for trees, backtracking and DP.</p>
       <div class="foot"><span class="tag">▶ 4:37</span><a class="btn small primary" href="lessons/recursion.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 4</span>
       <h3>Math for Coding Interviews</h3>
       <p class="muted" style="margin:0">Digit tricks, GCD, primes, why mod 10⁹+7, fast power, overflow traps and counting tricks, with LeetCode practice.</p>
       <div class="foot"><span class="tag">▶ 6:49</span><a class="btn small primary" href="lessons/math.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 5</span>
       <h3>Bit Manipulation</h3>
       <p class="muted" style="margin:0">Binary, the 7 bit operators, x &amp; (x-1), XOR magic, bitmask subsets, counting bits and 4 Java traps.</p>
       <div class="foot"><span class="tag">▶ 5:41</span><a class="btn small primary" href="lessons/bits.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 6</span>
       <h3>Arrays</h3>
       <p class="muted" style="margin:0">How arrays work, 4 Java array traps, and 6 patterns: Kadane, running minimum, reverse trick, Dutch flag, prefix &amp; suffix, in-place marking.</p>
       <div class="foot"><span class="tag">▶ 5:25</span><a class="btn small primary" href="lessons/arrays.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 7</span>
       <h3>Strings</h3>
       <p class="muted" style="margin:0">Immutable strings, == vs equals, StringBuilder, char math, palindromes, anagrams, expand around center and 4 Java string traps.</p>
       <div class="foot"><span class="tag">▶ 5:03</span><a class="btn small primary" href="lessons/strings.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div>
     <div class="card">
       <span class="lesson-no">Lesson 8</span>
       <h3>Hashing (HashMap &amp; HashSet)</h3>
       <p class="muted" style="margin:0">How HashMap works inside, equals &amp; hashCode, Map shortcuts, and 5 patterns: counting, Two Sum, seen set, prefix sum + map, top K.</p>
       <div class="foot"><span class="tag">▶ 5:10</span><a class="btn small primary" href="lessons/hashing.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
+    </div>
+    <div class="card">
+      <span class="lesson-no">Lesson 9</span>
+      <h3>Linked List</h3>
+      <p class="muted" style="margin:0">Nodes and pointers, the dummy node trick, and 5 patterns: reverse, slow &amp; fast, cycle detection, merge, and Nth from the end.</p>
+      <div class="foot"><span class="tag">▶ 4:26</span><a class="btn small primary" href="lessons/linked-list.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
+    </div>
+    <div class="card">
+      <span class="lesson-no">Lesson 10</span>
+      <h3>Stacks</h3>
+      <p class="muted" style="margin:0">LIFO in O(1), why ArrayDeque beats the old Stack class, and 4 patterns: matching pairs, monotonic stack, min stack and expression evaluation.</p>
+      <div class="foot"><span class="tag">▶ 4:17</span><a class="btn small primary" href="lessons/stacks.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
+    </div>
+    <div class="card">
+      <span class="lesson-no">Lesson 11</span>
+      <h3>Queues &amp; Deques</h3>
+      <p class="muted" style="margin:0">FIFO, ArrayDeque vs LinkedList, and 4 patterns: BFS level by level, the monotonic deque, the PriorityQueue heap and both-ended tricks.</p>
+      <div class="foot"><span class="tag">▶ 4:52</span><a class="btn small primary" href="lessons/queues.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
+    </div>
+    <div class="card">
+      <span class="lesson-no">Lesson 12</span>
+      <h3>Binary Search</h3>
+      <p class="muted" style="margin:0">The template that never loops forever, first and last occurrence, rotated arrays, and the big one: binary search on the answer.</p>
+      <div class="foot"><span class="tag">▶ 5:04</span><a class="btn small primary" href="lessons/binary-search.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
+    </div>
+    <div class="card">
+      <span class="lesson-no">Lesson 13</span>
+      <h3>Trees &amp; Binary Search Trees</h3>
+      <p class="muted" style="margin:0">The 4 traversals, why inorder on a BST is sorted, the recursion template, the BST rule, lowest common ancestor and answers that come from below.</p>
+      <div class="foot"><span class="tag">▶ 5:06</span><a class="btn small primary" href="lessons/trees.html">Read notes &amp; watch</a></div>
+      <div class="muted" style="font-size:.85rem;margin-top:6px">🔒 free account needed</div>
     </div></div>
   <div class="card" style="margin-top:22px"><h3>Coming next</h3><p class="muted" style="margin:0">Linked lists · Stacks &amp; queues · Two pointers · Sliding window · Prefix sums · Binary search…</p></div>
 </section>

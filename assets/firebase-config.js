@@ -30,6 +30,11 @@ export const VIDEOS = {
   "arrays": "",
   "strings": "",
   "hashing": "",
+  "linked-list": "",
+  "stacks": "",
+  "queues": "",
+  "binary-search": "",
+  "trees": "",
 };
 
 export const CHANNEL_URL = "https://www.youtube.com/@TheCodeNotebook"; // change if your handle is different

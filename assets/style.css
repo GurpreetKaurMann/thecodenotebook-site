@@ -161,3 +161,7 @@ table.nice th{background:var(--blue-soft)}
 .brand{min-width:0;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:480px){.brand{font-size:1.45rem}.brand img{width:32px;height:32px}.menu-btn{padding:5px 10px}}
 [hidden]{display:none!important}
+
+/* members-only pages: keep content hidden until the login check finishes */
+body[data-guard="auth"]:not(.auth-ready) main{visibility:hidden}
+.lock{display:inline-block;font-size:.8rem;font-weight:800;color:var(--blue);background:#e8edfb;border-radius:8px;padding:2px 8px;margin-left:6px}

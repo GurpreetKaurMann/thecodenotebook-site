@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "include": [
+    "/lessons",
+    "/lessons.html",
+    "/lessons/*",
+    "/resources",
+    "/resources.html",
+    "/resources/*",
+    "/dashboard",
+    "/dashboard.html"
+  ],
+  "exclude": []
+}

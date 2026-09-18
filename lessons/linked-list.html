@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linked List Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Nodes and pointers, the dummy node trick, and 5 patterns: reverse, slow &amp; fast, cycle detection, merge, and Nth from the end.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/linked-list.html">
+<meta property="og:title" content="Linked List Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Nodes and pointers, the dummy node trick, and 5 patterns: reverse, slow &amp; fast, cycle detection, merge, and Nth from the end.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/linked-list.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="linked-list">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 9 · 4:26 video</div>
+  <h1><span class="mark">Linked List</span></h1>
+  <p class="muted" style="max-width:70ch">Nodes and pointers, the dummy node trick, and 5 patterns: reverse, slow &amp; fast, cycle detection, merge, and Nth from the end.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="linked-list" data-title="Linked List">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 9: Linked List</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The reverse challenge</li><li>0:13 Intro &amp; what you&#x27;ll learn</li><li>0:23 How a linked list works</li><li>0:51 The dummy node trick</li><li>1:11 Pattern 1: Reverse</li><li>1:33 Pattern 2: Slow &amp; fast pointers</li><li>1:54 Pattern 3: Cycle detection</li><li>2:24 Pattern 4: Merge two sorted lists</li><li>2:41 Pattern 5: Nth node from the end</li><li>2:59 Java list traps</li><li>3:29 Cheat sheet &amp; quiz</li><li>3:53 Practice list</li><li>4:03 Recap &amp; interview tip</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A linked list is a chain of <b>nodes</b>. Each node holds a value and a pointer to the next node. There is no index: to reach the k-th node you walk from the head.</p><p>That makes reading slow (<b>O(n)</b>) but inserting or removing at the head fast (<b>O(1)</b>) — the opposite trade-off to an array.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A treasure hunt. Each clue holds one item and tells you where the next clue is. You can't jump to clue 5 — you have to follow the trail.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>The dummy node trick:</b> start with <code>ListNode dummy = new ListNode(0)</code> and return <code>dummy.next</code>. It removes a whole class of null-pointer edge cases.</li><li><b>Reverse</b> with three pointers: <code>prev</code>, <code>cur</code>, <code>next</code>. Save next, flip the arrow, move both forward.</li><li><b>Slow &amp; fast pointers:</b> slow moves 1 step, fast moves 2. When fast hits the end, slow is at the middle.</li><li><b>Floyd's cycle detection:</b> if there is a cycle, slow and fast always meet, because fast gains one step on slow each round. O(1) extra space — no HashSet needed.</li><li><b>Where the cycle starts:</b> after they meet, move one pointer back to the head and move both one step at a time. They meet at the cycle's entrance.</li><li><b>Merge two sorted lists</b> with a dummy and a tail; at the end attach whatever is left. No new nodes are created.</li><li><b>Nth from the end in one pass:</b> move one pointer n steps ahead, then move both until it reaches the end.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Linked list</th><th>ArrayList</th></tr></thead><tbody><tr><td>Get the k-th item</td><td>O(n)</td><td>O(1)</td></tr><tr><td>Insert / delete at the head</td><td>O(1)</td><td>O(n)</td></tr><tr><td>Insert after a known node</td><td>O(1)</td><td>O(n)</td></tr><tr><td>Insert at the tail (with a tail pointer)</td><td>O(1)</td><td>O(1) amortised</td></tr><tr><td>Search for a value</td><td>O(n)</td><td>O(n)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Reverse a linked list — LeetCode 206</span>
+ListNode reverse(ListNode head) {
+    ListNode prev = <span class="k">null</span>, cur = head;
+    <span class="k">while</span> (cur != <span class="k">null</span>) {
+        ListNode next = cur.next;   <span class="c">// save</span>
+        cur.next = prev;            <span class="c">// flip</span>
+        prev = cur;                 <span class="c">// move</span>
+        cur = next;
+    }
+    <span class="k">return</span> prev;                    <span class="c">// new head</span>
+}
+
+<span class="c">// Detect a cycle — LeetCode 141 (O(1) space)</span>
+<span class="k">boolean</span> hasCycle(ListNode head) {
+    ListNode slow = head, fast = head;
+    <span class="k">while</span> (fast != <span class="k">null</span> &amp;&amp; fast.next != <span class="k">null</span>) {
+        slow = slow.next;
+        fast = fast.next.next;
+        <span class="k">if</span> (slow == fast) <span class="k">return</span> <span class="k">true</span>;
+    }
+    <span class="k">return</span> <span class="k">false</span>;
+}
+
+<span class="c">// Merge two sorted lists — LeetCode 21</span>
+ListNode merge(ListNode a, ListNode b) {
+    ListNode dummy = <span class="k">new</span> ListNode(<span class="n">0</span>), tail = dummy;
+    <span class="k">while</span> (a != <span class="k">null</span> &amp;&amp; b != <span class="k">null</span>) {
+        <span class="k">if</span> (a.val &lt;= b.val) { tail.next = a; a = a.next; }
+        <span class="k">else</span>                { tail.next = b; b = b.next; }
+        tail = tail.next;
+    }
+    tail.next = (a != <span class="k">null</span>) ? a : b;   <span class="c">// the rest</span>
+    <span class="k">return</span> dummy.next;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Never index a LinkedList:</b> <code>list.get(i)</code> is O(n), so a loop over it is O(n²). In interviews an <code>ArrayList</code> is almost always the better choice.</li><li><b>Null checks:</b> <code>node.next.next</code> throws a <code>NullPointerException</code> the moment <code>node.next</code> is null. Write <code>node.next != null &amp;&amp; node.next.next != null</code>.</li><li><b>Order matters:</b> in reverse, save <code>cur.next</code> <i>before</i> you overwrite it, or you lose the rest of the list.</li><li><b>Which middle?</b> With an even length, <code>while (fast != null &amp;&amp; fast.next != null)</code> lands on the <i>second</i> middle. For 1→2→3→4 you get 3, not 2. Interviewers ask which one you return.</li><li><b>Cycle start (LeetCode 142):</b> after slow and fast meet, move one pointer back to the head and move both one step at a time. They meet where the cycle begins.</li><li><b>Dummy node:</b> use one whenever the head itself might be removed or replaced — it kills the special case.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>'Reverse', 'reorder' or 'rearrange' a list without extra memory.</li><li>'Find the middle', 'detect a loop' or 'is it a palindrome'.</li><li>Anything that says O(1) extra space on a list — think two pointers.</li><li>Merging or sorting lists where you may not create new nodes.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">Reverse Linked List</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">Merge Two Sorted Lists</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener">Linked List Cycle</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener">Middle of the Linked List</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener">Palindrome Linked List</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">Remove Nth Node From End of List</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">Linked List Cycle II</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener">Reorder List</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener">Merge k Sorted Lists</a></td><td><span class="lvl H">Hard</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Draw the arrows on paper before you write a line. Almost every linked-list bug is a pointer assigned in the wrong order, or a missing null check. And never call <code>get(i)</code> on a <code>LinkedList</code> in a loop — each call is O(n), so the loop becomes O(n²).</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="hashing.html">← Lesson 8: Hashing (HashMap &amp; HashSet)</a><a href="stacks.html">Lesson 10: Stacks →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

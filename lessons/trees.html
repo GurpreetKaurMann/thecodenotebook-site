@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trees &amp; Binary Search Trees Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="The 4 traversals, why inorder on a BST is sorted, the recursion template, the BST rule, lowest common ancestor and answers that come from below.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/trees.html">
+<meta property="og:title" content="Trees &amp; Binary Search Trees Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="The 4 traversals, why inorder on a BST is sorted, the recursion template, the BST rule, lowest common ancestor and answers that come from below.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/trees.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="trees">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 13 · 5:06 video</div>
+  <h1><span class="mark">Trees &amp; Binary Search Trees</span></h1>
+  <p class="muted" style="max-width:70ch">The 4 traversals, why inorder on a BST is sorted, the recursion template, the BST rule, lowest common ancestor and answers that come from below.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="trees" data-title="Trees &amp; Binary Search Trees">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 13: Trees &amp; Binary Search Trees</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 Is this a valid BST?</li><li>0:18 Intro &amp; what you&#x27;ll learn</li><li>0:30 How a tree works</li><li>0:56 The 4 traversals</li><li>1:33 Pattern 1: The recursion template</li><li>1:58 Pattern 2: The BST rule</li><li>2:29 Pattern 3: Lowest common ancestor</li><li>2:53 Pattern 4: The answer comes from below</li><li>3:18 Traversal without recursion</li><li>3:37 3 Java tree traps</li><li>4:06 Cheat sheet &amp; quiz</li><li>4:29 Practice list</li><li>4:39 Recap &amp; interview tip</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A node is a value with a <code>left</code> and a <code>right</code> child — that's the whole structure. Almost every tree operation costs <b>O(h)</b>, the height.</p><p>Balanced, a million nodes is only about 20 levels deep. Skewed, it's a linked list in disguise and h equals n.</p><p>In a <b>binary search tree</b> everything in the left subtree is smaller and everything in the right subtree is bigger — for the <i>whole</i> subtree, not just the child.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A family tree. To find someone you start at the top and go down one branch; you never have to look at the other side of the family.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>The recursion template:</b> handle <code>null</code> first, solve left, solve right, combine. Most easy tree problems are exactly this shape, and most tree bugs are a missing null check.</li><li><b>Inorder on a BST gives sorted order.</b> That's the 5-second way to check whether a tree really is a BST.</li><li><b>Validate a BST with bounds</b>, not just the children. Going left tightens the high bound, going right tightens the low bound.</li><li><b>Lowest common ancestor:</b> search both nodes; if one is found on the left and one on the right, this node is the answer. On a BST just walk down while both values are on the same side.</li><li><b>The answer comes from below:</b> for diameter and 'is it balanced', each child returns a number and the parent uses it — one pass instead of recomputing the height at every node.</li><li><b>Too deep to recurse?</b> Use your own stack. Measured in Java 21: a skewed tree of 10,000 nodes recurses fine, 100,000 throws <code>StackOverflowError</code>.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Traversal</th><th>Order</th><th>Use it for</th></tr></thead><tbody><tr><td>Preorder</td><td>node, left, right</td><td>copying or serialising a tree</td></tr><tr><td>Inorder</td><td>left, node, right</td><td>a BST comes out sorted</td></tr><tr><td>Postorder</td><td>left, right, node</td><td>the parent needs its children&#x27;s answers</td></tr><tr><td>Level order</td><td>BFS with a queue</td><td>level-by-level questions</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Maximum depth — LeetCode 104 (the template)</span>
+<span class="k">int</span> depth(TreeNode n) {
+    <span class="k">if</span> (n == <span class="k">null</span>) <span class="k">return</span> <span class="n">0</span>;                       <span class="c">// write this FIRST</span>
+    <span class="k">return</span> <span class="n">1</span> + Math.max(depth(n.left), depth(n.right));
+}
+
+<span class="c">// Validate a BST — LeetCode 98 (carry the bounds)</span>
+<span class="k">boolean</span> valid(TreeNode n, Integer lo, Integer hi) {
+    <span class="k">if</span> (n == <span class="k">null</span>) <span class="k">return</span> <span class="k">true</span>;
+    <span class="k">if</span> (lo != <span class="k">null</span> &amp;&amp; n.val &lt;= lo) <span class="k">return</span> <span class="k">false</span>;
+    <span class="k">if</span> (hi != <span class="k">null</span> &amp;&amp; n.val &gt;= hi) <span class="k">return</span> <span class="k">false</span>;
+    <span class="k">return</span> valid(n.left, lo, n.val) &amp;&amp; valid(n.right, n.val, hi);
+}
+<span class="c">// Root 5, right child 6, and 6&#x27;s left child 4 looks fine next to</span>
+<span class="c">// every parent — but it is NOT a BST. Inorder gives 1, 5, 4, 6, 7.</span>
+
+<span class="c">// Lowest common ancestor — LeetCode 236</span>
+TreeNode lca(TreeNode n, TreeNode p, TreeNode q) {
+    <span class="k">if</span> (n == <span class="k">null</span> || n == p || n == q) <span class="k">return</span> n;
+    TreeNode l = lca(n.left,  p, q);
+    TreeNode r = lca(n.right, p, q);
+    <span class="k">if</span> (l != <span class="k">null</span> &amp;&amp; r != <span class="k">null</span>) <span class="k">return</span> n;          <span class="c">// they split here</span>
+    <span class="k">return</span> (l != <span class="k">null</span>) ? l : r;
+}
+
+<span class="c">// Inorder without recursion — the lesson 10 stack</span>
+List&lt;Integer&gt; inorder(TreeNode root) {
+    List&lt;Integer&gt; out = <span class="k">new</span> ArrayList&lt;&gt;();
+    Deque&lt;TreeNode&gt; st = <span class="k">new</span> ArrayDeque&lt;&gt;();
+    TreeNode cur = root;
+    <span class="k">while</span> (cur != <span class="k">null</span> || !st.isEmpty()) {
+        <span class="k">while</span> (cur != <span class="k">null</span>) { st.push(cur); cur = cur.left; }
+        cur = st.pop();
+        out.add(cur.val);
+        cur = cur.right;
+    }
+    <span class="k">return</span> out;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Validating a BST:</b> comparing a node only with its immediate children is <i>not</i> enough. Root 5 with right child 6 and 6's left child 4 passes that check and is still not a BST, because 4 sits in 5's right subtree. Carry a low and a high bound down instead.</li><li><b>The 5-second check:</b> run an inorder traversal. A real BST comes out sorted; the tree above gives <code>1, 5, 4, 6, 7</code>.</li><li><b>Write the null case first.</b> Most tree bugs are a missing <code>if (node == null)</code>.</li><li><b>Recursion depth:</b> measured in Java 21, a skewed tree of 10,000 nodes recurses fine but 100,000 throws <code>StackOverflowError</code>. Use your own stack for very deep trees.</li><li><b>TreeMap vs HashMap:</b> <code>TreeMap</code> and <code>TreeSet</code> are balanced trees — sorted keys and O(log n), with <code>floorKey</code> and <code>ceilingKey</code>. <code>HashMap</code> is O(1) average with no order at all.</li><li><b>HashSet only LOOKS sorted:</b> <code>new HashSet&lt;&gt;(List.of(5, 1, 3))</code> prints <code>[1, 3, 5]</code> because small integers hash to themselves. With strings the illusion breaks: pear, apple, fig prints <code>[apple, pear, fig]</code>.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>Anything described as a hierarchy, a parent and children, or a folder structure.</li><li>'Sorted output', 'kth smallest' or 'validate' on a BST — that's inorder.</li><li>'Level by level' or 'right side view' — that's BFS with a queue.</li><li>'Diameter', 'balanced' or 'max path sum' — return information upward.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener">Maximum Depth of Binary Tree</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener">Invert Binary Tree</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/same-tree/" target="_blank" rel="noopener">Same Tree</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank" rel="noopener">Diameter of Binary Tree</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener">Validate Binary Search Tree</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank" rel="noopener">Kth Smallest Element in a BST</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" rel="noopener">Lowest Common Ancestor of a Binary Tree</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/binary-tree-right-side-view/" target="_blank" rel="noopener">Binary Tree Right Side View</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener">Binary Tree Maximum Path Sum</a></td><td><span class="lvl H">Hard</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Draw the tree, write the null case first, and say out loud what each recursive call returns. Also know that <code>TreeMap</code> and <code>TreeSet</code> are balanced trees — sorted keys, O(log n) — while a <code>HashSet</code> has no order at all. It only <i>looks</i> sorted with small integers, because they hash to themselves.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="binary-search.html">← Lesson 12: Binary Search</a><span class="muted">Next lesson coming soon</span></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

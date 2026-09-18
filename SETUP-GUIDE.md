@@ -124,3 +124,64 @@ In `assets/firebase-config.js`:
 - **New lesson:** copy `lessons/recursion.html`, rename it, edit it, add it to `lessons.html`, `sitemap.xml` and the `LESSONS` list in `assets/site.js`, and add the video ID to `VIDEOS`. Or ask me to generate it.
 
 © 2026 The Code Notebook
+
+## Members-only pages (added in v3)
+
+Lessons, the free resources (field guide and PDF) and the dashboard now need a free account.
+Home, About, Courses, Contact, the policy pages, Login and Register stay public so people can find you and sign up.
+
+How it works:
+- After login, the website saves the user's Firebase login token in a cookie called `tcn_session` (valid for about 1 hour and refreshed automatically).
+- `functions/_middleware.js` runs on Cloudflare before those pages are sent. It checks the token with Google's public keys. No token, or a wrong or expired one, means the visitor is sent to the login page and brought back after logging in.
+- `_routes.json` makes this check run only on the members-only pages, so it stays within Cloudflare's free limits.
+- Nothing secret is stored in these files.
+
+After uploading to GitHub, open Cloudflare → Workers & Pages → thecodenotebook → Deployments → the newest deployment. You should see a **Functions** section listing `_middleware`.
+
+To make another page members-only, add its path to `PROTECTED` in `functions/_middleware.js` and to `_routes.json`.
+Search engines can't read members-only pages, so only the public pages are in `sitemap.xml`.
+
+---
+
+## What changed in v4 (Lessons 9-13)
+
+Five new lesson pages are live: **Linked List, Stacks, Queues & Deques, Binary Search,
+Trees & BST**. The Lessons page, the "Latest lessons" block on the home page and the
+sitemap all update themselves, so there is nothing to edit for those.
+
+### The one thing you still need to do: paste your YouTube IDs
+
+Open `assets/firebase-config.js` and fill in the `VIDEOS` map. Take the part of the URL
+after `watch?v=`:
+
+    https://www.youtube.com/watch?v=abc123XYZ   ->   "abc123XYZ"
+
+```js
+export const VIDEOS = {
+  "big-o": "abc123XYZ",
+  "java-toolkit": "",
+  "recursion": "",
+  "math": "",
+  "bits": "",
+  "arrays": "",
+  "strings": "",
+  "hashing": "",
+  "linked-list": "",
+  "stacks": "",
+  "queues": "",
+  "binary-search": "",
+  "trees": "",
+};
+```
+
+A lesson with an empty string shows the "Watch on YouTube" button instead of an embedded
+player, so you can fill them in a few at a time and nothing breaks.
+
+### Uploading this version
+
+1. On GitHub, delete the old files in the repo (or the extracted folder, if one is there).
+2. Unzip this file and drag **the contents** of the `thecodenotebook` folder into the repo
+   — `index.html` must sit at the top level, not inside a folder.
+3. Commit. Cloudflare Pages redeploys on its own in a minute or two.
+4. In the Cloudflare deployment log, check that the **Functions** section still appears.
+   That is the members-only gate; if it is missing, the `functions/` folder did not upload.

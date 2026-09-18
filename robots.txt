@@ -1,6 +1,7 @@
 User-agent: *
-Disallow: /dashboard.html
-Disallow: /login.html
-Disallow: /register.html
-Disallow: /forgot.html
+Disallow: /dashboard
+Disallow: /lessons
+Disallow: /resources
+Disallow: /login
+Disallow: /forgot
 Sitemap: https://thecodenotebook.com/sitemap.xml

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stacks Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="LIFO in O(1), why ArrayDeque beats the old Stack class, and 4 patterns: matching pairs, monotonic stack, min stack and expression evaluation.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/stacks.html">
+<meta property="og:title" content="Stacks Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="LIFO in O(1), why ArrayDeque beats the old Stack class, and 4 patterns: matching pairs, monotonic stack, min stack and expression evaluation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/stacks.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="stacks">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 10 · 4:17 video</div>
+  <h1><span class="mark">Stacks</span></h1>
+  <p class="muted" style="max-width:70ch">LIFO in O(1), why ArrayDeque beats the old Stack class, and 4 patterns: matching pairs, monotonic stack, min stack and expression evaluation.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="stacks" data-title="Stacks">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 10: Stacks</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The brackets question</li><li>0:15 Intro &amp; what you&#x27;ll learn</li><li>0:25 How a stack works</li><li>0:51 In Java: use ArrayDeque</li><li>1:09 Pattern 1: Matching pairs</li><li>1:32 Pattern 2: Monotonic stack</li><li>2:01 Pattern 3: Min stack</li><li>2:19 Pattern 4: Evaluate expressions</li><li>2:39 Stacks &amp; recursion</li><li>2:53 3 Java stack traps</li><li>3:22 Cheat sheet &amp; quiz</li><li>3:43 Practice list</li><li>3:53 Recap &amp; interview tip</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A stack is <b>Last In, First Out</b>. Three operations — <code>push</code>, <code>pop</code>, <code>peek</code> — and all three are O(1).</p><p>In Java use <code>ArrayDeque</code>, not the old <code>Stack</code> class. <code>Stack</code> extends <code>Vector</code>, so every method is synchronized and slower; it is kept only for old code.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A pile of plates. You add to the top and you take from the top. The plate at the bottom comes out last.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>Matching pairs:</b> for every opening bracket push the <i>closing</i> one you expect. On a closing bracket, pop and compare. At the end the stack must be empty.</li><li><b>Monotonic stack:</b> keep indexes; while the new number is bigger than the top, pop it — you have just found its next greater element. Every index is pushed and popped once, so it is O(n).</li><li><b>Min stack in O(1):</b> store a pair {value, minimum below it} instead of a single number, then <code>getMin</code> is just <code>peek</code>.</li><li><b>Evaluate expressions:</b> push numbers; on an operator pop two, apply, push the result. Careful with minus and divide — the second pop is the left operand.</li><li><b>Recursion is a stack.</b> Every call is pushed on the call stack, so any recursion can be rewritten with your own stack to avoid <code>StackOverflowError</code> on deep structures.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Cost</th></tr></thead><tbody><tr><td>push / pop / peek</td><td>O(1)</td></tr><tr><td>search inside</td><td>O(n)</td></tr><tr><td>isEmpty / size</td><td>O(1)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Valid Parentheses — LeetCode 20</span>
+<span class="k">boolean</span> isValid(String s) {
+    Deque&lt;Character&gt; st = <span class="k">new</span> ArrayDeque&lt;&gt;();
+    <span class="k">for</span> (<span class="k">char</span> c : s.toCharArray()) {
+        <span class="k">if</span> (c == <span class="s">&#x27;(&#x27;</span>) st.push(<span class="s">&#x27;)&#x27;</span>);
+        <span class="k">else</span> <span class="k">if</span> (c == <span class="s">&#x27;[&#x27;</span>) st.push(<span class="s">&#x27;]&#x27;</span>);
+        <span class="k">else</span> <span class="k">if</span> (c == <span class="s">&#x27;{&#x27;</span>) st.push(<span class="s">&#x27;}&#x27;</span>);
+        <span class="k">else</span> <span class="k">if</span> (st.isEmpty() || st.pop() != c) <span class="k">return</span> <span class="k">false</span>;
+    }
+    <span class="k">return</span> st.isEmpty();            <span class="c">// leftover open brackets = false</span>
+}
+
+<span class="c">// Next Greater Element — LeetCode 496 (monotonic stack)</span>
+<span class="k">int</span>[] nextGreater(<span class="k">int</span>[] nums) {
+    <span class="k">int</span> n = nums.length;
+    <span class="k">int</span>[] res = <span class="k">new</span> <span class="k">int</span>[n];
+    Arrays.fill(res, -<span class="n">1</span>);
+    Deque&lt;Integer&gt; st = <span class="k">new</span> ArrayDeque&lt;&gt;();      <span class="c">// indexes</span>
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++) {
+        <span class="k">while</span> (!st.isEmpty() &amp;&amp; nums[st.peek()] &lt; nums[i])
+            res[st.pop()] = nums[i];             <span class="c">// found it</span>
+        st.push(i);
+    }
+    <span class="k">return</span> res;      <span class="c">// [2,1,2,4,3] -&gt; [4, 2, 4, -1, -1]</span>
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Printing:</b> with <code>ArrayDeque</code>, pushing 1, 2, 3 prints <code>[3, 2, 1]</code> (top first). The old <code>Stack</code> class prints <code>[1, 2, 3]</code> (bottom first). Same pushes, opposite output.</li><li><b>Use ArrayDeque:</b> <code>Stack</code> extends <code>Vector</code>, so every method is synchronized and slower. It is kept only for old code.</li><li><b>No nulls:</b> <code>ArrayDeque</code> throws a <code>NullPointerException</code> on <code>push(null)</code> — which is why <code>pollFirst()</code> returning null always means empty.</li><li><b>Empty stack:</b> <code>pop()</code> on an empty <code>ArrayDeque</code> throws <code>NoSuchElementException</code>. Check <code>isEmpty()</code> first, or use <code>pollFirst()</code>, which returns null instead.</li><li><b>Valid Parentheses:</b> two traps — check for an empty stack <i>before</i> popping, and remember that leftover open brackets mean <code>false</code>.</li><li><b>RPN:</b> for minus and divide the <i>second</i> pop is the left operand. <code>2 1 + 3 *</code> is 9.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>The problem says 'nearest', 'next greater', 'next warmer' or 'previous smaller'.</li><li>Brackets, parsing, undo, or a back button.</li><li>You need the minimum or maximum so far, in O(1).</li><li>A recursion is too deep and throws StackOverflowError.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">Valid Parentheses</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/next-greater-element-i/" target="_blank" rel="noopener">Next Greater Element I</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank" rel="noopener">Implement Queue using Stacks</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener">Min Stack</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank" rel="noopener">Evaluate Reverse Polish Notation</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener">Daily Temperatures</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/decode-string/" target="_blank" rel="noopener">Decode String</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">Largest Rectangle in Histogram</a></td><td><span class="lvl H">Hard</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ If you hear 'nearest', 'next greater' or 'matching', reach for a stack before you reach for a nested loop. And know the printing difference: with <code>ArrayDeque</code>, pushing 1, 2, 3 prints <code>[3, 2, 1]</code>, but the old <code>Stack</code> class prints <code>[1, 2, 3]</code>.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="linked-list.html">← Lesson 9: Linked List</a><a href="queues.html">Lesson 11: Queues &amp; Deques →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -30,7 +30,13 @@ function busy(btn, on, label) {
 }
 function nextUrl() {
   const n = new URLSearchParams(location.search).get("next");
-  return n && /^[a-z0-9\-/]+\.html(#[\w-]+)?$/i.test(n) ? root + n : root + "dashboard.html";
+  return n && /^[a-z0-9\-/]+\.(html|pdf)(#[\w-]+)?$/i.test(n) ? root + n : root + "dashboard.html";
+}
+function herePath() {
+  let p = location.pathname.replace(/^\/+/, "");
+  if (!p) return "index.html";
+  if (!/\.[a-z0-9]+$/i.test(p)) p += ".html";
+  return p;
 }
 
 // ---------- mobile menu, channel links, preview banner
@@ -69,10 +75,20 @@ api.onUser(async (user) => {
   renderHeader(user);
   const guard = document.body.dataset.guard;
   if (guard === "auth" && !user) {
-    location.replace(`${root}login.html?next=${encodeURIComponent(location.pathname.split("/").slice(-1)[0])}`);
+    location.replace(`${root}login.html?next=${encodeURIComponent(herePath())}`);
     return;
   }
-  if (guard === "guest" && user && firstUserEvent) { location.replace(nextUrl()); return; }
+  if (guard === "guest" && user && firstUserEvent) {
+    // already logged in: refresh the session cookie and go on (with a guard against redirect loops)
+    let last = 0;
+    try { last = Number(sessionStorage.getItem("tcn_bounce") || 0); sessionStorage.setItem("tcn_bounce", String(Date.now())); } catch {}
+    if (Date.now() - last > 8000) {
+      await api.syncSession(true).catch(() => {});
+      location.replace(nextUrl());
+      return;
+    }
+    show($(".msg"), "You're logged in, but your browser blocked the login cookie. Please allow cookies for this site and refresh.");
+  }
   firstUserEvent = false;
   if (page === "dashboard" && user) renderDashboard(user);
   if (page === "lesson") setupLessonProgress(user);
@@ -102,6 +118,7 @@ $("#register-form")?.addEventListener("submit", async (e) => {
   busy(btn, true, "Creating account…");
   try {
     await api.register({ name, email, password, remember: true });
+    await api.syncSession(true).catch(() => {});
     show(msg, api.mode === "firebase" ? "Account created! We've sent a verification email." : "Account created (preview mode).", "ok");
     setTimeout(() => location.replace(nextUrl()), 900);
   } catch (err) { show(msg, friendlyError(err)); busy(btn, false); }
@@ -114,13 +131,14 @@ $("#login-form")?.addEventListener("submit", async (e) => {
   busy(btn, true, "Logging in…");
   try {
     await api.login({ email: f.email.value.trim(), password: f.password.value, remember: f.remember.checked });
+    await api.syncSession(true).catch(() => {});
     location.replace(nextUrl());
   } catch (err) { show(msg, friendlyError(err)); busy(btn, false); }
 });
 
 $$("[data-google]").forEach((b) => b.addEventListener("click", async () => {
   const msg = $(".msg", b.closest(".form-card"));
-  try { await api.loginGoogle(); location.replace(nextUrl()); }
+  try { await api.loginGoogle(); await api.syncSession(true).catch(() => {}); location.replace(nextUrl()); }
   catch (err) { show(msg, friendlyError(err)); }
 }));
 

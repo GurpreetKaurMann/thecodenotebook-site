@@ -46,8 +46,23 @@ async function firebaseApi() {
     }
   }
 
+  // Session cookie for the members-only pages (checked on the server by functions/_middleware.js).
+  const COOKIE = "tcn_session";
+  const secure = location.protocol === "https:" ? "; Secure" : "";
+  const writeCookie = (token) => {
+    document.cookie = token
+      ? `${COOKIE}=${token}; Path=/; Max-Age=3300; SameSite=Lax${secure}`
+      : `${COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${secure}`;
+  };
+  async function syncSession(forceRefresh = false) {
+    const u = auth.currentUser;
+    writeCookie(u ? await u.getIdToken(forceRefresh) : "");
+  }
+  A.onIdTokenChanged(auth, () => { syncSession().catch(() => {}); });
+
   return {
     mode: "firebase",
+    syncSession,
     onUser(cb) {
       return A.onAuthStateChanged(auth, (u) =>
         cb(u ? { uid: u.uid, name: u.displayName || "", email: u.email, verified: u.emailVerified } : null));
@@ -71,7 +86,7 @@ async function firebaseApi() {
       await ensureProfile(cred.user);
       return cred.user;
     },
-    logout: () => A.signOut(auth),
+    async logout() { writeCookie(""); await A.signOut(auth); },
     resetPassword: (email) => A.sendPasswordResetEmail(auth, email),
     resendVerification: () => A.sendEmailVerification(auth.currentUser),
     async getProfile(uid) {
@@ -110,6 +125,7 @@ function previewApi() {
 
   return {
     mode: "preview",
+    syncSession: async () => {},
     onUser(cb) { listeners.add(cb); setTimeout(() => cb(current()), 0); return () => listeners.delete(cb); },
     async register({ name, email, password }) {
       email = email.trim().toLowerCase();

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary Search Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="The template that never loops forever, first and last occurrence, rotated arrays, and the big one: binary search on the answer.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/binary-search.html">
+<meta property="og:title" content="Binary Search Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="The template that never loops forever, first and last occurrence, rotated arrays, and the big one: binary search on the answer.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/binary-search.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="binary-search">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 12 · 5:04 video</div>
+  <h1><span class="mark">Binary Search</span></h1>
+  <p class="muted" style="max-width:70ch">The template that never loops forever, first and last occurrence, rotated arrays, and the big one: binary search on the answer.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="binary-search" data-title="Binary Search">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 12: Binary Search</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 One billion numbers</li><li>0:14 Intro &amp; what you&#x27;ll learn</li><li>0:25 How binary search works</li><li>0:52 The template</li><li>1:14 Pattern 1: First &amp; last occurrence</li><li>1:42 Pattern 2: Rotated sorted array</li><li>2:09 Pattern 3: Binary search on the answer</li><li>2:48 Java built-ins</li><li>3:19 When does it apply?</li><li>3:33 3 binary search traps</li><li>4:04 Cheat sheet &amp; quiz</li><li>4:27 Practice list</li><li>4:38 Recap &amp; interview tip</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>Binary search needs one thing: <b>order</b>. Look at the middle and you can throw away a whole half. That's <b>O(log n)</b> — one billion sorted values takes only 30 steps, because 2<sup>30</sup> is just over a billion.</p><p>The bigger idea: it also works when there is no array at all. If your answer is a number in a range and your check never flips back from yes to no, you can binary search the <b>answer</b>.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>Guessing a number between 1 and 100. Each guess in the middle halves what's left, so seven guesses is always enough.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>Always write</b> <code>lo + (hi - lo) / 2</code>. With <code>lo = 2_000_000_000</code> and <code>hi = 2_100_000_000</code>, <code>(lo + hi) / 2</code> overflows to <code>-97483648</code>.</li><li><b>Two rules that stop infinite loops:</b> <code>lo &lt;= hi</code> pairs with <code>hi = mid - 1</code>, and every branch must move past <code>mid</code>.</li><li><b>Duplicates:</b> when you find the target, save the index and keep shrinking that side. Going left gives the first occurrence, going right gives the last.</li><li><b>Rotated array:</b> at every step at least one half is still perfectly sorted. Check which half, ask whether the target sits inside it, and go there.</li><li><b>Search the answer:</b> minimum speed, minimum capacity, minimum days. The check is monotonic — if a value works, every bigger one works — so you binary search the range.</li><li><b>Arrays.binarySearch</b> returns <code>−(insertion point) − 1</code> when the value is missing. Searching 4 in {1, 3, 5, 7} returns <code>-3</code>, so it hands you the insert position for free.</li><li><b>TreeMap</b> gives you <code>floorKey</code> and <code>ceilingKey</code> — binary search over a map, all in O(log n).</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>n</th><th>Steps</th></tr></thead><tbody><tr><td>1,000</td><td>10</td></tr><tr><td>1,000,000</td><td>20</td></tr><tr><td>1,000,000,000</td><td>30</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// The template — memorise this shape</span>
+<span class="k">int</span> search(<span class="k">int</span>[] nums, <span class="k">int</span> target) {
+    <span class="k">int</span> lo = <span class="n">0</span>, hi = nums.length - <span class="n">1</span>;
+    <span class="k">while</span> (lo &lt;= hi) {
+        <span class="k">int</span> mid = lo + (hi - lo) / <span class="n">2</span>;      <span class="c">// never (lo + hi) / 2</span>
+        <span class="k">if</span> (nums[mid] == target) <span class="k">return</span> mid;
+        <span class="k">if</span> (nums[mid] &lt; target) lo = mid + <span class="n">1</span>;
+        <span class="k">else</span>                    hi = mid - <span class="n">1</span>;
+    }
+    <span class="k">return</span> -<span class="n">1</span>;
+}
+
+<span class="c">// First occurrence with duplicates — LeetCode 34</span>
+<span class="k">int</span> first(<span class="k">int</span>[] nums, <span class="k">int</span> target) {
+    <span class="k">int</span> lo = <span class="n">0</span>, hi = nums.length - <span class="n">1</span>, ans = -<span class="n">1</span>;
+    <span class="k">while</span> (lo &lt;= hi) {
+        <span class="k">int</span> mid = lo + (hi - lo) / <span class="n">2</span>;
+        <span class="k">if</span> (nums[mid] == target) { ans = mid; hi = mid - <span class="n">1</span>; }   <span class="c">// keep going left</span>
+        <span class="k">else</span> <span class="k">if</span> (nums[mid] &lt; target) lo = mid + <span class="n">1</span>;
+        <span class="k">else</span> hi = mid - <span class="n">1</span>;
+    }
+    <span class="k">return</span> ans;      <span class="c">// {5,7,7,8,8,10}, target 8 -&gt; 3</span>
+}
+
+<span class="c">// Binary search on the ANSWER — Koko Eating Bananas, LeetCode 875</span>
+<span class="k">int</span> minSpeed(<span class="k">int</span>[] piles, <span class="k">int</span> h) {
+    <span class="k">int</span> lo = <span class="n">1</span>, hi = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> p : piles) hi = Math.max(hi, p);
+    <span class="k">while</span> (lo &lt; hi) {
+        <span class="k">int</span> mid = lo + (hi - lo) / <span class="n">2</span>;
+        <span class="k">long</span> hours = <span class="n">0</span>;
+        <span class="k">for</span> (<span class="k">int</span> p : piles) hours += (p + mid - <span class="n">1</span>) / mid;   <span class="c">// ceil</span>
+        <span class="k">if</span> (hours &lt;= h) hi = mid;      <span class="c">// works -&gt; try slower</span>
+        <span class="k">else</span>            lo = mid + <span class="n">1</span>;
+    }
+    <span class="k">return</span> lo;        <span class="c">// piles {3,6,7,11}, h = 8 -&gt; 4</span>
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>The overflow:</b> with <code>lo = 2_000_000_000</code> and <code>hi = 2_100_000_000</code>, <code>(lo + hi) / 2</code> gives <code>-97483648</code>. Always write <code>lo + (hi - lo) / 2</code>.</li><li><b>The infinite loop:</b> if a branch sets <code>lo = mid</code> instead of <code>mid + 1</code>, <code>lo</code> stops moving once <code>hi == lo + 1</code>. Every branch must move past <code>mid</code>.</li><li><b>Unsorted input:</b> <code>Arrays.binarySearch</code> doesn't fail on an unsorted array — it lies. On <code>{9, 7, 5, 3, 1}</code> searching for 9 returns <code>-6</code>, even though 9 sits at index 0.</li><li><b>The return value:</b> not found gives <code>−(insertion point) − 1</code>, not <code>-1</code>. Searching 4 in <code>{1, 3, 5, 7}</code> returns <code>-3</code>. Convert back with <code>r &gt;= 0 ? r : -r - 1</code>.</li><li><b>Two shapes:</b> <code>lo &lt;= hi</code> with <code>hi = mid - 1</code> finds an exact value; <code>lo &lt; hi</code> with <code>hi = mid</code> finds the smallest index that works.</li><li><b>Duplicates:</b> plain binary search finds <i>an</i> occurrence. Save the index and keep shrinking to get the first or the last.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>The input is sorted, or can be sorted cheaply.</li><li>The answer is a number in a range and you can test 'does x work?' quickly.</li><li>The words 'minimum', 'maximum', 'smallest x such that' or 'at most'.</li><li>A rotated or shifted sorted array, or a sorted matrix.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener">Binary Search</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">Search Insert Position</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/first-bad-version/" target="_blank" rel="noopener">First Bad Version</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener">Find First and Last Position of Element in Sorted Array</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener">Search in Rotated Sorted Array</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">Find Minimum in Rotated Sorted Array</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener">Koko Eating Bananas</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/" target="_blank" rel="noopener">Capacity To Ship Packages Within D Days</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener">Median of Two Sorted Arrays</a></td><td><span class="lvl H">Hard</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ When the brute force is a loop over a sorted range, ask whether the check is monotonic. If it is, binary search it and you drop from O(n) to O(log n). And never call <code>Arrays.binarySearch</code> on an unsorted array — it doesn't fail, it just returns a wrong answer. On {9, 7, 5, 3, 1} searching for 9 returns <code>-6</code>, even though 9 is at index 0.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="queues.html">← Lesson 11: Queues &amp; Deques</a><a href="trees.html">Lesson 13: Trees &amp; Binary Search Trees →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>
