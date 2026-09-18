@@ -2,9 +2,25 @@ rules_version = '2';
 // Paste into Firebase console → Firestore Database → Rules → Publish
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{uid} {
-      // Only the signed-in owner can read their own profile.
+
+    // You are an admin if a document with your user ID exists in the "admins" collection.
+    // Create it by hand in the Firebase console: Firestore -> Start collection "admins"
+    // -> Document ID = your UID (copy it from Authentication -> Users) -> add any field.
+    // Nothing in the browser can create or change these documents.
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      // You may check whether YOU are an admin; nobody can write this from the website.
       allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /users/{uid} {
+      // The signed-in owner reads their own profile. An admin may read them all.
+      allow read: if (request.auth != null && request.auth.uid == uid) || isAdmin();
 
       // Owner creates their profile once, with only these fields.
       allow create: if request.auth != null && request.auth.uid == uid

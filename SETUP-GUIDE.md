@@ -236,3 +236,68 @@ add a variable named `GATE` with the value `off` → redeploy.
 
 Every page is then served without the server-side check (the pages still ask for login in the
 browser). Delete the variable to switch the gate back on.
+
+---
+
+## v6: who signed up, who visited, and how the site knows you're the admin
+
+There are two different questions here, and they have two different answers.
+
+### 1. People who created an account — the new /admin page
+
+A new page, **`/admin.html`**, lists every member: name, email, join date, how many lessons
+they've ticked off, and which course they registered interest in. It has search, a CSV
+download, and four counters at the top (total members, joined this week, joined this month,
+how many have ticked at least one lesson).
+
+It is protected the same way the lesson pages are, plus a second check: the member list only
+loads if you are an admin.
+
+**How the site knows you're the admin.** You are an admin if a document with your user ID
+exists in a Firestore collection called `admins`. Nothing in the browser can create or
+change those documents — the security rules forbid it — so this can't be faked by editing
+the page in DevTools.
+
+Set it up once:
+
+1. Firebase console → **Authentication → Users** → find your own account → copy the
+   **User UID** (a long string like `k3Jd9...`).
+2. Firebase console → **Firestore Database** → **Start collection** → collection ID `admins`.
+3. Document ID: **paste your UID**. Add any field at all, for example `note` = `owner`. Save.
+4. Firebase console → **Firestore Database → Rules** → paste the contents of
+   `firestore.rules` from this zip → **Publish**. (This version adds the admin rules.)
+
+Now sign in on your site and open `/admin.html`. A "Site admin" button also appears on your
+dashboard — only for you; other members never see it.
+
+To remove admin access from someone, delete their document from the `admins` collection.
+
+### 2. People who just visit — Cloudflare Web Analytics
+
+Sign-ups are only a small slice of your traffic. For everyone else you need analytics, and
+you cannot (and legally should not) identify anonymous visitors by name. What you get is
+counts: page views, visitors, which pages, which countries, which sites linked to you.
+
+Cloudflare Web Analytics is free, needs no cookie banner, and doesn't slow the site down:
+
+1. Cloudflare dashboard → **Analytics & Logs → Web Analytics** → **Add a site** →
+   `thecodenotebook.com`.
+2. It shows you a snippet containing `data-cf-beacon='{"token": "abc123..."}'`.
+   Copy just that token.
+3. Open `assets/firebase-config.js` and paste it into `ANALYTICS_TOKEN`.
+
+If you leave `ANALYTICS_TOKEN` empty, no tracking script is loaded at all — which is the
+right default, so the site stays fast and private until you decide otherwise.
+
+### 3. What's already there without any setup
+
+| You want to know | Where to look |
+|---|---|
+| Every account, including Google sign-ins, and last sign-in time | Firebase console → Authentication → Users |
+| Requests, bandwidth, which pages are hit | Cloudflare dashboard → your Pages project → Metrics |
+| Views, watch time, subscribers gained per video | YouTube Studio → Analytics |
+| Reel reach, saves, shares, profile visits | Instagram → Professional dashboard |
+
+A note on the wording: Instagram shows "profile visits" but neither YouTube nor a website can
+tell you *which named person* looked at your page. Only people who sign in identify
+themselves, which is exactly what the /admin page lists.

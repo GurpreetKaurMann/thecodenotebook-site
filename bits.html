@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bit Manipulation Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="Binary, the 7 bit operators, x &amp; (x-1), XOR magic, bitmask subsets, counting bits and 4 Java traps.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/bits.html">
+<meta property="og:title" content="Bit Manipulation Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="Binary, the 7 bit operators, x &amp; (x-1), XOR magic, bitmask subsets, counting bits and 4 Java traps.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/bits.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+<script type="module">import {ANALYTICS_TOKEN} from "/assets/firebase-config.js";if (ANALYTICS_TOKEN) { const b = document.createElement("script"); b.defer = true; b.src = "https://static.cloudflareinsights.com/beacon.min.js"; b.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN })); document.head.appendChild(b); }</script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="bits">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 5 · 5:41 video</div>
+  <h1><span class="mark">Bit Manipulation</span></h1>
+  <p class="muted" style="max-width:70ch">Binary, the 7 bit operators, x &amp; (x-1), XOR magic, bitmask subsets, counting bits and 4 Java traps.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="bits" data-title="Bit Manipulation">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 5: Bit Manipulation</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The one-line puzzle</li><li>0:14 Intro</li><li>0:28 Binary basics &amp; two&#x27;s complement</li><li>0:54 The 7 bit operators</li><li>1:22 One bit at a time</li><li>1:44 x &amp; (x-1)</li><li>2:21 XOR magic (Single Number)</li><li>2:49 x &amp; -x</li><li>3:04 Bitmask subsets</li><li>3:31 Counting bits</li><li>3:53 4 Java traps</li><li>4:37 Cheat sheet &amp; quiz</li><li>5:03 Practice list</li><li>5:14 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>Computers store numbers as 0s and 1s. Bit operators let you work on those bits directly — very fast and often O(1) extra space.</p>
+<p><code>&amp;</code> AND · <code>|</code> OR · <code>^</code> XOR (1 when bits differ) · <code>~</code> NOT · <code>&lt;&lt;</code> left shift (×2) · <code>&gt;&gt;</code> right shift (÷2, keeps sign) · <code>&gt;&gt;&gt;</code> unsigned right shift (Java-specific).</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A row of light switches. Each operator is a way of flipping, checking, or copying switches.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><code>(x &amp; 1) == 1</code> → x is odd.</li><li><code>x &amp; (x - 1)</code> removes the lowest 1-bit. <code>x &gt; 0 &amp;&amp; (x &amp; (x-1)) == 0</code> → x is a power of two.</li><li><code>x ^ x = 0</code> and <code>x ^ 0 = x</code> → XOR of all numbers cancels the pairs (Single Number).</li><li>Check bit i: <code>(x &gt;&gt; i) &amp; 1</code> · Set: <code>x | (1 &lt;&lt; i)</code> · Clear: <code>x &amp; ~(1 &lt;&lt; i)</code> · Toggle: <code>x ^ (1 &lt;&lt; i)</code>.</li><li><code>x &amp; -x</code> isolates the lowest set bit (used in Fenwick trees).</li><li><code>Integer.bitCount(x)</code> counts 1-bits. A mask from 0 to 2ⁿ−1 can represent every subset of n items.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Expression</th></tr></thead><tbody><tr><td>Is odd</td><td>(x &amp; 1) == 1</td></tr><tr><td>Power of two</td><td>x &gt; 0 &amp;&amp; (x &amp; (x - 1)) == 0</td></tr><tr><td>Get bit i</td><td>(x &gt;&gt; i) &amp; 1</td></tr><tr><td>Set bit i</td><td>x | (1 &lt;&lt; i)</td></tr><tr><td>Clear bit i</td><td>x &amp; ~(1 &lt;&lt; i)</td></tr><tr><td>Lowest set bit</td><td>x &amp; -x</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Single Number: every number appears twice except one</span>
+<span class="k">int</span> singleNumber(<span class="k">int</span>[] nums) {
+    <span class="k">int</span> ans = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> x : nums) ans ^= x;   <span class="c">// pairs cancel out</span>
+    <span class="k">return</span> ans;
+}
+
+<span class="c">// Count 1-bits (Brian Kernighan): runs once per set bit</span>
+<span class="k">int</span> countOnes(<span class="k">int</span> x) {
+    <span class="k">int</span> count = <span class="n">0</span>;
+    <span class="k">while</span> (x != <span class="n">0</span>) { x &amp;= (x - <span class="n">1</span>); count++; }
+    <span class="k">return</span> count;
+}
+
+<span class="c">// All subsets using a bitmask</span>
+List&lt;List&lt;Integer&gt;&gt; subsets(<span class="k">int</span>[] nums) {
+    <span class="k">int</span> n = nums.length;
+    List&lt;List&lt;Integer&gt;&gt; res = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">for</span> (<span class="k">int</span> mask = <span class="n">0</span>; mask &lt; (<span class="n">1</span> &lt;&lt; n); mask++) {
+        List&lt;Integer&gt; cur = <span class="k">new</span> ArrayList&lt;&gt;();
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; n; i++)
+            <span class="k">if</span> (((mask &gt;&gt; i) &amp; <span class="n">1</span>) == <span class="n">1</span>) cur.add(nums[i]);
+        res.add(cur);
+    }
+    <span class="k">return</span> res;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Precedence:</b> <code>x &amp; 1 == 0</code> does not compile in Java. Write <code>(x &amp; 1) == 0</code>.</li><li><b>Shift distance:</b> <code>1 &lt;&lt; 32</code> is <code>1</code> for an int (only the last 5 bits of the shift are used). Use <code>1L &lt;&lt; 32</code>.</li><li><b>&gt;&gt; vs &gt;&gt;&gt;:</b> <code>-8 &gt;&gt; 1</code> is <code>-4</code>, but <code>-8 &gt;&gt;&gt; 1</code> is <code>2147483644</code>. Use <code>&gt;&gt;&gt;</code> for unsigned bits (Reverse Bits).</li><li><b>Odd check:</b> <code>n % 2 == 1</code> fails for negatives because <code>-3 % 2</code> is <code>-1</code>. Use <code>(n &amp; 1) == 1</code>.</li><li><b>Single Number (LeetCode 136):</b> XOR everything: pairs cancel out, the unique number is left. O(n) time, O(1) space.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>'Appears once / twice', 'without extra space'.</li><li>n ≤ 20 and you need 'all subsets' → bitmask.</li><li>'Without using + or −' → XOR and carry.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/single-number/" target="_blank" rel="noopener">Single Number</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/number-of-1-bits/" target="_blank" rel="noopener">Number of 1 Bits</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/counting-bits/" target="_blank" rel="noopener">Counting Bits</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/missing-number/" target="_blank" rel="noopener">Missing Number</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/reverse-bits/" target="_blank" rel="noopener">Reverse Bits</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/subsets/" target="_blank" rel="noopener">Subsets</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank" rel="noopener">Sum of Two Integers</a></td><td><span class="lvl M">Medium</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Put parentheses around bit expressions. In Java <code>==</code> binds tighter than <code>&amp;</code>, so <code>x &amp; 1 == 1</code> does not compile.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="math.html">← Lesson 4: Math for Coding Interviews</a><a href="arrays.html">Lesson 6: Arrays →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

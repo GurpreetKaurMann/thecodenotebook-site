@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 <script type="module" src="assets/site.js"></script>
+<script type="module">import {ANALYTICS_TOKEN} from "/assets/firebase-config.js";if (ANALYTICS_TOKEN) { const b = document.createElement("script"); b.defer = true; b.src = "https://static.cloudflareinsights.com/beacon.min.js"; b.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN })); document.head.appendChild(b); }</script>
 </head>
 <body data-page="dashboard" data-root="" data-guard="auth">
 <div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
@@ -43,6 +44,7 @@
       <h3 id="dash-full">…</h3>
       <div class="muted" id="dash-email"></div>
       <div class="muted" style="font-size:.9rem">Member since <span id="dash-since"></span></div>
+      <a class="btn small" id="dash-admin" href="admin.html" hidden style="margin-top:10px">Site admin</a>
       <div id="verify-box" class="sticky" hidden style="transform:none">
         <b>Please verify your email.</b> Check your inbox for the link.
         <div class="msg" id="verify-msg" hidden></div>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashing (HashMap &amp; HashSet) Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="How HashMap works inside, equals &amp; hashCode, Map shortcuts, and 5 patterns: counting, Two Sum, seen set, prefix sum + map, top K.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/hashing.html">
+<meta property="og:title" content="Hashing (HashMap &amp; HashSet) Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="How HashMap works inside, equals &amp; hashCode, Map shortcuts, and 5 patterns: counting, Two Sum, seen set, prefix sum + map, top K.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/hashing.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+<script type="module">import {ANALYTICS_TOKEN} from "/assets/firebase-config.js";if (ANALYTICS_TOKEN) { const b = document.createElement("script"); b.defer = true; b.src = "https://static.cloudflareinsights.com/beacon.min.js"; b.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN })); document.head.appendChild(b); }</script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="hashing">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 8 · 5:10 video</div>
+  <h1><span class="mark">Hashing (HashMap &amp; HashSet)</span></h1>
+  <p class="muted" style="max-width:70ch">How HashMap works inside, equals &amp; hashCode, Map shortcuts, and 5 patterns: counting, Two Sum, seen set, prefix sum + map, top K.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="hashing" data-title="Hashing (HashMap &amp; HashSet)">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 8: Hashing (HashMap &amp; HashSet)</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 Two Sum in one pass</li><li>0:18 Intro</li><li>0:30 How HashMap works inside</li><li>1:07 equals &amp; hashCode rule</li><li>1:34 Map API shortcuts &amp; traps</li><li>1:53 Frequency count</li><li>2:11 Complement lookup (Two Sum)</li><li>2:35 Seen set</li><li>3:01 Prefix sum + map</li><li>3:22 Top K frequent</li><li>3:42 Which Map to choose</li><li>4:09 Cheat sheet &amp; quiz</li><li>4:33 Practice list</li><li>4:44 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>A hash table stores <b>key → value</b> pairs and finds any key in <b>O(1) on average</b>. A <i>hash function</i> turns the key into a number, and that number picks a bucket.</p>
+<p><code>HashSet</code> is the same idea with keys only — perfect for "have I seen this before?"</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>A library catalog: instead of scanning every shelf, the catalog tells you exactly which shelf the book is on.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>How Java's HashMap works</b> (a favorite interview question): array of buckets → <code>hashCode()</code> picks a bucket → <code>equals()</code> finds the exact key inside.</li><li>Collisions are chained in a linked list; since Java 8 a bucket with more than 8 entries turns into a <b>red-black tree</b>.</li><li>Load factor 0.75: when 75% full, the table doubles and all entries are rehashed.</li><li>If you override <code>equals</code>, you must override <code>hashCode</code> — otherwise lookups fail.</li><li>Keys should be immutable. A mutated key can land in the wrong bucket and 'disappear'.</li><li><code>HashMap</code> has no order · <code>LinkedHashMap</code> keeps insertion order · <code>TreeMap</code> keeps sorted order (O(log n)).</li><li>Classic patterns: <b>frequency count</b>, <b>complement lookup</b> (Two Sum), <b>prefix sum + map</b>, <b>grouping by a signature</b>.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Average</th><th>Worst</th></tr></thead><tbody><tr><td>put / get / remove</td><td>O(1)</td><td>O(n) — O(log n) per bucket since Java 8</td></tr><tr><td>containsKey</td><td>O(1)</td><td>O(n)</td></tr><tr><td>Iterate all</td><td>O(n + capacity)</td><td>—</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Two Sum: find the complement in O(1)</span>
+<span class="k">int</span>[] twoSum(<span class="k">int</span>[] nums, <span class="k">int</span> target) {
+    Map&lt;Integer, Integer&gt; seen = <span class="k">new</span> HashMap&lt;&gt;();   <span class="c">// value -&gt; index</span>
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; nums.length; i++) {
+        <span class="k">int</span> need = target - nums[i];
+        <span class="k">if</span> (seen.containsKey(need)) <span class="k">return</span> <span class="k">new</span> <span class="k">int</span>[]{seen.get(need), i};
+        seen.put(nums[i], i);
+    }
+    <span class="k">return</span> <span class="k">new</span> <span class="k">int</span>[<span class="n">0</span>];
+}
+
+<span class="c">// Group anagrams by a sorted-letters key</span>
+List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] words) {
+    Map&lt;String, List&lt;String&gt;&gt; map = <span class="k">new</span> HashMap&lt;&gt;();
+    <span class="k">for</span> (String w : words) {
+        <span class="k">char</span>[] c = w.toCharArray();
+        Arrays.sort(c);
+        map.computeIfAbsent(<span class="k">new</span> String(c), k -&gt; <span class="k">new</span> ArrayList&lt;&gt;()).add(w);
+    }
+    <span class="k">return</span> <span class="k">new</span> ArrayList&lt;&gt;(map.values());
+}
+
+<span class="c">// Longest consecutive sequence in O(n)</span>
+<span class="k">int</span> longestConsecutive(<span class="k">int</span>[] nums) {
+    Set&lt;Integer&gt; set = <span class="k">new</span> HashSet&lt;&gt;();
+    <span class="k">for</span> (<span class="k">int</span> x : nums) set.add(x);
+    <span class="k">int</span> best = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> x : set) {
+        <span class="k">if</span> (set.contains(x - <span class="n">1</span>)) <span class="k">continue</span>;          <span class="c">// only start at a run&#x27;s beginning</span>
+        <span class="k">int</span> len = <span class="n">1</span>;
+        <span class="k">while</span> (set.contains(x + len)) len++;
+        best = Math.max(best, len);
+    }
+    <span class="k">return</span> best;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>equals &amp; hashCode:</b> override both. With only <code>equals</code>, <code>set.contains(new P(1))</code> returns <code>false</code>.</li><li><b>Mutable keys:</b> changing a key after <code>put()</code> changes its hash, so <code>get(key)</code> returns <code>null</code>. Use immutable keys.</li><li><b>Missing keys:</b> <code>map.get(missing)</code> is <code>null</code>. Use <code>getOrDefault</code>.</li><li><b>Integer values:</b> compare with <code>equals</code>. <code>map.get("a") == map.get("b")</code> is <code>false</code> when both hold 1000.</li><li><b>Subarray Sum Equals K:</b> start the map with <code>put(0, 1)</code>, or [1, 2, 3] with k = 3 gives 1 instead of 2.</li><li><b>Nulls:</b> HashMap allows one null key; TreeMap and ConcurrentHashMap throw <code>NullPointerException</code>.</li></ul>
+<h2 id="internals">How Java's HashMap works (checked with Java 21)</h2>
+<ul class="ticks">
+<li>An array of buckets, <b>16</b> by default. The bucket is <code>hash &amp; (n - 1)</code>, after mixing the bits of <code>hashCode()</code>.</li>
+<li>Keys in the same bucket form a small list; <code>equals()</code> finds the exact key.</li>
+<li>A bucket with <b>more than 8</b> keys becomes a red-black tree, once the table has at least <b>64</b> buckets.</li>
+<li>Load factor <b>0.75</b>: adding the 13th key to 16 buckets doubles the table to 32 and rehashes everything.</li>
+<li>Order: <code>HashMap</code> none · <code>LinkedHashMap</code> insertion order (LRU cache) · <code>TreeMap</code> sorted, O(log n). Use <code>ConcurrentHashMap</code> across threads.</li>
+</ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>'Find a pair / duplicate / count occurrences'.</li><li>You want to turn an O(n²) search into O(n).</li><li>'Group items that are the same in some way'.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">Two Sum</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/contains-duplicate/" target="_blank" rel="noopener">Contains Duplicate</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/isomorphic-strings/" target="_blank" rel="noopener">Isomorphic Strings</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener">Group Anagrams</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">Top K Frequent Elements</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="noopener">Longest Consecutive Sequence</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" rel="noopener">Subarray Sum Equals K</a></td><td><span class="lvl M">Medium</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ For Java roles, be ready to explain HashMap internals (buckets, hashCode/equals, treeification, resize) and why <code>ConcurrentHashMap</code> is used in multi-threaded services.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="strings.html">← Lesson 7: Strings</a><a href="linked-list.html">Lesson 9: Linked List →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#internals">HashMap internals</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

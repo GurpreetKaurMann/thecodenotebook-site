@@ -9,6 +9,8 @@
     "/resources/*",
     "/dashboard",
     "/dashboard.html",
+    "/admin",
+    "/admin.html",
     "/__gate-check"
   ],
   "exclude": []

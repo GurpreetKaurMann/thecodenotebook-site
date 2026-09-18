@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arrays Explained Simply (Java) | The Code Notebook</title>
+<meta name="description" content="How arrays work, 4 Java array traps, and 6 patterns: Kadane, running minimum, reverse trick, Dutch flag, prefix &amp; suffix, in-place marking.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/arrays.html">
+<meta property="og:title" content="Arrays Explained Simply (Java) | The Code Notebook">
+<meta property="og:description" content="How arrays work, 4 Java array traps, and 6 patterns: Kadane, running minimum, reverse trick, Dutch flag, prefix &amp; suffix, in-place marking.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/arrays.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f3f9a">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+<script type="module">import {ANALYTICS_TOKEN} from "/assets/firebase-config.js";if (ANALYTICS_TOKEN) { const b = document.createElement("script"); b.defer = true; b.src = "https://static.cloudflareinsights.com/beacon.min.js"; b.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN })); document.head.appendChild(b); }</script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="arrays">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="38" height="38">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../lessons.html">Lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow">DSA in Java · Lesson 6 · 5:25 video</div>
+  <h1><span class="mark">Arrays</span></h1>
+  <p class="muted" style="max-width:70ch">How arrays work, 4 Java array traps, and 6 patterns: Kadane, running minimum, reverse trick, Dutch flag, prefix &amp; suffix, in-place marking.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="arrays" data-title="Arrays">
+      <div class="placeholder"><div><div class="hand" style="font-size:2.4rem">Lesson 6: Arrays</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" data-channel href="#" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul><li>0:00 The max subarray puzzle</li><li>0:15 Intro</li><li>0:27 How arrays work in memory</li><li>0:51 4 Java array traps</li><li>1:22 Kadane&#x27;s algorithm</li><li>1:52 Running minimum (stock)</li><li>2:12 Reverse trick (rotate)</li><li>2:38 Dutch National Flag</li><li>3:03 Prefix and suffix</li><li>3:25 In-place marking</li><li>3:57 Matrix tricks</li><li>4:20 Cheat sheet &amp; quiz</li><li>4:46 Practice list</li><li>4:58 Recap</li></ul></details>
+    <h2 id="simple">In simple words</h2>
+    <p>An array is a <b>row of boxes of the same type</b>, each with an index starting at 0. Getting any box is instant because the computer calculates its address: <i>start + index × size</i>.</p>
+<p>The cost: inserting or deleting in the middle means <b>shifting</b> everything after it. 2D arrays (<code>matrix[row][col]</code>) are just arrays of arrays.</p>
+    <div class="sticky" style="margin:18px 0"><b class="hand" style="font-size:1.5rem">Think of it like…</b><br>Numbered lockers in a corridor. You walk straight to locker 42 — but adding a new locker between 5 and 6 means moving every locker after it.</div>
+    <h2 id="ideas">Key ideas</h2>
+    <ul class="ticks"><li><b>Kadane's algorithm</b>: maximum subarray sum in O(n). Keep a running sum; if it goes negative, start fresh.</li><li><b>Reverse trick</b>: rotate an array by k = reverse all, reverse first k, reverse the rest. O(n) time, O(1) space.</li><li><b>Dutch National Flag</b>: sort 0s, 1s, 2s in one pass with three pointers.</li><li><b>In-place marking</b>: use the array itself (e.g. negate values, or place value v at index v−1) to save space.</li><li><b>Prefix / suffix products</b>: 'product except self' without division.</li><li>Matrix tricks: rotate 90° = transpose + reverse each row; spiral traversal with four boundaries.</li><li>Always check <b>empty array</b>, <b>single element</b>, <b>all negatives</b>, and <b>index out of bounds</b>.</li></ul>
+    <h2 id="costs">Operations &amp; cost</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Operation</th><th>Time</th></tr></thead><tbody><tr><td>Access arr[i]</td><td>O(1)</td></tr><tr><td>Search (unsorted)</td><td>O(n)</td></tr><tr><td>Search (sorted, binary search)</td><td>O(log n)</td></tr><tr><td>Insert / delete at end (ArrayList)</td><td>O(1) amortized</td></tr><tr><td>Insert / delete in middle</td><td>O(n)</td></tr><tr><td>Sort</td><td>O(n log n)</td></tr></tbody></table></div>
+    <h2 id="code">Java code</h2>
+    <pre class="code"><span class="c">// Kadane: largest sum of a contiguous subarray</span>
+<span class="k">int</span> maxSubArray(<span class="k">int</span>[] nums) {
+    <span class="k">int</span> best = nums[<span class="n">0</span>], cur = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> x : nums) {
+        cur = Math.max(x, cur + x);   <span class="c">// extend or restart</span>
+        best = Math.max(best, cur);
+    }
+    <span class="k">return</span> best;
+}
+
+<span class="c">// Rotate right by k using three reverses</span>
+<span class="k">void</span> rotate(<span class="k">int</span>[] a, <span class="k">int</span> k) {
+    k %= a.length;
+    reverse(a, <span class="n">0</span>, a.length - <span class="n">1</span>);
+    reverse(a, <span class="n">0</span>, k - <span class="n">1</span>);
+    reverse(a, k, a.length - <span class="n">1</span>);
+}
+<span class="k">void</span> reverse(<span class="k">int</span>[] a, <span class="k">int</span> i, <span class="k">int</span> j) {
+    <span class="k">while</span> (i &lt; j) { <span class="k">int</span> t = a[i]; a[i++] = a[j]; a[j--] = t; }
+}
+
+<span class="c">// Best time to buy and sell stock (one transaction)</span>
+<span class="k">int</span> maxProfit(<span class="k">int</span>[] prices) {
+    <span class="k">int</span> minPrice = Integer.MAX_VALUE, profit = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">int</span> p : prices) {
+        minPrice = Math.min(minPrice, p);
+        profit = Math.max(profit, p - minPrice);
+    }
+    <span class="k">return</span> profit;
+}</pre>
+    <h2 id="traps">Interview traps to remember</h2>
+<ul class="ticks"><li><b>Comparing arrays:</b> <code>a == b</code> and even <code>a.equals(b)</code> are <code>false</code> for two arrays with the same values. Use <code>Arrays.equals(a, b)</code>.</li><li><b>Printing:</b> <code>System.out.println(arr)</code> prints something like <code>[I@4517d9a3</code>. Use <code>Arrays.toString(arr)</code>.</li><li><b>Sizes:</b> arrays use <code>arr.length</code>, strings use <code>s.length()</code>, lists use <code>list.size()</code>.</li><li><b>Kadane:</b> start <code>best</code> at <code>nums[0]</code>, not 0, so an all-negative array like [-3, -1, -2] returns -1.</li><li><b>Rotate Array:</b> always do <code>k %= n</code> first. Rotating [1, 2, 3, 4, 5] by 7 is the same as by 2 → [4, 5, 1, 2, 3].</li><li><b>Sort Colors:</b> after swapping with <code>high</code>, don't move <code>mid</code>: the number that came back hasn't been checked yet.</li></ul>
+    <h2 id="spot">Spot it when</h2>
+    <ul class="ticks"><li>Almost every problem starts with an array — decide next which technique (hashing, two pointers, window, prefix sum) fits.</li></ul>
+    <h2 id="practice">Practice problems</h2><div class="table-wrap"><table class="nice"><thead><tr><th>Problem</th><th>Level</th></tr></thead><tbody><tr><td><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">Two Sum</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">Best Time to Buy and Sell Stock</a></td><td><span class="lvl E">Easy</span></td></tr><tr><td><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener">Maximum Subarray</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank" rel="noopener">Product of Array Except Self</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/rotate-array/" target="_blank" rel="noopener">Rotate Array</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener">Sort Colors</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/spiral-matrix/" target="_blank" rel="noopener">Spiral Matrix</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/rotate-image/" target="_blank" rel="noopener">Rotate Image</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank" rel="noopener">Set Matrix Zeroes</a></td><td><span class="lvl M">Medium</span></td></tr><tr><td><a href="https://leetcode.com/problems/first-missing-positive/" target="_blank" rel="noopener">First Missing Positive</a></td><td><span class="lvl H">Hard</span></td></tr></tbody></table></div>
+    <h2 id="tip">Interview tip</h2>
+    <p class="tip">★ Before coding, ask: Is it sorted? Can there be duplicates or negatives? Can I modify the input? The answers often decide the technique.</p>
+    <div class="card" style="flex-direction:row;justify-content:space-between;margin-top:30px"><a href="bits.html">← Lesson 5: Bit Manipulation</a><a href="strings.html">Lesson 7: Strings →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#simple">In simple words</a><a href="#ideas">Key ideas</a><a href="#costs">Operations &amp; cost</a><a href="#code">Java code</a><a href="#traps">Interview traps</a><a href="#spot">Spot it when</a><a href="#practice">Practice problems</a><a href="#tip">Interview tip</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small primary block" href="../courses.html">Get the full course</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-size:1.7rem"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Free, notebook-style lessons for cracking software engineering interviews: DSA in Java, system design and more.</p>
+        <a class="btn small red" data-channel href="#" target="_blank" rel="noopener" style="display:inline-flex">▶ Subscribe on YouTube</a>
+      </div>
+      <div><b>Learn</b><a href="../lessons.html">All lessons</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

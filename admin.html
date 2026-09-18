@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found | The Code Notebook</title>
-<meta name="description" content="Page not found.">
+<title>Site admin | The Code Notebook</title>
+<meta name="description" content="Members and sign-ups.">
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://thecodenotebook.com/404.html">
-<meta property="og:title" content="Page not found | The Code Notebook">
-<meta property="og:description" content="Page not found.">
+<link rel="canonical" href="https://thecodenotebook.com/admin.html">
+<meta property="og:title" content="Site admin | The Code Notebook">
+<meta property="og:description" content="Members and sign-ups.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://thecodenotebook.com/404.html">
+<meta property="og:url" content="https://thecodenotebook.com/admin.html">
 <meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1f3f9a">
@@ -20,7 +20,7 @@
 <script type="module" src="assets/site.js"></script>
 <script type="module">import {ANALYTICS_TOKEN} from "/assets/firebase-config.js";if (ANALYTICS_TOKEN) { const b = document.createElement("script"); b.defer = true; b.src = "https://static.cloudflareinsights.com/beacon.min.js"; b.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS_TOKEN })); document.head.appendChild(b); }</script>
 </head>
-<body data-page="" data-root="">
+<body data-page="admin" data-root="" data-guard="auth">
 <div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
 <header class="site-head">
   <div class="wrap head-row">
@@ -34,8 +34,49 @@
 </header>
 <main>
 
-<section class="wrap page" style="text-align:center"><h1>Oops, this page is <span class="mark">blank</span></h1>
-<p class="muted">The page you're looking for doesn't exist.</p><a class="btn primary" href="/index.html">Go home</a></section>
+<section class="wrap page">
+  <h1 style="margin-bottom:4px">Site <span class="mark">admin</span></h1>
+  <p class="muted" id="admin-sub">Checking your access…</p>
+
+  <div class="msg" id="admin-msg" hidden></div>
+
+  <div id="admin-body" hidden>
+    <div class="grid c4" style="margin:22px 0">
+      <div class="card stat"><b id="st-total">–</b><span>members</span></div>
+      <div class="card stat"><b id="st-week">–</b><span>joined this week</span></div>
+      <div class="card stat"><b id="st-month">–</b><span>joined this month</span></div>
+      <div class="card stat"><b id="st-active">–</b><span>ticked a lesson</span></div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px">
+      <b>Most completed lessons</b>
+      <div id="st-lessons" class="muted" style="margin-top:8px">–</div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <input id="admin-search" type="search" placeholder="Search name or email…" style="flex:1;min-width:240px;padding:11px 14px;border:2px solid var(--line);border-radius:10px;font:inherit">
+      <button class="btn small" type="button" id="admin-csv">Download CSV</button>
+      <button class="btn small" type="button" id="admin-refresh">Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="nice">
+        <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Lessons done</th><th>Course interest</th></tr></thead>
+        <tbody id="admin-rows"></tbody>
+      </table>
+    </div>
+    <p class="muted" id="admin-count" style="margin-top:10px"></p>
+  </div>
+
+  <div class="card" style="margin-top:26px">
+    <b>Where the other numbers live</b>
+    <ul class="ticks" style="margin:10px 0 0">
+      <li><b>Visitors who never sign up</b> (page views, countries, referrers): Cloudflare dashboard &rarr; your Pages project &rarr; <b>Web Analytics</b>. Nobody is identified personally, by design.</li>
+      <li><b>Every account, including Google sign-ins</b>: Firebase console &rarr; <b>Authentication &rarr; Users</b>. That page also shows the last sign-in time.</li>
+      <li><b>Video watch time and subscribers</b>: YouTube Studio &rarr; Analytics.</li>
+    </ul>
+  </div>
+</section>
 </main>
 <footer class="site-foot">
   <div class="wrap">
