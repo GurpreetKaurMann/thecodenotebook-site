@@ -185,3 +185,54 @@ player, so you can fill them in a few at a time and nothing breaks.
 3. Commit. Cloudflare Pages redeploys on its own in a minute or two.
 4. In the Cloudflare deployment log, check that the **Functions** section still appears.
    That is the members-only gate; if it is missing, the `functions/` folder did not upload.
+
+---
+
+## v5: the login redirect loop is fixed
+
+**What was wrong.** The members-only gate runs on Cloudflare's servers and looks for a
+cookie called `tcn_session`. If it didn't find one it sent you to `/login`. The login page
+saw you were already signed in and sent you straight back — and round it went. Nothing
+stopped that cycle, so the page just refreshed forever.
+
+The usual reason the cookie went missing: the site answers on **two addresses**
+(`thecodenotebook.com` and `www.thecodenotebook.com`). A cookie written on one of them is
+not sent to the other, so signing in on one address and landing on the other looked exactly
+like "not signed in".
+
+**What changed:**
+
+1. The cookie is now written for `.thecodenotebook.com`, so it works on **both** addresses.
+2. The gate now gives up after **two** attempts and shows a page that says what went wrong,
+   instead of redirecting again. A loop is no longer possible.
+3. The login page checks whether the browser actually kept the cookie. If cookies are
+   blocked you get a plain message instead of a bounce.
+4. New page: **`/__gate-check`** — open it any time to see what the server received.
+
+### If it ever misbehaves again: open /__gate-check
+
+Visit `https://thecodenotebook.com/__gate-check` while signed in. You'll get something like:
+
+```json
+{ "signedIn": true, "reason": "ok", "cookieReceived": true, "host": "thecodenotebook.com" }
+```
+
+What the answers mean:
+
+| What you see | What it means | Fix |
+|---|---|---|
+| `"reason": "no-cookie"` | The browser never sent the cookie | Allow cookies for the site; check you're on the same address you signed in on |
+| `"reason": "wrong-project ..."` | The site and Firebase disagree | Make `PROJECT_ID` in `functions/_middleware.js` match `projectId` in `assets/firebase-config.js` |
+| `"reason": "expired ..."` | The token timed out | Sign out and back in; this refreshes itself normally |
+| `"reason": "could-not-reach-google-keys"` | Cloudflare couldn't reach Google | Temporary — try again in a minute |
+| A 404 page | The Function isn't deployed | The `functions/` folder didn't upload, or `/__gate-check` is missing from `_routes.json` |
+
+### Emergency switch: turn the gate off
+
+If members pages are ever blocked and you need the site working *right now*:
+
+Cloudflare dashboard → your Pages project → **Settings → Variables and Secrets** →
+add a variable named `GATE` with the value `off` → redeploy.
+
+Every page is then served without the server-side check (the pages still ask for login in the
+browser). Delete the variable to switch the gate back on.

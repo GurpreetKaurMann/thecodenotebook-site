@@ -15,6 +15,11 @@ const LESSONS = [
   { id: "arrays", no: 6, title: "Arrays", href: "lessons/arrays.html" },
   { id: "strings", no: 7, title: "Strings", href: "lessons/strings.html" },
   { id: "hashing", no: 8, title: "Hashing (HashMap & HashSet)", href: "lessons/hashing.html" },
+  { id: "linked-list", no: 9, title: "Linked List", href: "lessons/linked-list.html" },
+  { id: "stacks", no: 10, title: "Stacks", href: "lessons/stacks.html" },
+  { id: "queues", no: 11, title: "Queues & Deques", href: "lessons/queues.html" },
+  { id: "binary-search", no: 12, title: "Binary Search", href: "lessons/binary-search.html" },
+  { id: "trees", no: 13, title: "Trees & Binary Search Trees", href: "lessons/trees.html" },
 ];
 const root = document.body.dataset.root || "";
 
@@ -70,6 +75,17 @@ const api = await accounts.catch((e) => {
   throw e;
 });
 
+const COOKIE_HELP = "You're signed in, but your browser is blocking the login cookie, so the members pages can't open. " +
+  "Please allow cookies for this site (turn off private mode or strict tracking protection) and try again.";
+// Go to the next page only once the session cookie is really stored, so a browser that
+// drops cookies gets a clear message instead of an endless redirect.
+async function goAfterAuth(msg) {
+  const kept = await api.syncSession(true).catch(() => false);
+  if (kept === false) { show(msg, COOKIE_HELP); return false; }
+  location.replace(nextUrl());
+  return true;
+}
+
 let firstUserEvent = true;
 api.onUser(async (user) => {
   renderHeader(user);
@@ -79,15 +95,29 @@ api.onUser(async (user) => {
     return;
   }
   if (guard === "guest" && user && firstUserEvent) {
-    // already logged in: refresh the session cookie and go on (with a guard against redirect loops)
-    let last = 0;
-    try { last = Number(sessionStorage.getItem("tcn_bounce") || 0); sessionStorage.setItem("tcn_bounce", String(Date.now())); } catch {}
-    if (Date.now() - last > 8000) {
-      await api.syncSession(true).catch(() => {});
+    // Already logged in. Refresh the session cookie, then go where they were headed.
+    // Two separate brakes so this can never turn into an endless refresh:
+    //   1. syncSession tells us whether the browser actually kept the cookie
+    //   2. a short-lived counter cookie, which (unlike sessionStorage) survives www <-> apex
+    const kept = await api.syncSession(true).catch(() => false);
+    const hops = Number((document.cookie.match(/(?:^|;\s*)tcn_hop=(\d+)/) || [])[1] || 0);
+    if (!kept) {
+      show($(".msg"), "You're signed in, but your browser is blocking the login cookie, so the members pages can't open. " +
+                      "Please allow cookies for this site (turn off private mode or strict tracking protection) and try again.");
+    } else if (hops >= 2) {
+      show($(".msg"), "You're signed in, but the members pages keep sending you back here. " +
+                      "Open the site at one address only — either with www. or without, not both. " +
+                      "If it still happens, visit /__gate-check and send me what it says.");
+      document.cookie = "tcn_hop=; Path=/; Max-Age=0; SameSite=Lax";
+    } else {
+      document.cookie = `tcn_hop=${hops + 1}; Path=/; Max-Age=30; SameSite=Lax`;
       location.replace(nextUrl());
       return;
     }
-    show($(".msg"), "You're logged in, but your browser blocked the login cookie. Please allow cookies for this site and refresh.");
+  }
+  if (guard !== "guest") {
+    // reached a real page: the round trip worked, so forget the counter
+    document.cookie = "tcn_hop=; Path=/; Max-Age=0; SameSite=Lax";
   }
   firstUserEvent = false;
   if (page === "dashboard" && user) renderDashboard(user);
@@ -118,7 +148,8 @@ $("#register-form")?.addEventListener("submit", async (e) => {
   busy(btn, true, "Creating account…");
   try {
     await api.register({ name, email, password, remember: true });
-    await api.syncSession(true).catch(() => {});
+    const kept = await api.syncSession(true).catch(() => false);
+    if (kept === false) { show(msg, "Account created, but " + COOKIE_HELP.charAt(0).toLowerCase() + COOKIE_HELP.slice(1)); busy(btn, false); return; }
     show(msg, api.mode === "firebase" ? "Account created! We've sent a verification email." : "Account created (preview mode).", "ok");
     setTimeout(() => location.replace(nextUrl()), 900);
   } catch (err) { show(msg, friendlyError(err)); busy(btn, false); }
@@ -131,14 +162,13 @@ $("#login-form")?.addEventListener("submit", async (e) => {
   busy(btn, true, "Logging in…");
   try {
     await api.login({ email: f.email.value.trim(), password: f.password.value, remember: f.remember.checked });
-    await api.syncSession(true).catch(() => {});
-    location.replace(nextUrl());
+    if (!await goAfterAuth(msg)) busy(btn, false);
   } catch (err) { show(msg, friendlyError(err)); busy(btn, false); }
 });
 
 $$("[data-google]").forEach((b) => b.addEventListener("click", async () => {
   const msg = $(".msg", b.closest(".form-card"));
-  try { await api.loginGoogle(); await api.syncSession(true).catch(() => {}); location.replace(nextUrl()); }
+  try { await api.loginGoogle(); await goAfterAuth(msg); }
   catch (err) { show(msg, friendlyError(err)); }
 }));
 

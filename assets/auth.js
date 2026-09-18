@@ -49,14 +49,25 @@ async function firebaseApi() {
   // Session cookie for the members-only pages (checked on the server by functions/_middleware.js).
   const COOKIE = "tcn_session";
   const secure = location.protocol === "https:" ? "; Secure" : "";
+  // Scope the cookie to ".yourdomain.com" so it is sent on BOTH thecodenotebook.com and
+  // www.thecodenotebook.com. Without this, signing in on one of them and landing on the
+  // other means the server never sees the cookie — which used to cause a redirect loop.
+  const host = location.hostname;
+  const domain = (/^(localhost|127\.0\.0\.1|\[)/i.test(host) || host.endsWith(".pages.dev") || !host.includes("."))
+    ? ""
+    : "; Domain=." + host.replace(/^www\./i, "").split(".").slice(-2).join(".");
   const writeCookie = (token) => {
-    document.cookie = token
-      ? `${COOKIE}=${token}; Path=/; Max-Age=3300; SameSite=Lax${secure}`
-      : `${COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${secure}`;
+    // clear on both scopes, so an older host-only cookie can never shadow the new one
+    document.cookie = `${COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${secure}`;
+    if (domain) document.cookie = `${COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${secure}${domain}`;
+    if (token) document.cookie = `${COOKIE}=${token}; Path=/; Max-Age=3300; SameSite=Lax${secure}${domain}`;
   };
   async function syncSession(forceRefresh = false) {
     const u = auth.currentUser;
     writeCookie(u ? await u.getIdToken(forceRefresh) : "");
+    // Tell the caller whether the browser actually kept it. If this is false the browser
+    // is blocking cookies, and we must not bounce the user into the gate again.
+    return document.cookie.includes(COOKIE + "=");
   }
   A.onIdTokenChanged(auth, () => { syncSession().catch(() => {}); });
 
@@ -125,7 +136,7 @@ function previewApi() {
 
   return {
     mode: "preview",
-    syncSession: async () => {},
+    syncSession: async () => true,   // preview mode has no server gate
     onUser(cb) { listeners.add(cb); setTimeout(() => cb(current()), 0); return () => listeners.delete(cb); },
     async register({ name, email, password }) {
       email = email.trim().toLowerCase();
