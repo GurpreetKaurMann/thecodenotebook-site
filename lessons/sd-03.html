@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scalability: Vertical vs Horizontal Scaling, Stateless Servers | System Design Lesson 3 | The Code Notebook</title>
+<meta name="description" content="SnapLink needs 25,000 requests per second. One server handles 2,000. Now what? Lesson 3 of the complete System Design course: scalability. Vertical vs horizontal scaling, why stateless servers matter, sticky sessions, how scaling moves the bottleneck to the database, the scale cube (X, Y, Z axes), l">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/sd-03.html">
+<meta property="og:title" content="Scalability: Vertical vs Horizontal Scaling, Stateless Servers | System Design Lesson 3 | The Code Notebook">
+<meta property="og:description" content="SnapLink needs 25,000 requests per second. One server handles 2,000. Now what? Lesson 3 of the complete System Design course: scalability. Vertical vs horizontal scaling, why stateless servers matter, sticky sessions, how scaling moves the bottleneck to the database, the scale cube (X, Y, Z axes), l">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/sd-03.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e1014">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="sd-03">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="36" height="36">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow"><a href="../course/system-design.html" style="color:inherit">System Design</a> · Lesson 3 · 4:36 video</div>
+  <h1><span class="mark">Scalability: Vertical vs Horizontal Scaling, Stateless Servers</span></h1>
+  <p class="muted" style="max-width:70ch">SnapLink needs 25,000 requests per second. One server handles 2,000. Now what? Lesson 3 of the complete System Design course: scalability. Vertical vs horizontal scaling, why stateless servers matter, sticky sessions, how scaling moves the bottleneck to the database, the scale cube (X, Y, Z axes), latency vs throughput, and autoscaling.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="sd-03" data-title="Scalability: Vertical vs Horizontal Scaling, Stateless Servers">
+      <div class="placeholder"><div><div class="hand" style="font-size:2rem">Lesson 3: Scalability: Vertical vs Horizontal Scaling, Stateless Servers</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" href="https://www.youtube.com/@TheCodeNotebook/search?query=Scalability+Vertical+vs+Horizontal+Scaling+Stateless+Servers" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul class="chapters"><li><span class="ts">0:00</span> SnapLink gets popular</li><li><span class="ts">0:20</span> Intro</li><li><span class="ts">0:30</span> Vertical vs horizontal</li><li><span class="ts">1:00</span> Comparison</li><li><span class="ts">1:20</span> Stateless servers</li><li><span class="ts">1:46</span> Sticky sessions?</li><li><span class="ts">2:02</span> The next bottleneck</li><li><span class="ts">2:22</span> The scale cube</li><li><span class="ts">2:45</span> Latency vs throughput</li><li><span class="ts">3:04</span> Autoscaling</li><li><span class="ts">3:24</span> Interview corner</li><li><span class="ts">3:53</span> Recap</li><li><span class="ts">4:12</span> Next lesson</li></ul></details>
+    <h2 id="learn">In this lesson</h2>
+    <ul class="ticks"><li>What scalability means</li><li>Vertical vs horizontal</li><li>Stateless servers</li><li>Sticky sessions</li><li>The next bottleneck</li><li>The scale cube</li><li>Latency vs throughput</li><li>Autoscaling</li><li>Interview questions</li></ul>
+    <h2 id="notes">Handwritten notes</h2>
+    <div class="card notes-card">
+      <p style="margin:0">The notes for this video as a printable PDF: every diagram, table and code sample from the lesson, plus interview questions with answers.</p>
+      <div class="foot" style="justify-content:flex-start"><a class="btn primary" href="notes/sd-03-notes.pdf" download>Download notes (PDF)</a><a class="btn" href="notes/sd-03-notes.pdf" target="_blank" rel="noopener">Open in a new tab</a></div>
+    </div>
+    <iframe class="pdf-frame" src="notes/sd-03-notes.pdf#view=FitH" title="Notes for Scalability: Vertical vs Horizontal Scaling, Stateless Servers" loading="lazy"></iframe>
+    <div class="card pn"><a href="sd-02.html">← Lesson 2: Back-of-the-Envelope Estimation (Latency, QPS, Storage)</a><a href="sd-04.html">Lesson 4: Availability &amp; Reliability: The Nines, SLA/SLO, Redundancy, Failover →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#learn">In this lesson</a><a href="#notes">Handwritten notes</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small block" href="../course/system-design.html">All System Design lessons</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:8px"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Your complete notebook for cracking software engineering interviews: system design, microservices, Java and data science.</p>
+        <div class="social"><a class="btn small red" href="https://www.youtube.com/@TheCodeNotebook?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a><a class="btn small" href="https://www.instagram.com/thecodenotebookyt/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div><b>Learn</b><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

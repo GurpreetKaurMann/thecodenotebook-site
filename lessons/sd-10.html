@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL vs NoSQL: How to Choose a Database (4 NoSQL Types) | System Design Lesson 10 | The Code Notebook</title>
+<meta name="description" content="&quot;NoSQL scales, SQL doesn&#x27;t.&quot; Wrong, and interviewers know it. Here&#x27;s how to actually choose. Lesson 10 of the complete System Design course: SQL vs NoSQL. Relational databases and ACID, the four NoSQL families (key-value, document, wide-column, graph), the real trade-offs, four questions for choosin">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/sd-10.html">
+<meta property="og:title" content="SQL vs NoSQL: How to Choose a Database (4 NoSQL Types) | System Design Lesson 10 | The Code Notebook">
+<meta property="og:description" content="&quot;NoSQL scales, SQL doesn&#x27;t.&quot; Wrong, and interviewers know it. Here&#x27;s how to actually choose. Lesson 10 of the complete System Design course: SQL vs NoSQL. Relational databases and ACID, the four NoSQL families (key-value, document, wide-column, graph), the real trade-offs, four questions for choosin">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/sd-10.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e1014">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="sd-10">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="36" height="36">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow"><a href="../course/system-design.html" style="color:inherit">System Design</a> · Lesson 10 · 4:29 video</div>
+  <h1><span class="mark">SQL vs NoSQL: How to Choose a Database (4 NoSQL Types)</span></h1>
+  <p class="muted" style="max-width:70ch">&quot;NoSQL scales, SQL doesn&#x27;t.&quot; Wrong, and interviewers know it. Here&#x27;s how to actually choose. Lesson 10 of the complete System Design course: SQL vs NoSQL. Relational databases and ACID, the four NoSQL families (key-value, document, wide-column, graph), the real trade-offs, four questions for choosing, modelling NoSQL around queries, polyglot persistence for SnapLink, and two common myths.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="sd-10" data-title="SQL vs NoSQL: How to Choose a Database (4 NoSQL Types)">
+      <div class="placeholder"><div><div class="hand" style="font-size:2rem">Lesson 10: SQL vs NoSQL: How to Choose a Database (4 NoSQL Types)</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" href="https://www.youtube.com/@TheCodeNotebook/search?query=SQL+vs+NoSQL+How+to+Choose+a+Database+4+NoSQL+Types" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul class="chapters"><li><span class="ts">0:00</span> The database question</li><li><span class="ts">0:18</span> Intro</li><li><span class="ts">0:28</span> SQL databases</li><li><span class="ts">0:54</span> NoSQL: four types</li><li><span class="ts">1:22</span> The trade-offs</li><li><span class="ts">1:43</span> Four questions to choose</li><li><span class="ts">2:07</span> Design around access patterns</li><li><span class="ts">2:28</span> Polyglot persistence</li><li><span class="ts">2:51</span> Myths</li><li><span class="ts">3:19</span> Interview corner</li><li><span class="ts">3:45</span> Recap</li><li><span class="ts">4:05</span> Next lesson</li></ul></details>
+    <h2 id="learn">In this lesson</h2>
+    <ul class="ticks"><li>SQL or NoSQL?</li><li>Relational databases</li><li>The 4 NoSQL families</li><li>Trade-offs</li><li>4 questions to choose</li><li>Model around queries</li><li>Polyglot persistence</li><li>Two myths</li><li>Interview questions</li></ul>
+    <h2 id="notes">Handwritten notes</h2>
+    <div class="card notes-card">
+      <p style="margin:0">The notes for this video as a printable PDF: every diagram, table and code sample from the lesson, plus interview questions with answers.</p>
+      <div class="foot" style="justify-content:flex-start"><a class="btn primary" href="notes/sd-10-notes.pdf" download>Download notes (PDF)</a><a class="btn" href="notes/sd-10-notes.pdf" target="_blank" rel="noopener">Open in a new tab</a></div>
+    </div>
+    <iframe class="pdf-frame" src="notes/sd-10-notes.pdf#view=FitH" title="Notes for SQL vs NoSQL: How to Choose a Database (4 NoSQL Types)" loading="lazy"></iframe>
+    <div class="card pn"><a href="sd-09.html">← Lesson 9: API Design for System Design: REST vs gRPC vs GraphQL, WebSockets, Pagination</a><a href="sd-11.html">Lesson 11: Database Indexes Explained: B-tree vs LSM-tree →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#learn">In this lesson</a><a href="#notes">Handwritten notes</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small block" href="../course/system-design.html">All System Design lessons</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:8px"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Your complete notebook for cracking software engineering interviews: system design, microservices, Java and data science.</p>
+        <div class="social"><a class="btn small red" href="https://www.youtube.com/@TheCodeNotebook?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a><a class="btn small" href="https://www.instagram.com/thecodenotebookyt/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div><b>Learn</b><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

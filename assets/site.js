@@ -1,26 +1,13 @@
 // Shared page behaviour: header auth state, page guards, forms, dashboard, lessons.
 import { accounts, PREVIEW, friendlyError } from "./auth.js";
 import { VIDEOS, CHANNEL_URL, CONTACT_EMAIL } from "./firebase-config.js";
+import { COURSES, ALL_LESSONS } from "./catalog.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const page = document.body.dataset.page;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const LESSONS = [
-  { id: "big-o", no: 1, title: "Time & Space Complexity (Big-O)", href: "lessons/big-o.html" },
-  { id: "java-toolkit", no: 2, title: "Java Toolkit for DSA", href: "lessons/java-toolkit.html" },
-  { id: "recursion", no: 3, title: "Recursion", href: "lessons/recursion.html" },
-  { id: "math", no: 4, title: "Math for Coding Interviews", href: "lessons/math.html" },
-  { id: "bits", no: 5, title: "Bit Manipulation", href: "lessons/bits.html" },
-  { id: "arrays", no: 6, title: "Arrays", href: "lessons/arrays.html" },
-  { id: "strings", no: 7, title: "Strings", href: "lessons/strings.html" },
-  { id: "hashing", no: 8, title: "Hashing (HashMap & HashSet)", href: "lessons/hashing.html" },
-  { id: "linked-list", no: 9, title: "Linked List", href: "lessons/linked-list.html" },
-  { id: "stacks", no: 10, title: "Stacks", href: "lessons/stacks.html" },
-  { id: "queues", no: 11, title: "Queues & Deques", href: "lessons/queues.html" },
-  { id: "binary-search", no: 12, title: "Binary Search", href: "lessons/binary-search.html" },
-  { id: "trees", no: 13, title: "Trees & Binary Search Trees", href: "lessons/trees.html" },
-];
+const LESSONS = ALL_LESSONS;
 const root = document.body.dataset.root || "";
 
 // ---------- small UI helpers
@@ -218,16 +205,31 @@ async function renderDashboard(user) {
 
   const progress = profile.progress || {};
   const list = $("#lesson-list");
-  list.innerHTML = LESSONS.map((l) => `
-    <div class="lesson-row">
-      <input type="checkbox" id="p-${l.id}" data-lesson="${l.id}" ${progress[l.id] ? "checked" : ""}>
-      <label for="p-${l.id}"><span class="lesson-no">L${l.no}</span> ${esc(l.title)}</label>
-      <a class="btn small" href="${l.href}">Open</a>
-    </div>`).join("");
+  // one collapsible block per course; courses you have started open first
+  const started = (cid) => LESSONS.some((l) => l.course === cid && progress[l.id]);
+  const order = [...COURSES].sort((a, b) => started(b.id) - started(a.id));
+  list.innerHTML = order.map((c) => {
+    const ls = LESSONS.filter((l) => l.course === c.id);
+    const done = ls.filter((l) => progress[l.id]).length;
+    return `<details class="course-prog" ${started(c.id) ? "open" : ""}>
+      <summary><b>${esc(c.name)}</b> <span class="muted" data-count="${c.id}">${done} / ${ls.length}</span></summary>
+      ${ls.map((l) => `
+      <div class="lesson-row">
+        <input type="checkbox" id="p-${l.id}" data-lesson="${l.id}" data-course="${c.id}" ${progress[l.id] ? "checked" : ""}>
+        <label for="p-${l.id}"><span class="lesson-no">${c.kind === "Session" ? "S" : "L"}${l.no}</span> ${esc(l.title)}</label>
+        <a class="btn small" href="${l.href}">Open</a>
+      </div>`).join("")}
+    </details>`;
+  }).join("");
   const update = () => {
-    const done = $$("[data-lesson]", list).filter((c) => c.checked).length;
+    const boxes = $$("[data-lesson]", list);
+    const done = boxes.filter((c) => c.checked).length;
     $("#progress-bar").style.width = `${(done / LESSONS.length) * 100}%`;
     $("#progress-text").textContent = `${done} of ${LESSONS.length} lessons done`;
+    COURSES.forEach((c) => {
+      const cb = boxes.filter((b) => b.dataset.course === c.id);
+      const el = $(`[data-count="${c.id}"]`, list); if (el) el.textContent = `${cb.filter((b) => b.checked).length} / ${cb.length}`;
+    });
   };
   update();
   $$("[data-lesson]", list).forEach((c) => c.addEventListener("change", async () => {

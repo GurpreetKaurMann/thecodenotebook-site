@@ -1,0 +1,12 @@
+ONE UPLOAD, ABOUT 5 MINUTES
+
+1. Go to github.com/GurpreetKaurMann/thecodenotebook-site  ->  Add file  ->  Upload files
+2. Open this folder (Website_Upload_Public), press Ctrl+A to select everything inside it
+   (except this text file, which does not matter either way), and drag it onto the GitHub page.
+3. Wait until all the files are listed, then click  Commit changes.
+
+The website updates by itself a couple of minutes later. Check thecodenotebook.com/courses.html
+(it should show System Design, Microservices, Data Science and DSA in Java).
+
+Only lessons that are already public on YouTube are included:
+System Design 1-12, Microservices 1-10, Data Science 1-3.

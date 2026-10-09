@@ -205,3 +205,33 @@ table.nice th{background:var(--tile);color:var(--yellow);font-family:var(--head)
 /* members-only pages: keep content hidden until the login check finishes */
 body[data-guard="auth"]:not(.auth-ready) main{visibility:hidden}
 .lock{display:inline-block;font-size:.78rem;font-weight:700;color:var(--yellow);background:rgba(255,210,31,.12);border-radius:6px;padding:2px 8px;margin-left:6px}
+
+/* ---- channel courses (course catalog, course pages, lesson pages) ---- */
+.cgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:24px}
+.ccard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--c,var(--yellow));border-radius:12px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s,border-color .15s}
+.ccard:hover{transform:translateY(-2px);border-color:var(--c,var(--yellow))}
+.ccard .thumb{aspect-ratio:16/9;background:var(--tile)}
+.ccard .thumb img{width:100%;height:100%;object-fit:cover}
+.ccard .thumb.dsa{display:grid;place-items:center;text-align:center;background:linear-gradient(135deg,#1d2a3a,#0e1014)}
+.ccard .thumb.dsa .hand{font-size:1.8rem;color:var(--yellow)}
+.ccard .cbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ccard h3{margin:0;font-size:1.25rem}.ccard p{margin:0;font-size:.95rem}
+.ccard .btn{margin-top:auto}
+.llist{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.lcard{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--yellow);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.lcard:hover{border-color:var(--yellow);transform:translateY(-1px)}
+.lcard .thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--tile)}
+.lcard .thumb img{width:100%;height:100%;object-fit:cover}
+.lcard .dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.78rem;font-weight:700;padding:1px 6px;border-radius:4px}
+.lcard h3{margin:2px 0 6px;font-size:1.2rem}.lcard p{margin:0 0 10px;font-size:.95rem}
+.lcard:hover h3{color:var(--yellow)}
+.lmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.lmeta .lock{font-size:.85rem;color:var(--pencil)}
+.chapters{columns:2;column-gap:28px;list-style:none;padding:0;margin:10px 0 0}.chapters li{break-inside:avoid;margin:2px 0}
+.chapters .ts{font-family:var(--mono);color:var(--yellow);font-size:.88rem;margin-right:6px}
+.notes-card{border-left-color:var(--yellow)}
+.pdf-frame{width:100%;height:880px;margin-top:16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.pn{flex-direction:row;justify-content:space-between;gap:16px;margin-top:30px;flex-wrap:wrap}
+.home-courses{margin-top:6px}
+@media (max-width:960px){.cgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.cgrid{grid-template-columns:1fr}.lcard{grid-template-columns:1fr}.chapters{columns:1}.pdf-frame{height:560px}}
+.course-prog{border-bottom:1px solid var(--line);padding:8px 0}.course-prog summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;padding:6px 0}

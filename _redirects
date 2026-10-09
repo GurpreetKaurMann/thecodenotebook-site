@@ -1,3 +1,3 @@
-# HIDE-COURSES: courses page temporarily hidden. Delete these two lines to bring it back.
-/courses       /  302
-/courses.html  /  302
+# HIDE-PRICING: the paid early-access page is hidden until launch. Delete these two lines to show it.
+/pricing       /  302
+/pricing.html  /  302

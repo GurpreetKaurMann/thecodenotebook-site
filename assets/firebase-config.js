@@ -35,7 +35,36 @@ export const VIDEOS = {
   "queues": "",
   "binary-search": "",
   "trees": "",
+  // Channel courses: paste each video ID (the part after watch?v=) to embed it on the lesson page.
+  "sd-01": "",
+  "sd-02": "",
+  "sd-03": "",
+  "sd-04": "",
+  "sd-05": "",
+  "sd-06": "",
+  "sd-07": "",
+  "sd-08": "",
+  "sd-09": "",
+  "sd-10": "",
+  "sd-11": "",
+  "sd-12": "",
+  "ms-01": "",
+  "ms-02": "",
+  "ms-03": "",
+  "ms-04": "",
+  "ms-05": "",
+  "ms-06": "",
+  "ms-07": "",
+  "ms-08": "",
+  "ms-09": "",
+  "ms-10": "",
+  "ds-01": "",
+  "ds-02": "",
+  "ds-03": "",
 };
 
 export const CHANNEL_URL = "https://www.youtube.com/@TheCodeNotebook"; // change if your handle is different
 export const CONTACT_EMAIL = ""; // e.g. "hello@thecodenotebook.com" — shown on the Contact page once filled in
+
+// Cloudflare Web Analytics token (optional). Leave empty to turn analytics off.
+export const ANALYTICS_TOKEN = "";
