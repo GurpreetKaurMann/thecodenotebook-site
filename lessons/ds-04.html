@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit | Data Science Lesson 4 | The Code Notebook</title>
+<meta name="description" content="4 topics in one lesson: pandas Essentials, SQL for Data Scientists, Reading a Dataset for the First Time and Data Cleaning, Done Properly.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/ds-04.html">
+<meta property="og:title" content="pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit | Data Science Lesson 4 | The Code Notebook">
+<meta property="og:description" content="4 topics in one lesson: pandas Essentials, SQL for Data Scientists, Reading a Dataset for the First Time and Data Cleaning, Done Properly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/ds-04.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e1014">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="ds-04">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="36" height="36">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow"><a href="../course/data-science.html" style="color:inherit">Data Science</a> · Lesson 4 · 16:18 video</div>
+  <h1><span class="mark">pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit</span></h1>
+  <p class="muted" style="max-width:70ch">4 topics in one lesson: pandas Essentials, SQL for Data Scientists, Reading a Dataset for the First Time and Data Cleaning, Done Properly.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="ds-04" data-title="pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit">
+      <div class="placeholder"><div><div class="hand" style="font-size:2rem">Lesson 4: pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" href="https://www.youtube.com/@TheCodeNotebook/search?query=pandas+SQL+&amp;+Data+Cleaning+The+Data+Scientist+s+Daily+Toolkit" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul class="chapters"><li><span class="ts">0:00</span> Intro</li><li><span class="ts">0:39</span> Load and first look</li><li><span class="ts">1:11</span> The five checks</li><li><span class="ts">1:42</span> Selecting rows</li><li><span class="ts">2:09</span> groupby</li><li><span class="ts">2:33</span> The summary table</li><li><span class="ts">3:00</span> 3 mistakes</li><li><span class="ts">3:33</span> Interview corner</li><li><span class="ts">4:04</span> ▶ SQL for Data Scientists</li><li><span class="ts">4:34</span> Run order</li><li><span class="ts">4:58</span> GROUP BY</li><li><span class="ts">5:24</span> WHERE vs HAVING</li><li><span class="ts">5:43</span> JOINs</li><li><span class="ts">6:13</span> Window functions</li><li><span class="ts">6:43</span> 3 mistakes</li><li><span class="ts">7:09</span> Interview corner</li><li><span class="ts">7:39</span> ▶ Reading a Dataset for the First Time</li><li><span class="ts">8:04</span> 1-3 · Shape, target, types</li><li><span class="ts">8:35</span> 4 · The missingness map</li><li><span class="ts">9:00</span> 5 · Distributions</li><li><span class="ts">9:31</span> 6 · Outliers</li><li><span class="ts">10:03</span> 7-8 · Relationships</li><li><span class="ts">10:30</span> 9 · Correlation traps</li><li><span class="ts">11:00</span> 10 · Write it down</li><li><span class="ts">11:23</span> Interview corner</li><li><span class="ts">11:49</span> ▶ Data Cleaning, Done Properly</li><li><span class="ts">12:13</span> Order matters</li><li><span class="ts">12:35</span> Duplicates</li><li><span class="ts">12:59</span> Types and text</li><li><span class="ts">13:29</span> 3 kinds of missing</li><li><span class="ts">14:03</span> Filling properly</li><li><span class="ts">14:37</span> Outliers, honestly</li><li><span class="ts">15:00</span> Make it repeatable</li><li><span class="ts">15:22</span> Interview corner</li></ul></details>
+    <h2 id="learn">In this lesson</h2>
+    <ul class="ticks"><li>pandas Essentials</li><li>SQL for Data Scientists</li><li>Reading a Dataset for the First Time</li><li>Data Cleaning, Done Properly</li></ul>
+    <h2 id="notes">Handwritten notes</h2>
+    <div class="card notes-card">
+      <p style="margin:0">The notes for this video as a printable PDF: every diagram, table and code sample from the lesson, plus interview questions with answers.</p>
+      <div class="foot" style="justify-content:flex-start"><a class="btn primary" href="notes/ds-04-notes.pdf" download>Download notes (PDF)</a><a class="btn" href="notes/ds-04-notes.pdf" target="_blank" rel="noopener">Open in a new tab</a></div>
+    </div>
+    <iframe class="pdf-frame" src="notes/ds-04-notes.pdf#view=FitH" title="Notes for pandas, SQL &amp; Data Cleaning: The Data Scientist’s Daily Toolkit" loading="lazy"></iframe>
+    <div class="card pn"><a href="ds-03.html">← Lesson 3: NumPy in One Lab: Arrays, Vectorisation &amp; Broadcasting</a><a href="../course/data-science.html">Back to the course →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#learn">In this lesson</a><a href="#notes">Handwritten notes</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small block" href="../course/data-science.html">All Data Science lessons</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:8px"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Your complete notebook for cracking software engineering interviews: system design, microservices, Java and data science.</p>
+        <div class="social"><a class="btn small red" href="https://www.youtube.com/@TheCodeNotebook?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a><a class="btn small" href="https://www.instagram.com/thecodenotebookyt/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div><b>Learn</b><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

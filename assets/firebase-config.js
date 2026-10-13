@@ -48,6 +48,7 @@ export const VIDEOS = {
   "sd-10": "",
   "sd-11": "",
   "sd-12": "",
+  "sd-13": "",
   "ms-01": "",
   "ms-02": "",
   "ms-03": "",
@@ -58,9 +59,11 @@ export const VIDEOS = {
   "ms-08": "",
   "ms-09": "",
   "ms-10": "",
+  "ms-11": "",
   "ds-01": "",
   "ds-02": "",
   "ds-03": "",
+  "ds-04": "",
 };
 
 export const CHANNEL_URL = "https://www.youtube.com/@TheCodeNotebook"; // change if your handle is different

@@ -222,7 +222,7 @@ body[data-guard="auth"]:not(.auth-ready) main{visibility:hidden}
 .lcard:hover{border-color:var(--yellow);transform:translateY(-1px)}
 .lcard .thumb{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--tile)}
 .lcard .thumb img{width:100%;height:100%;object-fit:cover}
-.lcard .dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.78rem;font-weight:700;padding:1px 6px;border-radius:4px}
+.lcard .dur{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.8);color:#fff;font-size:.78rem;font-weight:700;padding:1px 6px;border-radius:4px}
 .lcard h3{margin:2px 0 6px;font-size:1.2rem}.lcard p{margin:0 0 10px;font-size:.95rem}
 .lcard:hover h3{color:var(--yellow)}
 .lmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.lmeta .lock{font-size:.85rem;color:var(--pencil)}

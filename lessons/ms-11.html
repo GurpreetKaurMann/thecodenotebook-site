@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent | Microservices Lesson 11 | The Code Notebook</title>
+<meta name="description" content="4 topics in one lesson: The Saga Pattern, CQRS &amp; Event Sourcing, Outbox &amp; Idempotency and Fault Tolerance.">
+
+<link rel="canonical" href="https://thecodenotebook.com/lessons/ms-11.html">
+<meta property="og:title" content="Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent | Microservices Lesson 11 | The Code Notebook">
+<meta property="og:description" content="4 topics in one lesson: The Saga Pattern, CQRS &amp; Event Sourcing, Outbox &amp; Idempotency and Fault Tolerance.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thecodenotebook.com/lessons/ms-11.html">
+<meta property="og:image" content="https://thecodenotebook.com/assets/img/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e1014">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="stylesheet" href="../assets/style.css">
+<script type="module" src="../assets/site.js"></script>
+</head>
+<body data-page="lesson" data-root="../" data-guard="auth" data-lesson="ms-11">
+<div class="demo-bar" hidden>Preview mode: accounts are saved only in this browser. Connect Firebase before going live (see SETUP-GUIDE).</div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="../index.html"><img src="../assets/img/logo.png" alt="" width="36" height="36">The Code Notebook</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="nav" id="main-nav" aria-label="Main">
+      <a href="../index.html">Home</a><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../about.html">About</a>
+      <div class="auth-slot"></div>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="wrap lesson-head">
+  <div class="eyebrow"><a href="../course/microservices.html" style="color:inherit">Microservices</a> · Lesson 11 · 18:19 video</div>
+  <h1><span class="mark">Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent</span></h1>
+  <p class="muted" style="max-width:70ch">4 topics in one lesson: The Saga Pattern, CQRS &amp; Event Sourcing, Outbox &amp; Idempotency and Fault Tolerance.</p>
+  <div id="lesson-progress" style="margin:10px 0 24px"></div>
+</section>
+<section class="wrap notes">
+  <article>
+    <div id="watch" class="video" data-video="ms-11" data-title="Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent">
+      <div class="placeholder"><div><div class="hand" style="font-size:2rem">Lesson 11: Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent</div>
+      <p>Watch this lesson on our YouTube channel.</p><a class="btn yellow" href="https://www.youtube.com/@TheCodeNotebook/search?query=Saga+CQRS+Outbox+&amp;+Circuit+Breakers+How+Microservices+Stay+Consistent" target="_blank" rel="noopener">▶ Watch on YouTube</a></div></div>
+    </div>
+    <details style="margin-top:14px"><summary><b>Chapters in this video</b></summary><ul class="chapters"><li><span class="ts">0:00</span> Intro</li><li><span class="ts">0:39</span> Why not a distributed transaction?</li><li><span class="ts">1:09</span> What is a saga?</li><li><span class="ts">1:37</span> Compensating transactions</li><li><span class="ts">2:02</span> Choreography</li><li><span class="ts">2:30</span> Orchestration</li><li><span class="ts">3:02</span> Choreography vs orchestration</li><li><span class="ts">3:25</span> Eventual consistency &amp; state</li><li><span class="ts">3:44</span> Making sagas reliable</li><li><span class="ts">4:08</span> In code</li><li><span class="ts">4:24</span> Interview corner</li><li><span class="ts">5:00</span> Recap</li><li><span class="ts">5:18</span> ▶ CQRS &amp; Event Sourcing</li><li><span class="ts">5:49</span> What is CQRS</li><li><span class="ts">6:12</span> Why CQRS helps</li><li><span class="ts">6:32</span> The cost of CQRS</li><li><span class="ts">6:52</span> What is event sourcing</li><li><span class="ts">7:15</span> Rebuilding state</li><li><span class="ts">7:34</span> Projections</li><li><span class="ts">7:56</span> Pros &amp; cons of event sourcing</li><li><span class="ts">8:24</span> When to use them</li><li><span class="ts">8:41</span> In code</li><li><span class="ts">8:52</span> Interview corner</li><li><span class="ts">9:17</span> Recap</li><li><span class="ts">9:34</span> ▶ Outbox &amp; Idempotency</li><li><span class="ts">10:04</span> Why simple fixes fail</li><li><span class="ts">10:21</span> The transactional outbox</li><li><span class="ts">10:54</span> The outbox in SQL</li><li><span class="ts">11:30</span> Idempotent consumers</li><li><span class="ts">11:51</span> Idempotency in code</li><li><span class="ts">12:07</span> Idempotency keys for APIs</li><li><span class="ts">12:28</span> The exactly-once myth</li><li><span class="ts">12:52</span> Interview corner</li><li><span class="ts">13:27</span> Recap</li><li><span class="ts">13:41</span> ▶ Fault Tolerance</li><li><span class="ts">14:09</span> 1. Timeouts</li><li><span class="ts">14:29</span> 2. Retries with backoff</li><li><span class="ts">15:00</span> 3. Circuit breaker</li><li><span class="ts">15:30</span> 4. Bulkheads</li><li><span class="ts">15:52</span> Fallbacks</li><li><span class="ts">16:10</span> Resilience4j in Spring Boot</li><li><span class="ts">16:28</span> Putting it together</li><li><span class="ts">16:57</span> Interview corner</li><li><span class="ts">17:33</span> Recap</li></ul></details>
+    <h2 id="learn">In this lesson</h2>
+    <ul class="ticks"><li>The Saga Pattern</li><li>CQRS &amp; Event Sourcing</li><li>Outbox &amp; Idempotency</li><li>Fault Tolerance</li></ul>
+    <h2 id="notes">Handwritten notes</h2>
+    <div class="card notes-card">
+      <p style="margin:0">The notes for this video as a printable PDF: every diagram, table and code sample from the lesson, plus interview questions with answers.</p>
+      <div class="foot" style="justify-content:flex-start"><a class="btn primary" href="notes/ms-11-notes.pdf" download>Download notes (PDF)</a><a class="btn" href="notes/ms-11-notes.pdf" target="_blank" rel="noopener">Open in a new tab</a></div>
+    </div>
+    <iframe class="pdf-frame" src="notes/ms-11-notes.pdf#view=FitH" title="Notes for Saga, CQRS, Outbox &amp; Circuit Breakers: How Microservices Stay Consistent" loading="lazy"></iframe>
+    <div class="card pn"><a href="ms-10.html">← Lesson 10: Database per Service &amp; Data Ownership</a><a href="../course/microservices.html">Back to the course →</a></div>
+  </article>
+  <aside class="toc" aria-label="On this page">
+    <b>On this page</b>
+    <a href="#watch">Watch the lesson</a><a href="#learn">In this lesson</a><a href="#notes">Handwritten notes</a>
+    <hr style="border:0;border-top:1px dashed var(--line)">
+    <a class="btn small block" href="../course/microservices.html">All Microservices lessons</a>
+  </aside>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:8px"><img src="../assets/img/logo.png" alt="" width="34" height="34">The Code Notebook</div>
+        <p class="muted" style="max-width:40ch">Your complete notebook for cracking software engineering interviews: system design, microservices, Java and data science.</p>
+        <div class="social"><a class="btn small red" href="https://www.youtube.com/@TheCodeNotebook?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a><a class="btn small" href="https://www.instagram.com/thecodenotebookyt/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div><b>Learn</b><a href="../courses.html">Courses</a><a href="../resources.html">Free resources</a><a href="../dashboard.html">My dashboard</a></div>
+      <div><b>About</b><a href="../about.html">About me</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy policy</a><a href="../terms.html">Terms &amp; conditions</a><a href="../refund.html">Refund policy</a></div>
+    </div>
+    <p class="legal">© 2026 The Code Notebook. All rights reserved. Lessons, notes and code examples are original work of The Code Notebook.</p>
+  </div>
+</footer>
+</body>
+</html>

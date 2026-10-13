@@ -1,12 +1,17 @@
-ONE UPLOAD, ABOUT 5 MINUTES
+WEBSITE UPDATE - 13 October 2026
+=================================
 
-1. Go to github.com/GurpreetKaurMann/thecodenotebook-site  ->  Add file  ->  Upload files
-2. Open this folder (Website_Upload_Public), press Ctrl+A to select everything inside it
-   (except this text file, which does not matter either way), and drag it onto the GitHub page.
-3. Wait until all the files are listed, then click  Commit changes.
+What changes on thecodenotebook.com:
+- New public lessons: System Design Lesson 13, Microservices Lesson 11, Data Science Lesson 4
+  (lesson page + notes PDF for each)
+- New thumbnails for every System Design and Microservices lesson (same as YouTube)
+- Updated lesson counts on the home page and courses page
 
-The website updates by itself a couple of minutes later. Check thecodenotebook.com/courses.html
-(it should show System Design, Microservices, Data Science and DSA in Java).
+How to upload (one time, about 2 minutes):
+1. Open https://github.com/GurpreetKaurMann/thecodenotebook-site
+2. Click "Add file" -> "Upload files"
+3. Open this folder (Website_Update_Oct13), select EVERYTHING inside it (Ctrl+A)
+   and drag it onto the GitHub page. Drag the contents, not the folder itself.
+4. Click "Commit changes". The website updates by itself in 1-2 minutes.
 
-Only lessons that are already public on YouTube are included:
-System Design 1-12, Microservices 1-10, Data Science 1-3.
+This file (HOW_TO_UPLOAD.txt) can be uploaded too, or left out. It does no harm either way.

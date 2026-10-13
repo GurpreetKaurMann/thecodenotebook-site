@@ -198,6 +198,13 @@ export const ALL_LESSONS = [
   "course": "system-design"
  },
  {
+  "id": "sd-13",
+  "no": 13,
+  "title": "Sharding, Transactions, Caching & Object Storage: Data at Scale Explained",
+  "href": "lessons/sd-13.html",
+  "course": "system-design"
+ },
+ {
   "id": "ms-01",
   "no": 1,
   "title": "Monolith vs Microservices Explained Simply",
@@ -268,6 +275,13 @@ export const ALL_LESSONS = [
   "course": "microservices"
  },
  {
+  "id": "ms-11",
+  "no": 11,
+  "title": "Saga, CQRS, Outbox & Circuit Breakers: How Microservices Stay Consistent",
+  "href": "lessons/ms-11.html",
+  "course": "microservices"
+ },
+ {
   "id": "ds-01",
   "no": 1,
   "title": "What a Data Scientist Actually Does (The Honest Version)",
@@ -286,6 +300,13 @@ export const ALL_LESSONS = [
   "no": 3,
   "title": "NumPy in One Lab: Arrays, Vectorisation & Broadcasting",
   "href": "lessons/ds-03.html",
+  "course": "data-science"
+ },
+ {
+  "id": "ds-04",
+  "no": 4,
+  "title": "pandas, SQL & Data Cleaning: The Data Scientist’s Daily Toolkit",
+  "href": "lessons/ds-04.html",
   "course": "data-science"
  }
 ];
